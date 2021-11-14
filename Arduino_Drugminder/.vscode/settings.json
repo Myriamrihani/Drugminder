@@ -1,0 +1,33 @@
+{
+  "C_Cpp_Runner.cCompilerPath": "/usr/bin/clang",
+  "C_Cpp_Runner.cppCompilerPath": "/usr/bin/clang++",
+  "C_Cpp_Runner.debuggerPath": "/usr/bin/lldb",
+  "C_Cpp_Runner.makePath": "/usr/bin/make",
+  "C_Cpp_Runner.warnings": [
+    "-Wall",
+    "-Wextra",
+    "-Wpedantic"
+  ],
+  "C_Cpp_Runner.compilerArgs": [],
+  "C_Cpp_Runner.includePaths": [
+    "/Users/myriamrihani/git/Drugminder/Arduino_Drugminder/include",
+    "/Users/myriamrihani/git/Drugminder/Arduino_Drugminder/src",
+    "/Users/myriamrihani/git/Drugminder/Arduino_Drugminder/.pio/libdeps/megaatmega1280/Adafruit-TFT-LCD",
+    "/Users/myriamrihani/git/Drugminder/Arduino_Drugminder/.pio/libdeps/megaatmega1280/Adafruit GFX Library",
+    "/Users/myriamrihani/git/Drugminder/Arduino_Drugminder/.pio/libdeps/megaatmega1280/Adafruit BusIO",
+    "/Users/myriamrihani/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+    "/Users/myriamrihani/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+    "/Users/myriamrihani/.platformio/packages/framework-arduino-avr/cores/arduino",
+    "/Users/myriamrihani/.platformio/packages/framework-arduino-avr/variants/standard",
+    "/Users/myriamrihani/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+    "/Users/myriamrihani/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+    "/Users/myriamrihani/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+    ""
+  ],
+  "C_Cpp_Runner.linkerArgs": [],
+  "C_Cpp_Runner.cStandard": "c11",
+  "C_Cpp_Runner.cppStandard": "c++11",
+  "C_Cpp_Runner.excludeSearch": [],
+  "C_Cpp_Runner.enableWarnings": true,
+  "C_Cpp_Runner.warningsAsError": false
+}
