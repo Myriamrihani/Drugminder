@@ -10,7 +10,7 @@ void Pill::edit_pill(String name, int r, int nb){
     nb_pills = nb;
 };
 
-string Pill::get_name(){
+String Pill::get_name(){
     return pill_name;
 };
 
@@ -23,9 +23,17 @@ int Pill::get_nb(){
 };
 
 void Pill::print_pill(){
-    cout<< "The Pill name is: " << pill_name << endl;
-    cout << "The Rack number is: " << rack <<endl;
-    cout << "The number of pills left is: " << nb_pills << endl;
+    // cout<< "The Pill name is: " << pill_name << endl;
+    // cout << "The Rack number is: " << rack <<endl;
+    // cout << "The number of pills left is: " << nb_pills << endl;
+    Serial.println("The Pill name is: ");
+    Serial.print(pill_name);
+
+    Serial.println("The rack number is: ");
+    Serial.print(rack);
+
+    Serial.println("The number of pills left is: ");
+    Serial.print(nb_pills);
 };
 
 
@@ -34,7 +42,7 @@ void Prescription::add_pill (String name, int r, int nb){
     Pill temp;
     temp.edit_pill(name, r, nb);
 
-    for(int i=0; i < sizeof(Inventory); i++){
+    for(unsigned int i=0; i < sizeof(Inventory); i++){
         if(Inventory[i].get_name() == "None"){
             Inventory[i].edit_pill(temp.get_name(), temp.get_rack(),temp.get_nb());
             break;
@@ -46,7 +54,7 @@ void Prescription::add_pill (String name, int r, int nb){
 };
 
 void Prescription::print_prescription(){
-    for(int i=0; i < sizeof(Inventory); i++){
+    for(unsigned int i=0; i < sizeof(Inventory); i++){
         if(Inventory[i].get_name() != "None"){
             Inventory[i].print_pill();
         }else break;

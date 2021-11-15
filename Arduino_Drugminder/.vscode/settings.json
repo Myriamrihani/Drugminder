@@ -1,14 +1,13 @@
 {
-  "C_Cpp_Runner.cCompilerPath": "/usr/bin/clang",
+  "C_Cpp_Runner.cCompilerPath": "/Users/myriamrihani/.platformio/packages/toolchain-atmelavr/bin/avr-gcc",
   "C_Cpp_Runner.cppCompilerPath": "/usr/bin/clang++",
   "C_Cpp_Runner.debuggerPath": "/usr/bin/lldb",
   "C_Cpp_Runner.makePath": "/usr/bin/make",
-  "C_Cpp_Runner.warnings": [
-    "-Wall",
-    "-Wextra",
-    "-Wpedantic"
+  "C_Cpp_Runner.warnings": [],
+  "C_Cpp_Runner.compilerArgs": [
+    "-mmcu=atmega328p",
+    ""
   ],
-  "C_Cpp_Runner.compilerArgs": [],
   "C_Cpp_Runner.includePaths": [
     "/Users/myriamrihani/git/Drugminder/Arduino_Drugminder/include",
     "/Users/myriamrihani/git/Drugminder/Arduino_Drugminder/src",
