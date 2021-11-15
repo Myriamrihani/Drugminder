@@ -20,11 +20,11 @@
       "request": "launch",
       "args": [],
       "stopAtEntry": true,
-      "cwd": "/Users/myriamrihani/git/Drugminder/Testing",
+      "cwd": "/Users/myriamrihani/git/Drugminder/Arduino_Drugminder",
       "environment": [],
-      "program": "/Users/myriamrihani/git/Drugminder/Testing/Makefile",
+      "program": "/Users/myriamrihani/git/Drugminder/Arduino_Drugminder/build/Debug/outDebug",
       "internalConsoleOptions": "openOnSessionStart",
-      "MIMode": "gdb",
+      "MIMode": "lldb",
       "externalConsole": true
     }
   ]

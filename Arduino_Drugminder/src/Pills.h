@@ -2,17 +2,22 @@
 #define PILLS_H
 #include <Arduino.h>
 
+using namespace std;
 
-
+//attention quand on passe au code arduino il faut rajouter changer string en String
 class Pill{
     public:
-    Pill(String name, int r, int nb);
-
     void edit_pill(String name, int r, int nb);
+    String get_name();
+    int get_rack();
+    int get_nb();
+    
+    void print_pill();
+    
     
     private:
     String pill_name = "None";
-    int rack = 0 ; 
+    int rack = 0 ;
     int nb_pills = 0;
 
 };
@@ -21,12 +26,13 @@ class Pill{
 class Prescription{
     private:
     Pill Inventory [10];
-
+    int total_pills = 0;
 
     public:
-    Prescription();
-    ~Prescription();
+    void add_pill(String name, int r, int nb);
+    void print_prescription();
 
 };
 
-#endif
+
+#endif /* pill_hpp */
