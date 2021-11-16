@@ -7,7 +7,7 @@
 
 int lastState = LOW;
 int currentState = LOW;
-Button button(7);
+Button button(2);
 bool begin = true;
 
 String inputString = "";         // a String to hold incoming data
@@ -34,10 +34,13 @@ void loop() {
   // put your main code here, to run repeatedly:
   if(begin){
     Serial.println("Do you want to add medication?");
-    currentState = button.isPressed();
-    begin = false;
-  }else{
+    currentState = button.getState();
+
+  }
+  
+  // if(!begin){
     if(currentState == HIGH){
+        begin = false;
       if(!stringComplete){
         Serial.println("Pill name?");
       }else{
@@ -47,8 +50,8 @@ void loop() {
         pre.print_prescription();
       }
     }
-  }
-  lastState = currentState;
+  // }
+  // lastState = currentState;
 }
 
 
