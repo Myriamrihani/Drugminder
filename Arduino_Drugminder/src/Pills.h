@@ -5,9 +5,11 @@
 using namespace std;
 
 //attention quand on passe au code arduino il faut rajouter changer string en String
+
 class Pill{
     public:
     void edit_pill(String name, int r, int nb);
+    int pill_parameters = 3;
     String get_name();
     int get_rack();
     int get_nb();

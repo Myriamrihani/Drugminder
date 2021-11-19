@@ -56,6 +56,7 @@ void Button::waitPressedAndReleased()
     }
     while(isPressed())
     {
+        Serial.println("was pressed");
         delay(5);
     }
     
