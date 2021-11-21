@@ -1,91 +1,138 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include <SPI.h>
-#include "Pills.h"
-#include "Button.h"
-#define onboard 13
 
+#include <ClickEncoder.h>
 
-bool addPill = false;
-bool next = false;
-Button add_pill_button(4);
-Button next_text_box(7);
+// Rotary Encoder Inputs
+#define CLK 3 //interrupt pin
+#define DT 2 //interrupt pin
+#define SW 48
+
+int counter = 0;
+int currentStateCLK;
+int lastStateCLK;
+String currentDir ="";
+unsigned long lastButtonPress = 0;
 
 
 String inputString = "";         // a String to hold incoming data
 bool stringComplete = false;  // whether the string is complete
 
-Prescription pre;
-String name = "";
-int r,nb = 0;
-int pill_parametrs = 3;
-int count = 0;
-bool pill_edited = false;
+void updateEncoder(){
+	// Read the current state of CLK
+	currentStateCLK = digitalRead(CLK);
+
+	// If last and current state of CLK are different, then pulse occurred
+	// React to only 1 state change to avoid double count
+	if (currentStateCLK != lastStateCLK  && currentStateCLK == 1){
+
+		// If the DT state is different than the CLK state then
+		// the encoder is rotating CCW so decrement
+		if (digitalRead(DT) != currentStateCLK) {
+			counter --;
+			currentDir ="CCW";
+		} else {
+			// Encoder is rotating CW so increment
+			counter ++;
+			currentDir ="CW";
+		}
+
+		Serial.print("Direction: ");
+		Serial.print(currentDir);
+		Serial.print(" | Counter: ");
+		Serial.println(counter);
+	}
+
+	// Remember last CLK state
+	lastStateCLK = currentStateCLK;
+}
+
 
 void setup() {
-  pinMode(onboard,OUTPUT);
   Serial.begin(9600);
-  add_pill_button.init();
-  next_text_box.init();
 
-  // put your setup code here, to run once:
+  // Set encoder pins as inputs
+  pinMode(CLK,INPUT);
+  pinMode(DT,INPUT);
+  pinMode(SW, INPUT_PULLUP);
+
+  // Read the initial state of CLK
+  lastStateCLK = digitalRead(CLK);
+  
+  attachInterrupt(digitalPinToInterrupt(CLK), updateEncoder, CHANGE);
+	attachInterrupt(digitalPinToInterrupt(DT), updateEncoder, CHANGE);
 }
-//How the loop function works: 
-//The code asks you if you want to add a new medication. To say yes, press on the button (pls indicate
-//the pin of the button used). 
-//WHen button is pressed, You are asked to enter a name for the pill. The rack number et nb of pills left
-//are not done yet, as I didn;t want to go further without testing. -Myriam
+
 void loop() {
-  // put your main code here, to run repeatedly:
-  if(add_pill_button.getState() == HIGH){
-    addPill = true;
-  }
+  // Read the button state
+  int btnState = digitalRead(SW);
 
-  if(next_text_box.getState() == HIGH){
-    next = true;
-  }
-
-
-  if(addPill){
-    Serial.println(count);
-    if(stringComplete){
-      Serial.println("string completed");
-      switch (count)
-      {
-      case 0:
-        name = inputString;  
-        Serial.println(name);
-        break;
-      case 1:
-        r = inputString.toInt(); 
-        break;
-      case 2:
-        r = inputString.toInt(); 
-        break;
-      case 3:
-        count =0;
-        pill_edited = true;
-      default:
-        break;
-      }
-
-
-    }
-    if(next){
-        count +=1;
-        stringComplete = false;
-        Serial.println(count);
-        next = false;
+  //If we detect LOW signal, button is pressed
+  if (btnState == LOW) {
+    //if 50ms have passed since last LOW pulse, it means that the
+    //button has been pressed, released and pressed again
+    if (millis() - lastButtonPress > 50) {
+      Serial.println("Button pressed!");
     }
 
-    if(pill_edited){
-        pre.add_pill(name,r,nb);
-        pre.print_prescription(); 
-        pill_edited = false;
-        addPill = false;
-    }
-
+    // Remember last button press event
+    lastButtonPress = millis();
   }
+
+  // Put in a slight delay to help debounce the reading
+  delay(1);
+  
+  // // put your main code here, to run repeatedly:
+  // if(add_pill_button.getState() == HIGH){
+  //   addPill = true;
+  // }
+
+  // if(next_text_box.getState() == HIGH){
+  //   next = true;
+  // }
+
+
+  // if(addPill){
+  //   Serial.println(count);
+  //   if(stringComplete){
+  //     Serial.println("string completed");
+  //     switch (count)
+  //     {
+  //     case 0:
+  //       name = inputString;  
+  //       Serial.println(name);
+  //       break;
+  //     case 1:
+  //       r = inputString.toInt(); 
+  //       break;
+  //     case 2:
+  //       r = inputString.toInt(); 
+  //       break;
+  //     case 3:
+  //       count =0;
+  //       pill_edited = true;
+  //     default:
+  //       break;
+  //     }
+
+
+  //   }
+  //   if(next){
+  //       count +=1;
+  //       stringComplete = false;
+  //       Serial.println(count);
+  //       next = false;
+  //   }
+
+  //   if(pill_edited){
+  //       pre.add_pill(name,r,nb);
+  //       pre.print_prescription(); 
+  //       pill_edited = false;
+  //       addPill = false;
+  //   }
+
+  // }
 
 }
 
@@ -103,3 +150,4 @@ void serialEvent() {
     }
   }
 }
+
