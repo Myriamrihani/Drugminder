@@ -1,8 +1,11 @@
 #ifndef PILLS_H
 #define PILLS_H
 #include <Arduino.h>
-
+#include <Alarm.h>
 using namespace std;
+
+#define NB_RACKS 10
+
 
 //attention quand on passe au code arduino il faut rajouter changer string en String
 
@@ -13,8 +16,10 @@ class Pill{
     String get_name();
     int get_rack();
     int get_nb();
+    Date get_date();
     
     void print_pill();
+    Date date;
     
     
     private:
@@ -27,7 +32,7 @@ class Pill{
 
 class Prescription{
     private:
-    Pill Inventory [10];
+    Pill Inventory [NB_RACKS];
     int total_pills = 0;
 
     public:
