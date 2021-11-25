@@ -5,41 +5,42 @@ using namespace std;
 
 #define NB_OF_ALARMS    6 
 
+enum set { a_type, a_times, date, volume, password};
+enum alarm_type {Sound, Light};
+enum week_day {Monday, Tuesday, Wednesday, Thrusday, Friday, Saturday, Sunday};
+enum alarm_cycle {wake, morn, lun, after, din, bedtime};
+
 struct Time{
     unsigned int hour;
     unsigned int minute;
-
 };
-
 struct Date{
-    String day;
-    Time time;
+    week_day day = Monday;
+    alarm_cycle al_time = wake;
 };
-
-enum settings { a_type, a_times, date, volume, password};
-enum alarm_type {Sound, Light};
-enum alarm_times { wake_up, morning, lunch, afternoon, dinner, bedtime };
-
-
-
+struct Day_cycle{
+    Time wake_up = {8,0};
+    Time morning = {9,0};
+    Time lunch = {12,0};
+    Time afternoon = {15,0};
+    Time dinner = {19,0};
+    Time bedtime = {22,0};
+};
 struct Settings{
-    Date current_date;
+    week_day current_date = Monday;
     double vol =0;
     unsigned int pass = 0;
     alarm_type type = Sound;
-    Time alarms [NB_OF_ALARMS] = {{8, 0} ,{9, 0} , {12, 0}, {15, 0}, {19, 0}, {22, 0}};
+    Day_cycle cycle;
 }settings;
 
 
-
+void set_day_cycle();
 
 
 void change_alarm_type(alarm_type t){
     settings.type = t;
 }
-
-void set_alarms(alarm_times a_t, unsigned int hour , unsigned int minute);
-
 
 void set_current_date();
 // Date get_current_date();

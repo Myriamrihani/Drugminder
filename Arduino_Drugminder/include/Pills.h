@@ -6,7 +6,6 @@ using namespace std;
 
 #define NB_RACKS 10
 
-
 //attention quand on passe au code arduino il faut rajouter changer string en String
 
 class Pill{
@@ -19,7 +18,7 @@ class Pill{
     Date get_date();
     
     void print_pill();
-    Date date;
+    
     
     
     private:
