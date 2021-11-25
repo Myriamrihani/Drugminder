@@ -22,9 +22,6 @@ int Pill::get_nb(){
     return nb_pills;
 };
 
-Date Pill::get_date(){
-    return date;
-}
 
 void Pill::print_pill(){
     // cout<< "The Pill name is: " << pill_name << endl;
@@ -37,15 +34,7 @@ void Pill::print_pill(){
     Serial.print(rack);
 
     Serial.println("The number of pills left is: ");
-    Serial.print(nb_pills);
-
-    Serial.println("The date to dispense is: ");
-    Serial.println("Day :");
-    Serial.print(date.day);
-    Serial.println("Hour :");
-    Serial.print(date.time.hour);
-    Serial.println("Minute :");
-    Serial.print(date.time.minute);   
+    Serial.print(nb_pills);  
 };
 
 

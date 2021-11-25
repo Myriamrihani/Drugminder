@@ -49,19 +49,11 @@ void edit_alarm_volume();
 double get_volume();
 
 
-void delete_password(){
-    settings.pass = 0;
-};
+void delete_password();
 
-void edit_password(unsigned int p){
-    settings.pass = p;
-};
+void edit_password(unsigned int p);
 
-bool check_password(unsigned int p){
-    if(settings.pass == p){
-        return true;
-    }else {return false;}
-};
+bool check_password(unsigned int p);
 
 
 #endif 
