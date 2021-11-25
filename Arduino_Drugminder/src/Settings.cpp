@@ -1,9 +1,8 @@
 using namespace std;
 
-#include <Arduino.h>
 #include <Settings.h>
 
-
+Settings set;
 //All the set functions could be written as a direct interaction with the screen.
 //This still needs to be determined
 

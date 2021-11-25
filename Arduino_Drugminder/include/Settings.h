@@ -32,7 +32,7 @@ struct Settings{
     unsigned int pass = 0;
     alarm_type type = Sound;
     Day_cycle cycle;
-}set;
+};
 
 
 // void set_day_cycle();
