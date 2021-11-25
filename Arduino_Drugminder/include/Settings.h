@@ -32,28 +32,28 @@ struct Settings{
     unsigned int pass = 0;
     alarm_type type = Sound;
     Day_cycle cycle;
-}settings;
+}set;
 
 
-void set_day_cycle();
+// void set_day_cycle();
 
 
-void change_alarm_type(alarm_type t){
-    settings.type = t;
-}
+// void change_alarm_type(alarm_type t){
+//     settings.type = t;
+// }
 
-void set_current_date();
-// Date get_current_date();
+// void set_current_date();
+// // Date get_current_date();
 
-void edit_alarm_volume();
-double get_volume();
+// void edit_alarm_volume();
+// double get_volume();
 
 
-void delete_password();
+// void delete_password();
 
-void edit_password(unsigned int p);
+// void edit_password(unsigned int p);
 
-bool check_password(unsigned int p);
+// bool check_password(unsigned int p);
 
 
 #endif 

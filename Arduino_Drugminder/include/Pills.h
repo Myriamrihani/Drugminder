@@ -15,7 +15,6 @@ class Pill{
     String get_name();
     int get_rack();
     int get_nb();
-    Date get_date();
     
     void print_pill();
     
