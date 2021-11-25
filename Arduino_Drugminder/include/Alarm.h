@@ -8,27 +8,15 @@ using namespace std;
 class Alarm
 {
 private:
-    Time time = {0,0};
+    week_day day;
+    Time alarm_time;
 public:
-    // Alarm(Time t);
-    // ~Alarm();
+    Alarm(week_day d, alarm_cycle t);
+    ~Alarm();
 
-    void edit_alarm_time(Time t);
+    void edit_alarm(week_day d, alarm_cycle t);
     //this function would compare the alarm time with the clock and return true if they are equal.
     bool is_time();
 };
-
-// Alarm::Alarm(Time t)
-// {
-//     time.hour = t.hour;
-//     time.minute = t.minute;
-// }
-
-// Alarm::~Alarm()
-// {
-// }
-
-
-
 
 #endif /* arlarm_hpp */

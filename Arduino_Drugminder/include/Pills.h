@@ -22,6 +22,7 @@ class Pill{
     String pill_name = "None";
     int rack = 0 ;
     int nb_pills = 0;
+    
 
 };
 
