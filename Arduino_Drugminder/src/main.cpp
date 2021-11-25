@@ -1,154 +1,670 @@
 #include <Arduino.h>
-#include <Wire.h>
-#include <SPI.h>
+//<App !Start!>
+// FILE: [Screen_GUI_V2.ino]
+// Created by GUIslice Builder version: [0.17.0]
+//
+// GUIslice Builder Generated File
+//
+// For the latest guides, updates and support view:
+// https://github.com/ImpulseAdventure/GUIslice
+//
+//<App !End!>
 
-#include <ClickEncoder.h>
-
-// Rotary Encoder Inputs
-#define CLK 3 //interrupt pin
-#define DT 2 //interrupt pin
-#define SW 48
-
-int counter = 0;
-int currentStateCLK;
-int lastStateCLK;
-String currentDir ="";
-unsigned long lastButtonPress = 0;
-
-
-String inputString = "";         // a String to hold incoming data
-bool stringComplete = false;  // whether the string is complete
+// ------------------------------------------------
+// Headers to include
+// ------------------------------------------------
+#include "Screen_GUI_V2_GSLC.h"
 
 
+// ------------------------------------------------
+// Program Globals
+// ------------------------------------------------
 
+// Save some element references for direct access
+//<Save_References !Start!>
+gslc_tsElemRef* add_pfilled       = NULL;
+gslc_tsElemRef* add_rack          = NULL;
+gslc_tsElemRef* after_h           = NULL;
+gslc_tsElemRef* after_min         = NULL;
+gslc_tsElemRef* bde_min           = NULL;
+gslc_tsElemRef* bed_h             = NULL;
+gslc_tsElemRef* date_set          = NULL;
+gslc_tsElemRef* day_set           = NULL;
+gslc_tsElemRef* deadline_time     = NULL;
+gslc_tsElemRef* default_next      = NULL;
+gslc_tsElemRef* default_time      = NULL;
+gslc_tsElemRef* dinn_h            = NULL;
+gslc_tsElemRef* dinn_min          = NULL;
+gslc_tsElemRef* empty_rack        = NULL;
+gslc_tsElemRef* full_date         = NULL;
+gslc_tsElemRef* hour_set          = NULL;
+gslc_tsElemRef* light_check       = NULL;
+gslc_tsElemRef* lunch_h           = NULL;
+gslc_tsElemRef* lunch_min         = NULL;
+gslc_tsElemRef* m_pElemCB1_4_10_24= NULL;
+gslc_tsElemRef* m_pElemCB1_4_10_24_53= NULL;
+gslc_tsElemRef* m_pElemCB1_4_11_29= NULL;
+gslc_tsElemRef* m_pElemCB1_4_11_29_41= NULL;
+gslc_tsElemRef* m_pElemCB1_4_15_30= NULL;
+gslc_tsElemRef* m_pElemCB1_4_15_30_42= NULL;
+gslc_tsElemRef* m_pElemCB1_4_16_31= NULL;
+gslc_tsElemRef* m_pElemCB1_4_16_31_43= NULL;
+gslc_tsElemRef* m_pElemCB1_4_17_32= NULL;
+gslc_tsElemRef* m_pElemCB1_4_17_32_33= NULL;
+gslc_tsElemRef* m_pElemCB1_4_17_32_33_34= NULL;
+gslc_tsElemRef* m_pElemCB1_4_17_32_33_34_46= NULL;
+gslc_tsElemRef* m_pElemCB1_4_17_32_33_45= NULL;
+gslc_tsElemRef* m_pElemCB1_4_17_32_44= NULL;
+gslc_tsElemRef* m_pElemCB1_4_18   = NULL;
+gslc_tsElemRef* m_pElemCB1_4_18_47= NULL;
+gslc_tsElemRef* m_pElemCB1_4_5_19 = NULL;
+gslc_tsElemRef* m_pElemCB1_4_5_19_48= NULL;
+gslc_tsElemRef* m_pElemCB1_4_6_20 = NULL;
+gslc_tsElemRef* m_pElemCB1_4_6_20_49= NULL;
+gslc_tsElemRef* m_pElemCB1_4_7_21 = NULL;
+gslc_tsElemRef* m_pElemCB1_4_7_21_50= NULL;
+gslc_tsElemRef* m_pElemCB1_4_8_22 = NULL;
+gslc_tsElemRef* m_pElemCB1_4_8_22_51= NULL;
+gslc_tsElemRef* m_pElemCB1_4_9_23 = NULL;
+gslc_tsElemRef* m_pElemCB1_4_9_23_52= NULL;
+gslc_tsElemRef* m_pElemListbox1   = NULL;
+gslc_tsElemRef* m_pElemListbox1_2 = NULL;
+gslc_tsElemRef* m_pElemListbox1_2_3= NULL;
+gslc_tsElemRef* m_pElemOutTxt96   = NULL;
+gslc_tsElemRef* m_pElemOutTxt98   = NULL;
+gslc_tsElemRef* m_pElemProgress1_3= NULL;
+gslc_tsElemRef* m_pElemProgress1_4= NULL;
+gslc_tsElemRef* m_pElemTextbox2   = NULL;
+gslc_tsElemRef* m_pElemTextbox2_3 = NULL;
+gslc_tsElemRef* min_set           = NULL;
+gslc_tsElemRef* morn_h            = NULL;
+gslc_tsElemRef* morn_min          = NULL;
+gslc_tsElemRef* name_char_1       = NULL;
+gslc_tsElemRef* name_char_2       = NULL;
+gslc_tsElemRef* name_char_3       = NULL;
+gslc_tsElemRef* name_char_4       = NULL;
+gslc_tsElemRef* name_char_5       = NULL;
+gslc_tsElemRef* name_char_6       = NULL;
+gslc_tsElemRef* name_char_7       = NULL;
+gslc_tsElemRef* name_char_8       = NULL;
+gslc_tsElemRef* new_pw_digit_1    = NULL;
+gslc_tsElemRef* new_pw_digit_2    = NULL;
+gslc_tsElemRef* new_pw_digit_3    = NULL;
+gslc_tsElemRef* new_pw_digit_4    = NULL;
+gslc_tsElemRef* pills_refilled    = NULL;
+gslc_tsElemRef* pw_digit_1_150    = NULL;
+gslc_tsElemRef* pw_digit_2_151    = NULL;
+gslc_tsElemRef* pw_digit_3_152    = NULL;
+gslc_tsElemRef* pw_digit_4_153    = NULL;
+gslc_tsElemRef* sel_drug_del      = NULL;
+gslc_tsElemRef* sel_drug_edit1    = NULL;
+gslc_tsElemRef* sel_drug_edit2    = NULL;
+gslc_tsElemRef* sel_drug_edit3    = NULL;
+gslc_tsElemRef* sel_drug_refill   = NULL;
+gslc_tsElemRef* sound_check       = NULL;
+gslc_tsElemRef* trip_date         = NULL;
+gslc_tsElemRef* trip_day          = NULL;
+gslc_tsElemRef* trip_hour         = NULL;
+gslc_tsElemRef* trip_min          = NULL;
+gslc_tsElemRef* vol_slider        = NULL;
+gslc_tsElemRef* wake_h            = NULL;
+gslc_tsElemRef* wake_min          = NULL;
+gslc_tsElemRef* wrong_pw_text     = NULL;
+//<Save_References !End!>
 
-void setup() {
+// Define debug message function
+static int16_t DebugOut(char ch) { if (ch == (char)'\n') Serial.println(""); else Serial.write(ch); return 0; }
+
+// ------------------------------------------------
+// Callback Methods
+// ------------------------------------------------
+// Common Button callback
+bool CbBtnCommon(void* pvGui,void *pvElemRef,gslc_teTouch eTouch,int16_t nX,int16_t nY)
+{
+  // Typecast the parameters to match the GUI and element types
+  gslc_tsGui*     pGui     = (gslc_tsGui*)(pvGui);
+  gslc_tsElemRef* pElemRef = (gslc_tsElemRef*)(pvElemRef);
+  gslc_tsElem*    pElem    = gslc_GetElemFromRef(pGui,pElemRef);
+
+  if ( eTouch == GSLC_TOUCH_UP_IN ) {
+    // From the element's ID we can determine which button was pressed.
+    switch (pElem->nId) {
+//<Button Enums !Start!>
+      case E_ELEM_BTN1:
+        gslc_SetPageCur(&m_gui, Prescription);
+        break;
+      case E_ELEM_BTN2:
+        gslc_SetPageCur(&m_gui, settings);
+        break;
+      case E_ELEM_BTN3:
+        gslc_SetPageCur(&m_gui,  med_list);
+        break;
+      case E_ELEM_BTN5:
+        gslc_SetPageCur(&m_gui, Default);
+        break;
+      case E_ELEM_BTN4:
+        gslc_SetPageCur(&m_gui, Default);
+        break;
+      case E_ELEM_BTN7:
+        gslc_SetPageCur(&m_gui, refill_1);
+        break;
+      case E_ELEM_BTN8:
+        gslc_SetPageCur(&m_gui, trip);
+        break;
+      case E_ELEM_BTN9:
+        gslc_SetPageCur(&m_gui, add_edit);
+        break;
+      case E_ELEM_BTN10:
+        gslc_SetPageCur(&m_gui, Default);
+        break;
+      case E_ELEM_BTN13:
+        gslc_SetPageCur(&m_gui, settings);
+        break;
+      case E_ELEM_BTN11:
+        gslc_SetPageCur(&m_gui, settings);
+        break;
+      case E_ELEM_BTN12:
+        gslc_SetPageCur(&m_gui, settings);
+        break;
+      case E_ELEM_BTN15:
+        break;
+      case E_ELEM_BTN16:
+        break;
+      case E_ELEM_BTN14:
+        gslc_SetPageCur(&m_gui, settings);
+        break;
+      case E_ELEM_BTN17:
+        gslc_SetPageCur(&m_gui, pw_options);
+        break;
+      case E_ELEM_BTN18:
+        gslc_SetPageCur(&m_gui, Prescription);
+        break;
+      case E_ELEM_BTN19:
+        gslc_SetPageCur(&m_gui, new_prescription_2);
+        break;
+      case E_ELEM_BTN21:
+        gslc_SetPageCur(&m_gui, new_prescription_1);
+        break;
+      case E_ELEM_BTN49:
+        gslc_SetPageCur(&m_gui, new_prescription_3);
+        break;
+      case E_ELEM_BTN22:
+        gslc_SetPageCur(&m_gui, Default);
+        break;
+      case E_ELEM_BTN23:
+        gslc_SetPageCur(&m_gui, new_prescription_1);
+        break;
+      case E_ELEM_BTN24:
+        gslc_SetPageCur(&m_gui, edit_prescription_1);
+        break;
+      case E_ELEM_BTN25:
+        gslc_SetPageCur(&m_gui, Prescription);
+        break;
+      case E_ELEM_BTN26:
+        gslc_SetPageCur(&m_gui, Prescription);
+        break;
+      case E_ELEM_BTN27:
+        gslc_SetPageCur(&m_gui, edit_prescription_2);
+        break;
+      case E_ELEM_BTN32:
+        gslc_SetPageCur(&m_gui, delete_conf);
+        break;
+      case E_ELEM_BTN30:
+        gslc_SetPageCur(&m_gui, edit_prescription_1);
+        break;
+      case E_ELEM_BTN31:
+        gslc_SetPageCur(&m_gui, edit_prescription_3);
+        break;
+      case E_ELEM_BTN29:
+        gslc_SetPageCur(&m_gui, edit_prescription_2);
+        break;
+      case E_ELEM_BTN53:
+        gslc_SetPageCur(&m_gui, edit_prescription_4);
+        break;
+      case E_ELEM_BTN35:
+        gslc_SetPageCur(&m_gui, Prescription);
+        break;
+      case E_ELEM_BTN36:
+        gslc_SetPageCur(&m_gui, Prescription);
+        break;
+      case E_ELEM_BTN37:
+        gslc_SetPageCur(&m_gui, refill_2);
+        break;
+      case E_ELEM_BTN38:
+        gslc_SetPageCur(&m_gui, refill_1);
+        break;
+      case E_ELEM_BTN39:
+        gslc_SetPageCur(&m_gui, Prescription);
+        break;
+      case E_ELEM_BTN40:
+        gslc_SetPageCur(&m_gui, dispensing);
+        break;
+      case E_ELEM_BTN41:
+        gslc_SetPageCur(&m_gui, Prescription);
+        break;
+      case E_ELEM_BTN42:
+        gslc_SetPageCur(&m_gui, Default);
+        break;
+      case E_ELEM_BTN43:
+        gslc_SetPageCur(&m_gui, delete_done);
+        break;
+      case E_ELEM_BTN44:
+        gslc_SetPageCur(&m_gui, edit_prescription_1);
+        break;
+      case E_ELEM_BTN45:
+        gslc_SetPageCur(&m_gui, pw_del_conf);
+        break;
+      case E_ELEM_BTN46:
+        gslc_SetPageCur(&m_gui, Set_password);
+        break;
+      case E_ELEM_BTN58:
+        gslc_SetPageCur(&m_gui, settings);
+        break;
+      case E_ELEM_BTN47:
+        gslc_SetPageCur(&m_gui, Default);
+        break;
+      case E_ELEM_BTN48:
+        gslc_SetPageCur(&m_gui, pw_options);
+        break;
+      case E_ELEM_BTN50:
+        gslc_SetPageCur(&m_gui, new_prescription_2);
+        break;
+      case E_ELEM_BTN52:
+        gslc_SetPageCur(&m_gui, Prescription);
+        break;
+      case E_ELEM_BTN54:
+        gslc_SetPageCur(&m_gui, edit_prescription_3);
+        break;
+      case E_ELEM_BTN55:
+        gslc_SetPageCur(&m_gui, Prescription);
+        break;
+      case E_ELEM_BTN56:
+        gslc_SetPageCur(&m_gui, settings);
+        break;
+      case E_ELEM_BTN57:
+        gslc_SetPageCur(&m_gui, settings);
+        break;
+//<Button Enums !End!>
+      default:
+        break;
+    }
+  }
+  return true;
+}
+//<Checkbox Callback !Start!>
+//<Checkbox Callback !End!>
+//<Keypad Callback !Start!>
+//<Keypad Callback !End!>
+//<Spinner Callback !Start!>
+//<Spinner Callback !End!>
+bool CbListbox(void* pvGui, void* pvElemRef, int16_t nSelId)
+{
+  gslc_tsGui*     pGui     = (gslc_tsGui*)(pvGui);
+  gslc_tsElemRef* pElemRef = (gslc_tsElemRef*)(pvElemRef);
+  gslc_tsElem*    pElem    = gslc_GetElemFromRef(pGui, pElemRef);
+  char            acTxt[MAX_STR + 1];
+  
+  if (pElemRef == NULL) {
+    return false;
+  }
+
+  // From the element's ID we can determine which listbox was active.
+  switch (pElem->nId) {
+//<Listbox Enums !Start!>
+    case SETTINGS_LISTBOX:
+      if (nSelId != XLISTBOX_SEL_NONE) {
+        gslc_ElemXListboxGetItem(&m_gui, pElemRef, nSelId, acTxt, MAX_STR);
+      }
+      break;
+    case PRESCRIPTION_LISTBOX:
+      if (nSelId != XLISTBOX_SEL_NONE) {
+        gslc_ElemXListboxGetItem(&m_gui, pElemRef, nSelId, acTxt, MAX_STR);
+      }
+      break;
+    case PRESCRIPTION_LISTBOX_2:
+      if (nSelId != XLISTBOX_SEL_NONE) {
+        gslc_ElemXListboxGetItem(&m_gui, pElemRef, nSelId, acTxt, MAX_STR);
+      }
+      break;
+
+//<Listbox Enums !End!>
+    default:
+      break;
+  }
+  return true;
+}
+//<Draw Callback !Start!>
+//<Draw Callback !End!>
+
+// Callback function for when a slider's position has been updated
+bool CbSlidePos(void* pvGui,void* pvElemRef,int16_t nPos)
+{
+  gslc_tsGui*     pGui     = (gslc_tsGui*)(pvGui);
+  gslc_tsElemRef* pElemRef = (gslc_tsElemRef*)(pvElemRef);
+  gslc_tsElem*    pElem    = gslc_GetElemFromRef(pGui,pElemRef);
+  int16_t         nVal;
+
+  // From the element's ID we can determine which slider was updated.
+  switch (pElem->nId) {
+//<Slider Enums !Start!>
+    case VOLUME_SLIDER:
+      // Fetch the slider position
+      nVal = gslc_ElemXSliderGetPos(pGui,vol_slider);
+      break;
+
+//<Slider Enums !End!>
+    default:
+      break;
+  }
+
+  return true;
+}
+//<Tick Callback !Start!>
+//<Tick Callback !End!>
+
+const int button1Pin = 22;
+const int button2Pin = 23;
+const int button3Pin = 24;
+const int button4Pin = 25;
+
+int status1 = false;
+int status2 = false;
+int status3 = false;
+int status4 = false;
+
+void btn1_action(int16_t current_page);
+void btn2_action(int16_t current_page);
+void btn3_action(int16_t current_page);
+void btn4_action(int16_t current_page);
+
+void setup()
+{
+  // ------------------------------------------------
+  // Initialize
+  // ------------------------------------------------
   Serial.begin(9600);
+  // Wait for USB Serial 
+  //delay(1000);  // NOTE: Some devices require a delay after Serial.begin() before serial port can be used
 
-  // Set encoder pins as inputs
-  pinMode(CLK,INPUT);
-  pinMode(DT,INPUT);
-  pinMode(SW, INPUT_PULLUP);
-
-  // Read the initial state of CLK
-  lastStateCLK = digitalRead(CLK);
+  gslc_InitDebug(&DebugOut);
+  pinMode(button1Pin, INPUT);
+  pinMode(button2Pin, INPUT);
+  pinMode(button3Pin, INPUT);
+  pinMode(button4Pin, INPUT);
   
-  attachInterrupt(digitalPinToInterrupt(CLK), updateEncoder, CHANGE);
-	attachInterrupt(digitalPinToInterrupt(DT), updateEncoder, CHANGE);
-}
-
-void loop() {
-  // Read the button state
-  int btnState = digitalRead(SW);
-
-  //If we detect LOW signal, button is pressed
-  if (btnState == LOW) {
-    //if 50ms have passed since last LOW pulse, it means that the
-    //button has been pressed, released and pressed again
-    if (millis() - lastButtonPress > 50) {
-      Serial.println("Button pressed!");
-    }
-
-    // Remember last button press event
-    lastButtonPress = millis();
-  }
-
-  // Put in a slight delay to help debounce the reading
-  delay(1);
-  
-  // // put your main code here, to run repeatedly:
-  // if(add_pill_button.getState() == HIGH){
-  //   addPill = true;
-  // }
-
-  // if(next_text_box.getState() == HIGH){
-  //   next = true;
-  // }
-
-
-  // if(addPill){
-  //   Serial.println(count);
-  //   if(stringComplete){
-  //     Serial.println("string completed");
-  //     switch (count)
-  //     {
-  //     case 0:
-  //       name = inputString;  
-  //       Serial.println(name);
-  //       break;
-  //     case 1:
-  //       r = inputString.toInt(); 
-  //       break;
-  //     case 2:
-  //       r = inputString.toInt(); 
-  //       break;
-  //     case 3:
-  //       count =0;
-  //       pill_edited = true;
-  //     default:
-  //       break;
-  //     }
-
-
-  //   }
-  //   if(next){
-  //       count +=1;
-  //       stringComplete = false;
-  //       Serial.println(count);
-  //       next = false;
-  //   }
-
-  //   if(pill_edited){
-  //       pre.add_pill(name,r,nb);
-  //       pre.print_prescription(); 
-  //       pill_edited = false;
-  //       addPill = false;
-  //   }
-
-  // }
+  InitGUIslice_gen();
+  gslc_ElemSetVisible(&m_gui,wrong_pw_text,false);
 
 }
 
+// -----------------------------------
+// Main event loop
+// -----------------------------------
+void loop()
+{
+  if(digitalRead(button1Pin) == true){
+    status1 = !status1;
+    btn1_action(gslc_GetPageCur(&m_gui));
+    }while(digitalRead(button1Pin) == true);
+      delay(10);
 
-void serialEvent() {
-  while (Serial.available()) {
-    // get the new byte:
-    char inChar = (char)Serial.read();
-    // add it to the inputString:
-    inputString += inChar;
-    // if the incoming character is a newline, set a flag so the main loop can
-    // do something about it:
-    if (inChar == '\n') {
-      stringComplete = true;
-    }
+  if(digitalRead(button2Pin) == true){
+    status2 = !status2;
+    btn2_action(gslc_GetPageCur(&m_gui));
+    }while(digitalRead(button2Pin) == true);
+      delay(10);
+
+  if(digitalRead(button3Pin) == true){
+    status3 = !status3;
+    btn3_action(gslc_GetPageCur(&m_gui));
+    }while(digitalRead(button3Pin) == true);
+      delay(10);
+
+  if(digitalRead(button4Pin) == true){
+    status4 = !status4;
+    btn4_action(gslc_GetPageCur(&m_gui));
+    }while(digitalRead(button4Pin) == true);
+      delay(10);
+    
+  gslc_Update(&m_gui);  
+}
+
+void btn1_action(int16_t current_page){
+  switch(current_page){
+    
+    case Default:
+      gslc_SetPageCur(&m_gui,med_list);
+      break;
+      
+    case Prescription:
+      gslc_SetPageCur(&m_gui,add_edit);
+      break;
+      
+    case Alarm_type:
+      gslc_ElemXCheckboxToggleState(&m_gui,sound_check);
+      break;
   }
 }
 
-void updateEncoder(){
-	// Read the current state of CLK
-	currentStateCLK = digitalRead(CLK);
+void btn2_action(int16_t current_page){
+  switch(current_page){
+    
+    case Default:
+      gslc_SetPageCur(&m_gui,Prescription);
+      break;
+      
+    case Prescription:
+      gslc_SetPageCur(&m_gui,refill_1);
+      break;
+      
+    case Alarm_type:
+      gslc_ElemXCheckboxToggleState(&m_gui,light_check);
+      break;
 
-	// If last and current state of CLK are different, then pulse occurred
-	// React to only 1 state change to avoid double count
-	if (currentStateCLK != lastStateCLK  && currentStateCLK == 1){
+    case add_edit:
+      gslc_SetPageCur(&m_gui,new_prescription_1);
+      break;
 
-		// If the DT state is different than the CLK state then
-		// the encoder is rotating CCW so decrement
-		if (digitalRead(DT) != currentStateCLK) {
-			counter --;
-			currentDir ="CCW";
-		} else {
-			// Encoder is rotating CW so increment
-			counter ++;
-			currentDir ="CW";
-		}
+    case edit_prescription_1:
+      //add condition to check if a prescription has been selected
+      gslc_SetPageCur(&m_gui,delete_conf);
+      break;
+      
+    case pw_options:
+      //a password must exist to perform this
+      gslc_SetPageCur(&m_gui,pw_del_conf);
+      break;
+  }
+}
 
-		Serial.print("Direction: ");
-		Serial.print(currentDir);
-		Serial.print(" | Counter: ");
-		Serial.println(counter);
-	}
+void btn3_action(int16_t current_page){
+  switch(current_page){
+    
+    case Default:
+      gslc_SetPageCur(&m_gui,settings);
+      break;
+      
+    case Prescription:
+      gslc_SetPageCur(&m_gui,trip);
+      break;
+      
+    case add_edit:
+      gslc_SetPageCur(&m_gui,edit_prescription_1);
+      break;
+      
+    case edit_prescription_1:
+      //add condition to check if a prescription has been selected
+      gslc_SetPageCur(&m_gui,edit_prescription_2);
+      break;
+      
+    case edit_prescription_2:
+      gslc_SetPageCur(&m_gui,edit_prescription_3);
+      break;
 
-	// Remember last CLK state
-	lastStateCLK = currentStateCLK;
+    case edit_prescription_3:
+      gslc_SetPageCur(&m_gui,edit_prescription_4);
+      break;
+
+    case edit_prescription_4:
+      //must save all data too
+      gslc_SetPageCur(&m_gui,Prescription);
+      break;
+
+    case new_prescription_1:
+      gslc_SetPageCur(&m_gui,new_prescription_2);
+      break;
+
+    case new_prescription_2:
+      gslc_SetPageCur(&m_gui,new_prescription_3);
+      break;
+
+    case new_prescription_3:
+      //must save all data too
+      gslc_SetPageCur(&m_gui,Prescription);
+      break;
+
+    case delete_conf:
+      //must delete the prescription too
+      gslc_SetPageCur(&m_gui,delete_done);
+      break;
+
+    case delete_done:
+      gslc_SetPageCur(&m_gui,Default);
+      break;
+
+    case refill_1:
+      //add condition to check if a prescription has been selected
+      gslc_SetPageCur(&m_gui,refill_2);
+      break;
+
+    case refill_2:
+      //add the pills added in right prescription too
+      gslc_SetPageCur(&m_gui,Prescription);
+      break;
+
+    case pw_options:
+      gslc_SetPageCur(&m_gui,Set_password);
+      break;
+
+    case pw_del_conf:
+      //delete the password too
+      gslc_SetPageCur(&m_gui,settings);
+      break;
+
+    case Set_password:
+      //save the new password too
+      gslc_SetPageCur(&m_gui,settings);
+      break;
+
+    case alarm_times:
+      //save all the alarm times too
+      gslc_SetPageCur(&m_gui,settings);
+      break;
+
+    case trip:
+      //despensing function too
+      gslc_SetPageCur(&m_gui,dispensing);
+      break;
+
+    case end_dispensing:
+      gslc_SetPageCur(&m_gui,Default);
+      break;
+  }
+}
+
+void btn4_action(int16_t current_page){
+  switch(current_page){
+    
+    case med_list:
+      gslc_SetPageCur(&m_gui,Default);
+      break;
+
+    case password:
+      gslc_SetPageCur(&m_gui,Default);
+      break;
+
+    case settings:
+      gslc_SetPageCur(&m_gui,Default);
+      break;
+
+    case Volume:
+      gslc_SetPageCur(&m_gui,settings);
+      break;
+
+    case Date_hour:
+      gslc_SetPageCur(&m_gui,settings);
+      break;
+
+    case Alarm_type:
+      gslc_SetPageCur(&m_gui,settings);
+      break;
+
+    case pw_options:
+      gslc_SetPageCur(&m_gui,settings);
+      break;
+
+    case alarm_times:
+      gslc_SetPageCur(&m_gui,settings);
+      break;
+
+    case Set_password:
+      gslc_SetPageCur(&m_gui,pw_options);
+      break;
+
+    case pw_del_conf:
+      gslc_SetPageCur(&m_gui,pw_options);
+      break;
+      
+    case Prescription:
+      gslc_SetPageCur(&m_gui,Default);
+      break;
+
+    case add_edit:
+      gslc_SetPageCur(&m_gui,Prescription);
+      break;
+
+    case new_prescription_1:
+      gslc_SetPageCur(&m_gui,Prescription);
+      break;
+
+    case new_prescription_2:
+      gslc_SetPageCur(&m_gui,new_prescription_1);
+      break;
+
+    case new_prescription_3:
+      gslc_SetPageCur(&m_gui,new_prescription_2);
+      break;
+
+    case edit_prescription_1:
+      gslc_SetPageCur(&m_gui,Prescription);
+      break;
+
+    case edit_prescription_2:
+      gslc_SetPageCur(&m_gui,edit_prescription_1);
+      break;
+
+    case edit_prescription_3:
+      gslc_SetPageCur(&m_gui,edit_prescription_2);
+      break;
+
+    case edit_prescription_4:
+      gslc_SetPageCur(&m_gui,edit_prescription_3);
+      break;
+
+    case refill_1:
+      gslc_SetPageCur(&m_gui,Prescription);
+      break;
+
+    case refill_2:
+      gslc_SetPageCur(&m_gui,refill_1);
+      break;
+
+    case trip:
+      gslc_SetPageCur(&m_gui,Prescription);
+      break;
+
+    case delete_conf:
+      gslc_SetPageCur(&m_gui,edit_prescription_1);
+      break;
+  }
 }
