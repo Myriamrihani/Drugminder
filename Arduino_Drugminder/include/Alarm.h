@@ -8,7 +8,6 @@ using namespace std;
 class Alarm
 {
 private:
-    
     Time time = {0,0};
 public:
     Alarm(Time t);

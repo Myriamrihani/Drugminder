@@ -5,7 +5,7 @@
   "C_Cpp_Runner.makePath": "/usr/bin/make",
   "C_Cpp_Runner.warnings": [],
   "C_Cpp_Runner.compilerArgs": [
-    "-mmcu=atmega2560",
+    "-mmcu=atmega1280",
     ""
   ],
   "C_Cpp_Runner.includePaths": [

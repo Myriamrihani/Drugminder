@@ -19,8 +19,6 @@ class Pill{
     
     void print_pill();
     
-    
-    
     private:
     String pill_name = "None";
     int rack = 0 ;

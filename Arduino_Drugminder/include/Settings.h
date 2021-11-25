@@ -5,7 +5,7 @@ using namespace std;
 
 #define NB_OF_ALARMS    6 
 
-enum set { a_type, a_times, date, volume, password};
+// enum set { a_type, a_times, date, volume, password};
 enum alarm_type {Sound, Light};
 enum week_day {Monday, Tuesday, Wednesday, Thrusday, Friday, Saturday, Sunday};
 enum alarm_cycle {wake, morn, lun, after, din, bedtime};
