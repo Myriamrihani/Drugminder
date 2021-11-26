@@ -486,7 +486,7 @@ void check_encoder(int16_t current_page){
       if(enc_btnAction == true){
         switch(settings_item){
           case 0:
-            gslc_SetPageCur(&m_gui,Prescription);
+            gslc_SetPageCur(&m_gui,alarm_times);
             break;
           case 1:
             gslc_SetPageCur(&m_gui,Alarm_type);
