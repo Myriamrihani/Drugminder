@@ -1,7 +1,8 @@
 #ifndef PILLS_H
 #define PILLS_H
 #include <Arduino.h>
-#include <Alarm.h>
+
+#include <Settings.h>
 using namespace std;
 
 #define NB_RACKS 10
@@ -20,10 +21,11 @@ class Pill{
     
     private:
     String pill_name = "None";
-    int rack = 0 ;
-    int nb_pills = 0;
-    
-
+    unsigned int rack = 0 ;
+    unsigned int nb_pills = 0;
+    //creer un tableau d'alarm
+    bool alarm_day[WEEK_DAYS] = {false};
+    bool alarm_t[NB_OF_ALARMS]= {false};
 };
 
 

@@ -14,6 +14,7 @@
 // Headers to include
 // ------------------------------------------------
 #include "Screen_GUI_V2_GSLC.h"
+#include <Pills.h>
 
 
 // ------------------------------------------------
@@ -386,6 +387,7 @@ int enc_btnState = false;
 bool encoder_enabled = false;
 bool enc_btnAction = false;
 int settings_item = 0;
+int pos_encoder =0;
 
 
 void btn1_action(int16_t current_page);
@@ -511,10 +513,55 @@ void check_encoder(int16_t current_page){
 
     case Date_hour:
       encoder_enabled = true;
+      switch (pos_encoder)
+      {
+      case 0:
+        if(currentDir == 1 && the_setting.current_date.day<WEEK_DAYS-1){
+          the_setting.current_date.day++;
+          currentDir=0;
+          // String s = leonardo[1];
+          gslc_ElemSetTxtStr(&m_gui,day_set,week_str[the_setting.current_date.day]);
+        }else if(currentDir == -1 && the_setting.current_date.day>0){
+          the_setting.current_date.day--;
+          currentDir=0;
+          gslc_ElemSetTxtStr(&m_gui,day_set,week_str[the_setting.current_date.day]);
+        }        
+        break;
+      case 1:
+        char s[12];
+        if(currentDir == 1 && the_setting.current_date.month_day<MONTH_DAY-1){
+          the_setting.current_date.month_day++;
+          currentDir=0;
+
+          gslc_ElemSetTxtStr(&m_gui,date_set,itoa( the_setting.current_date.month_day, s, 10 ));
+        }else if(currentDir == -1 && the_setting.current_date.month_day>1){
+          the_setting.current_date.month_day--;
+          currentDir=0;
+          gslc_ElemSetTxtStr(&m_gui,date_set,itoa( the_setting.current_date.month_day, s, 10 ));
+        }
+        break;
+      
+      default:
+        break;
+      }
+      
+      if(enc_btnAction == true){
+        pos_encoder++;
+      }
+      enc_btnAction = false;  
       break;
 
     case Volume:
       encoder_enabled = true;
+      if(currentDir == 1 && the_setting.vol<MAX_VOLUME-1){
+        the_setting.vol++;
+        currentDir=0;
+        gslc_ElemXSliderSetPos(&m_gui,vol_slider,the_setting.vol);
+      }else if(currentDir == -1 && the_setting.vol>0){
+        the_setting.vol--;
+        currentDir=0;
+        gslc_ElemXSliderSetPos(&m_gui,vol_slider,the_setting.vol);
+      }   
       break;
 
     case password:
@@ -763,6 +810,7 @@ void btn4_action(int16_t current_page){
       break;
 
     case Date_hour:
+      pos_encoder = 0;
       gslc_SetPageCur(&m_gui,settings);
       break;
 
