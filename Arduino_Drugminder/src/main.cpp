@@ -367,15 +367,34 @@ const int button2Pin = 23;
 const int button3Pin = 24;
 const int button4Pin = 25;
 
+// Rotary Encoder Inputs
+#define CLK 3 //interrupt pin
+#define DT 2 //interrupt pin
+#define SW 30
+
+#define NB_SETTINGS_ITEM 5
+
+int currentStateCLK;
+int lastStateCLK;
+volatile int currentDir = 0;
+//unsigned long lastButtonPress = 0;
 int status1 = false;
 int status2 = false;
 int status3 = false;
 int status4 = false;
+int enc_btnState = false;
+bool encoder_enabled = false;
+bool enc_btnAction = false;
+int settings_item = 0;
+
 
 void btn1_action(int16_t current_page);
 void btn2_action(int16_t current_page);
 void btn3_action(int16_t current_page);
 void btn4_action(int16_t current_page);
+void updateEncoder();
+void check_encoder(int16_t current_page);
+
 
 void setup()
 {
@@ -391,6 +410,16 @@ void setup()
   pinMode(button2Pin, INPUT);
   pinMode(button3Pin, INPUT);
   pinMode(button4Pin, INPUT);
+   // Set encoder pins as inputs
+  pinMode(CLK,INPUT);
+  pinMode(DT,INPUT);
+  pinMode(SW, INPUT_PULLUP);
+
+   // Read the initial state of CLK
+  lastStateCLK = digitalRead(CLK);
+  
+  attachInterrupt(digitalPinToInterrupt(CLK), updateEncoder, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(DT), updateEncoder, CHANGE);
   
   InitGUIslice_gen();
   gslc_ElemSetVisible(&m_gui,wrong_pw_text,false);
@@ -425,8 +454,150 @@ void loop()
     btn4_action(gslc_GetPageCur(&m_gui));
     }while(digitalRead(button4Pin) == true);
       delay(10);
-    
+
+   // Read the encoder button state
+  if(digitalRead(SW) == LOW && encoder_enabled == true){
+    enc_btnState = !enc_btnState;
+    Serial.println("Button pressed!");
+    enc_btnAction = true;
+    }while(digitalRead(SW) == LOW && encoder_enabled == true);
+      delay(10);
+
+  // Put in a slight delay to help debounce the reading
+  delay(1);
+  
+  check_encoder(gslc_GetPageCur(&m_gui));
   gslc_Update(&m_gui);  
+}
+
+void check_encoder(int16_t current_page){
+  switch (current_page){
+    case settings:
+      encoder_enabled = true;
+      if(currentDir == 1 && settings_item<NB_SETTINGS_ITEM-1){
+        settings_item++;
+        currentDir=0;
+        gslc_ElemXListboxSetSel(&m_gui,m_pElemListbox1,settings_item);
+      }else if(currentDir == -1 && settings_item>0){
+        settings_item--;
+        currentDir=0;
+        gslc_ElemXListboxSetSel(&m_gui,m_pElemListbox1,settings_item);
+      }
+      if(enc_btnAction == true){
+        switch(settings_item){
+          case 0:
+            gslc_SetPageCur(&m_gui,alarm_times);
+            break;
+          case 1:
+            gslc_SetPageCur(&m_gui,Alarm_type);
+            break;
+          case 2:
+            gslc_SetPageCur(&m_gui,Date_hour);
+            break;
+          case 3:
+            gslc_SetPageCur(&m_gui,Volume);
+            break;
+          case 4:
+            gslc_SetPageCur(&m_gui,password);
+            break;
+        }
+        enc_btnAction = false;
+      }
+      break;
+      
+    case alarm_times:
+      encoder_enabled = true;
+      break;
+
+    case Date_hour:
+      encoder_enabled = true;
+      break;
+
+    case Volume:
+      encoder_enabled = true;
+      break;
+
+    case password:
+      encoder_enabled = true;
+      break;
+
+    case Set_password:
+      encoder_enabled = true;
+      break;
+
+    case new_prescription_1:
+      encoder_enabled = true;
+      break;
+    
+    case new_prescription_2:
+      encoder_enabled = true;
+      break;
+
+    case new_prescription_3:
+      encoder_enabled = true;
+      break;
+
+    case edit_prescription_1:
+      encoder_enabled = true;
+      break;
+      
+    case edit_prescription_2:
+      encoder_enabled = true;
+      break;
+      
+    case edit_prescription_3:
+      encoder_enabled = true;
+      break;
+
+    case edit_prescription_4:
+      encoder_enabled = true;
+      break;
+
+    case refill_1:
+      encoder_enabled = true;
+      break;
+    
+    case refill_2:
+      encoder_enabled = true;
+      break;
+
+    case trip:
+      encoder_enabled = true;
+      break;
+
+    default:
+      encoder_enabled = false;
+  }
+
+}
+
+void updateEncoder(){
+
+  if(encoder_enabled == true){
+    // Read the current state of CLK
+    currentStateCLK = digitalRead(CLK);
+  
+    // If last and current state of CLK are different, then pulse occurred
+    // React to only 1 state change to avoid double count
+    if (currentStateCLK != lastStateCLK){
+  
+      // If the DT state is different than the CLK state then
+      // the encoder is rotating CW so increment
+      if (digitalRead(DT) != currentStateCLK) {
+        currentDir =1;
+      } else {
+        // Encoder is rotating CCW so decrement
+        currentDir =-1;
+      }
+  
+      //Serial.print("Direction: ");
+      //Serial.println(currentDir);
+    }
+  
+    // Remember last CLK state
+    lastStateCLK = currentStateCLK;
+  }
+
 }
 
 void btn1_action(int16_t current_page){
