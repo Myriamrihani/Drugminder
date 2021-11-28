@@ -456,10 +456,18 @@ char                            m_acListboxBuf3[39 + XLISTBOX_BUF_OH_R];
 
 // Element References for direct access
 //<Extern_References !Start!>
+extern gslc_tsElemRef* add_fri_check;
+extern gslc_tsElemRef* add_mo_check;
 extern gslc_tsElemRef* add_pfilled;
 extern gslc_tsElemRef* add_rack;
+extern gslc_tsElemRef* add_sat_check;
+extern gslc_tsElemRef* add_sun_check;
+extern gslc_tsElemRef* add_thu_check;
+extern gslc_tsElemRef* add_tue_check;
+extern gslc_tsElemRef* add_wed_check;
 extern gslc_tsElemRef* after_h;
 extern gslc_tsElemRef* after_min;
+extern gslc_tsElemRef* alarm_progress;
 extern gslc_tsElemRef* bde_min;
 extern gslc_tsElemRef* bed_h;
 extern gslc_tsElemRef* date_set;
@@ -467,49 +475,39 @@ extern gslc_tsElemRef* day_set;
 extern gslc_tsElemRef* deadline_time;
 extern gslc_tsElemRef* default_next;
 extern gslc_tsElemRef* default_time;
+extern gslc_tsElemRef* del_p_bttn;
+extern gslc_tsElemRef* del_pw_bttn;
 extern gslc_tsElemRef* dinn_h;
 extern gslc_tsElemRef* dinn_min;
-extern gslc_tsElemRef* empty_rack;
+extern gslc_tsElemRef* dispense_progress;
+extern gslc_tsElemRef* edit_after_check;
+extern gslc_tsElemRef* edit_bed_check;
+extern gslc_tsElemRef* edit_dinn_check;
+extern gslc_tsElemRef* edit_fri_check;
+extern gslc_tsElemRef* edit_lunch_check;
+extern gslc_tsElemRef* edit_mo_check;
+extern gslc_tsElemRef* edit_morn_check;
+extern gslc_tsElemRef* edit_p_bttn;
+extern gslc_tsElemRef* edit_p_bttn_2;
+extern gslc_tsElemRef* edit_pfilled;
+extern gslc_tsElemRef* edit_rack_nb;
+extern gslc_tsElemRef* edit_sat_check;
+extern gslc_tsElemRef* edit_sun_check;
+extern gslc_tsElemRef* edit_thu_check;
+extern gslc_tsElemRef* edit_tue_check;
+extern gslc_tsElemRef* edit_wake_check;
+extern gslc_tsElemRef* edit_wed_check;
+extern gslc_tsElemRef* empty_rack_txt;
 extern gslc_tsElemRef* full_date;
 extern gslc_tsElemRef* hour_set;
 extern gslc_tsElemRef* light_check;
+extern gslc_tsElemRef* listbox_pill_given;
 extern gslc_tsElemRef* lunch_h;
 extern gslc_tsElemRef* lunch_min;
-extern gslc_tsElemRef* m_pElemCB1_4_10_24;
-extern gslc_tsElemRef* m_pElemCB1_4_10_24_53;
-extern gslc_tsElemRef* m_pElemCB1_4_11_29;
-extern gslc_tsElemRef* m_pElemCB1_4_11_29_41;
-extern gslc_tsElemRef* m_pElemCB1_4_15_30;
-extern gslc_tsElemRef* m_pElemCB1_4_15_30_42;
-extern gslc_tsElemRef* m_pElemCB1_4_16_31;
-extern gslc_tsElemRef* m_pElemCB1_4_16_31_43;
-extern gslc_tsElemRef* m_pElemCB1_4_17_32;
-extern gslc_tsElemRef* m_pElemCB1_4_17_32_33;
-extern gslc_tsElemRef* m_pElemCB1_4_17_32_33_34;
-extern gslc_tsElemRef* m_pElemCB1_4_17_32_33_34_46;
-extern gslc_tsElemRef* m_pElemCB1_4_17_32_33_45;
-extern gslc_tsElemRef* m_pElemCB1_4_17_32_44;
-extern gslc_tsElemRef* m_pElemCB1_4_18;
-extern gslc_tsElemRef* m_pElemCB1_4_18_47;
-extern gslc_tsElemRef* m_pElemCB1_4_5_19;
-extern gslc_tsElemRef* m_pElemCB1_4_5_19_48;
-extern gslc_tsElemRef* m_pElemCB1_4_6_20;
-extern gslc_tsElemRef* m_pElemCB1_4_6_20_49;
-extern gslc_tsElemRef* m_pElemCB1_4_7_21;
-extern gslc_tsElemRef* m_pElemCB1_4_7_21_50;
-extern gslc_tsElemRef* m_pElemCB1_4_8_22;
-extern gslc_tsElemRef* m_pElemCB1_4_8_22_51;
-extern gslc_tsElemRef* m_pElemCB1_4_9_23;
-extern gslc_tsElemRef* m_pElemCB1_4_9_23_52;
 extern gslc_tsElemRef* m_pElemListbox1;
 extern gslc_tsElemRef* m_pElemListbox1_2;
 extern gslc_tsElemRef* m_pElemListbox1_2_3;
-extern gslc_tsElemRef* m_pElemOutTxt96;
-extern gslc_tsElemRef* m_pElemOutTxt98;
-extern gslc_tsElemRef* m_pElemProgress1_3;
-extern gslc_tsElemRef* m_pElemProgress1_4;
 extern gslc_tsElemRef* m_pElemTextbox2;
-extern gslc_tsElemRef* m_pElemTextbox2_3;
 extern gslc_tsElemRef* m_pListSlider1;
 extern gslc_tsElemRef* m_pListSlider1;
 extern gslc_tsElemRef* m_pListSlider1;
@@ -526,21 +524,30 @@ extern gslc_tsElemRef* name_char_5;
 extern gslc_tsElemRef* name_char_6;
 extern gslc_tsElemRef* name_char_7;
 extern gslc_tsElemRef* name_char_8;
+extern gslc_tsElemRef* new_after_check;
+extern gslc_tsElemRef* new_bed_check;
+extern gslc_tsElemRef* new_dinn_check;
+extern gslc_tsElemRef* new_lunch_check;
+extern gslc_tsElemRef* new_morn_check;
 extern gslc_tsElemRef* new_pw_digit_1;
 extern gslc_tsElemRef* new_pw_digit_2;
 extern gslc_tsElemRef* new_pw_digit_3;
 extern gslc_tsElemRef* new_pw_digit_4;
+extern gslc_tsElemRef* new_wake_check;
 extern gslc_tsElemRef* pills_refilled;
-extern gslc_tsElemRef* pw_digit_1_150;
-extern gslc_tsElemRef* pw_digit_2_151;
-extern gslc_tsElemRef* pw_digit_3_152;
-extern gslc_tsElemRef* pw_digit_4_153;
+extern gslc_tsElemRef* pw_digit_1;
+extern gslc_tsElemRef* pw_digit_2;
+extern gslc_tsElemRef* pw_digit_3;
+extern gslc_tsElemRef* pw_digit_4;
+extern gslc_tsElemRef* refill_bttn;
+extern gslc_tsElemRef* refill_bttn_2;
 extern gslc_tsElemRef* sel_drug_del;
 extern gslc_tsElemRef* sel_drug_edit1;
 extern gslc_tsElemRef* sel_drug_edit2;
 extern gslc_tsElemRef* sel_drug_edit3;
 extern gslc_tsElemRef* sel_drug_refill;
 extern gslc_tsElemRef* sound_check;
+extern gslc_tsElemRef* trip_bttn;
 extern gslc_tsElemRef* trip_date;
 extern gslc_tsElemRef* trip_day;
 extern gslc_tsElemRef* trip_hour;
@@ -757,6 +764,7 @@ void InitGUIslice_gen()
     GSLC_COL_BLUE_DK1,GSLC_ALIGN_MID_MID,true,true,&CbBtnCommon,NULL);
   // gslc_ElemSetRoundEn(); currently not supported by the FLASH _P calls.
   // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
+  refill_bttn = gslc_PageFindElemById(&m_gui,Prescription,E_ELEM_BTN7);
   
   // create E_ELEM_BTN8 button with text label
   gslc_ElemCreateBtnTxt_P(&m_gui,E_ELEM_BTN8,Prescription,410,270,60,40,
@@ -765,6 +773,7 @@ void InitGUIslice_gen()
     GSLC_COL_BLUE_DK1,GSLC_ALIGN_MID_MID,true,true,&CbBtnCommon,NULL);
   // gslc_ElemSetRoundEn(); currently not supported by the FLASH _P calls.
   // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
+  trip_bttn = gslc_PageFindElemById(&m_gui,Prescription,E_ELEM_BTN8);
   
   // create E_ELEM_BTN9 button with text label
   gslc_ElemCreateBtnTxt_P(&m_gui,E_ELEM_BTN9,Prescription,390,10,80,40,
@@ -878,19 +887,19 @@ void InitGUIslice_gen()
 
   // Create slider VOLUME_SLIDER 
   gslc_ElemXSliderCreate_P(&m_gui,VOLUME_SLIDER,Volume,120,130,240,40,
-          0,30,0,5,false,GSLC_COL_BLUE_DK2,GSLC_COL_WHITE);
+          0,30,0,10,false,GSLC_COL_BLUE_DK2,GSLC_COL_WHITE);
   pElemRef = gslc_PageFindElemById(&m_gui,Volume,VOLUME_SLIDER);
   gslc_ElemXSliderSetStyle(&m_gui,pElemRef,false,GSLC_COL_BLUE,10,5,((gslc_tsColor){255,0,178}));
   gslc_ElemXSliderSetPosFunc(&m_gui,pElemRef,&CbSlidePos);
   vol_slider = pElemRef;
   
   // Create E_ELEM_TEXT21 text label using flash API
-  gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT21,Volume,120,160,12,19,
+  gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT21,Volume,120,180,12,19,
     "0",&m_asFont[E_FREESANS12],
     ((gslc_tsColor){255,0,178}),GSLC_COL_GRAY,GSLC_COL_WHITE,GSLC_ALIGN_MID_LEFT,false,true);
   
   // Create E_ELEM_TEXT23 text label using flash API
-  gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT23,Volume,340,160,36,19,
+  gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT23,Volume,330,180,36,19,
     "100",&m_asFont[E_FREESANS12],
     ((gslc_tsColor){255,0,178}),GSLC_COL_GRAY,GSLC_COL_WHITE,GSLC_ALIGN_MID_LEFT,false,true);
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
@@ -1188,37 +1197,37 @@ void InitGUIslice_gen()
   // create checkbox E_ELEM_CHECK47 in flash 
   gslc_ElemXCheckboxCreate_P(&m_gui,E_ELEM_CHECK47,new_prescription_2,51,101,50,50,GSLC_COL_WHITE,true,
     GSLC_GROUP_ID_NONE,false,GSLCX_CHECKBOX_STYLE_BOX,((gslc_tsColor){255,0,178}),false);
-  m_pElemCB1_4_18_47 = gslc_PageFindElemById(&m_gui,new_prescription_2,E_ELEM_CHECK47);
+  add_mo_check = gslc_PageFindElemById(&m_gui,new_prescription_2,E_ELEM_CHECK47);
    
   // create checkbox E_ELEM_CHECK48 in flash 
   gslc_ElemXCheckboxCreate_P(&m_gui,E_ELEM_CHECK48,new_prescription_2,161,101,50,50,GSLC_COL_WHITE,true,
     GSLC_GROUP_ID_NONE,false,GSLCX_CHECKBOX_STYLE_BOX,((gslc_tsColor){255,0,178}),false);
-  m_pElemCB1_4_5_19_48 = gslc_PageFindElemById(&m_gui,new_prescription_2,E_ELEM_CHECK48);
+  add_tue_check = gslc_PageFindElemById(&m_gui,new_prescription_2,E_ELEM_CHECK48);
    
   // create checkbox E_ELEM_CHECK49 in flash 
   gslc_ElemXCheckboxCreate_P(&m_gui,E_ELEM_CHECK49,new_prescription_2,271,101,50,50,GSLC_COL_WHITE,true,
     GSLC_GROUP_ID_NONE,false,GSLCX_CHECKBOX_STYLE_BOX,((gslc_tsColor){255,0,178}),false);
-  m_pElemCB1_4_6_20_49 = gslc_PageFindElemById(&m_gui,new_prescription_2,E_ELEM_CHECK49);
+  add_wed_check = gslc_PageFindElemById(&m_gui,new_prescription_2,E_ELEM_CHECK49);
    
   // create checkbox E_ELEM_CHECK50 in flash 
   gslc_ElemXCheckboxCreate_P(&m_gui,E_ELEM_CHECK50,new_prescription_2,381,101,50,50,GSLC_COL_WHITE,true,
     GSLC_GROUP_ID_NONE,false,GSLCX_CHECKBOX_STYLE_BOX,((gslc_tsColor){255,0,178}),false);
-  m_pElemCB1_4_7_21_50 = gslc_PageFindElemById(&m_gui,new_prescription_2,E_ELEM_CHECK50);
+  add_thu_check = gslc_PageFindElemById(&m_gui,new_prescription_2,E_ELEM_CHECK50);
    
   // create checkbox E_ELEM_CHECK51 in flash 
   gslc_ElemXCheckboxCreate_P(&m_gui,E_ELEM_CHECK51,new_prescription_2,50,190,50,50,GSLC_COL_WHITE,true,
     GSLC_GROUP_ID_NONE,false,GSLCX_CHECKBOX_STYLE_BOX,((gslc_tsColor){255,0,178}),false);
-  m_pElemCB1_4_8_22_51 = gslc_PageFindElemById(&m_gui,new_prescription_2,E_ELEM_CHECK51);
+  add_fri_check = gslc_PageFindElemById(&m_gui,new_prescription_2,E_ELEM_CHECK51);
    
   // create checkbox E_ELEM_CHECK52 in flash 
   gslc_ElemXCheckboxCreate_P(&m_gui,E_ELEM_CHECK52,new_prescription_2,160,190,50,50,GSLC_COL_WHITE,true,
     GSLC_GROUP_ID_NONE,false,GSLCX_CHECKBOX_STYLE_BOX,((gslc_tsColor){255,0,178}),false);
-  m_pElemCB1_4_9_23_52 = gslc_PageFindElemById(&m_gui,new_prescription_2,E_ELEM_CHECK52);
+  add_sat_check = gslc_PageFindElemById(&m_gui,new_prescription_2,E_ELEM_CHECK52);
    
   // create checkbox E_ELEM_CHECK53 in flash 
   gslc_ElemXCheckboxCreate_P(&m_gui,E_ELEM_CHECK53,new_prescription_2,270,190,50,50,GSLC_COL_WHITE,true,
     GSLC_GROUP_ID_NONE,false,GSLCX_CHECKBOX_STYLE_BOX,((gslc_tsColor){255,0,178}),false);
-  m_pElemCB1_4_10_24_53 = gslc_PageFindElemById(&m_gui,new_prescription_2,E_ELEM_CHECK53);
+  add_sun_check = gslc_PageFindElemById(&m_gui,new_prescription_2,E_ELEM_CHECK53);
   
   // Create E_ELEM_TEXT198 text label using flash API
   gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT198,new_prescription_2,65,154,24,15,
@@ -1288,7 +1297,7 @@ void InitGUIslice_gen()
   gslc_ElemXProgressCreate_P(&m_gui,E_ELEM_PROGRESS3,Alarm_message,120,230,240,40,
     0,100,100,
     GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_COL_GREEN,false);
-  m_pElemProgress1_3 = gslc_PageFindElemById(&m_gui,Alarm_message,E_ELEM_PROGRESS3);
+  alarm_progress = gslc_PageFindElemById(&m_gui,Alarm_message,E_ELEM_PROGRESS3);
   
   // Create E_ELEM_TEXT78 modifiable text using flash API
   static char m_sDisplayText78[21] = "30min left to take them";
@@ -1342,7 +1351,7 @@ void InitGUIslice_gen()
   gslc_ElemXTextboxWrapSet(&m_gui,pElemRef,false);
   gslc_ElemSetTxtCol(&m_gui,pElemRef,((gslc_tsColor){255,0,178}));
   gslc_ElemSetCol(&m_gui,pElemRef,GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_COL_BLUE_DK2);
-  m_pElemTextbox2_3 = pElemRef;
+  listbox_pill_given = pElemRef;
 
   // -----------------------------------
   // PAGE: add_edit
@@ -1369,6 +1378,7 @@ void InitGUIslice_gen()
     GSLC_COL_BLUE_DK1,GSLC_ALIGN_MID_MID,true,true,&CbBtnCommon,NULL);
   // gslc_ElemSetRoundEn(); currently not supported by the FLASH _P calls.
   // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
+  edit_p_bttn = gslc_PageFindElemById(&m_gui,add_edit,E_ELEM_BTN24);
   
   // create E_ELEM_BTN25 button with text label
   gslc_ElemCreateBtnTxt_P(&m_gui,E_ELEM_BTN25,add_edit,10,270,60,40,
@@ -1403,6 +1413,7 @@ void InitGUIslice_gen()
     GSLC_COL_BLUE_DK1,GSLC_ALIGN_MID_MID,true,true,&CbBtnCommon,NULL);
   // gslc_ElemSetRoundEn(); currently not supported by the FLASH _P calls.
   // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
+  edit_p_bttn_2 = gslc_PageFindElemById(&m_gui,edit_prescription_1,E_ELEM_BTN27);
    
   // Create listbox
   pElemRef = gslc_ElemXListboxCreate(&m_gui,PRESCRIPTION_LISTBOX,edit_prescription_1,&m_sListbox2,
@@ -1430,6 +1441,7 @@ void InitGUIslice_gen()
     GSLC_COL_BLUE_DK1,GSLC_ALIGN_MID_MID,true,true,&CbBtnCommon,NULL);
   // gslc_ElemSetRoundEn(); currently not supported by the FLASH _P calls.
   // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
+  del_p_bttn = gslc_PageFindElemById(&m_gui,edit_prescription_1,E_ELEM_BTN32);
 
   // -----------------------------------
   // PAGE: edit_prescription_2
@@ -1471,7 +1483,7 @@ void InitGUIslice_gen()
     true,false,false,false,NULL,NULL,NULL,NULL);
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
   // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
-  m_pElemOutTxt96 = gslc_PageFindElemById(&m_gui,edit_prescription_2,E_ELEM_TEXT96);
+  edit_rack_nb = gslc_PageFindElemById(&m_gui,edit_prescription_2,E_ELEM_TEXT96);
   
   // Create E_ELEM_TEXT97 text label using flash API
   gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT97,edit_prescription_2,149,214,203,28,
@@ -1487,7 +1499,7 @@ void InitGUIslice_gen()
     true,false,false,false,NULL,NULL,NULL,NULL);
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
   // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
-  m_pElemOutTxt98 = gslc_PageFindElemById(&m_gui,edit_prescription_2,E_ELEM_TEXT98);
+  edit_pfilled = gslc_PageFindElemById(&m_gui,edit_prescription_2,E_ELEM_TEXT98);
   
   // Create E_ELEM_TEXT99 text label using flash API
   gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT99,edit_prescription_2,80,50,122,23,
@@ -1531,37 +1543,37 @@ void InitGUIslice_gen()
   // create checkbox E_ELEM_CHECK18 in flash 
   gslc_ElemXCheckboxCreate_P(&m_gui,E_ELEM_CHECK18,edit_prescription_3,51,101,50,50,GSLC_COL_WHITE,true,
     GSLC_GROUP_ID_NONE,false,GSLCX_CHECKBOX_STYLE_BOX,((gslc_tsColor){255,0,178}),false);
-  m_pElemCB1_4_18 = gslc_PageFindElemById(&m_gui,edit_prescription_3,E_ELEM_CHECK18);
+  edit_mo_check = gslc_PageFindElemById(&m_gui,edit_prescription_3,E_ELEM_CHECK18);
    
   // create checkbox E_ELEM_CHECK19 in flash 
   gslc_ElemXCheckboxCreate_P(&m_gui,E_ELEM_CHECK19,edit_prescription_3,161,101,50,50,GSLC_COL_WHITE,true,
     GSLC_GROUP_ID_NONE,false,GSLCX_CHECKBOX_STYLE_BOX,((gslc_tsColor){255,0,178}),false);
-  m_pElemCB1_4_5_19 = gslc_PageFindElemById(&m_gui,edit_prescription_3,E_ELEM_CHECK19);
+  edit_tue_check = gslc_PageFindElemById(&m_gui,edit_prescription_3,E_ELEM_CHECK19);
    
   // create checkbox E_ELEM_CHECK20 in flash 
   gslc_ElemXCheckboxCreate_P(&m_gui,E_ELEM_CHECK20,edit_prescription_3,271,101,50,50,GSLC_COL_WHITE,true,
     GSLC_GROUP_ID_NONE,false,GSLCX_CHECKBOX_STYLE_BOX,((gslc_tsColor){255,0,178}),false);
-  m_pElemCB1_4_6_20 = gslc_PageFindElemById(&m_gui,edit_prescription_3,E_ELEM_CHECK20);
+  edit_wed_check = gslc_PageFindElemById(&m_gui,edit_prescription_3,E_ELEM_CHECK20);
    
   // create checkbox E_ELEM_CHECK21 in flash 
   gslc_ElemXCheckboxCreate_P(&m_gui,E_ELEM_CHECK21,edit_prescription_3,381,101,50,50,GSLC_COL_WHITE,true,
     GSLC_GROUP_ID_NONE,false,GSLCX_CHECKBOX_STYLE_BOX,((gslc_tsColor){255,0,178}),false);
-  m_pElemCB1_4_7_21 = gslc_PageFindElemById(&m_gui,edit_prescription_3,E_ELEM_CHECK21);
+  edit_thu_check = gslc_PageFindElemById(&m_gui,edit_prescription_3,E_ELEM_CHECK21);
    
   // create checkbox E_ELEM_CHECK22 in flash 
   gslc_ElemXCheckboxCreate_P(&m_gui,E_ELEM_CHECK22,edit_prescription_3,50,190,50,50,GSLC_COL_WHITE,true,
     GSLC_GROUP_ID_NONE,false,GSLCX_CHECKBOX_STYLE_BOX,((gslc_tsColor){255,0,178}),false);
-  m_pElemCB1_4_8_22 = gslc_PageFindElemById(&m_gui,edit_prescription_3,E_ELEM_CHECK22);
+  edit_fri_check = gslc_PageFindElemById(&m_gui,edit_prescription_3,E_ELEM_CHECK22);
    
   // create checkbox E_ELEM_CHECK23 in flash 
   gslc_ElemXCheckboxCreate_P(&m_gui,E_ELEM_CHECK23,edit_prescription_3,160,190,50,50,GSLC_COL_WHITE,true,
     GSLC_GROUP_ID_NONE,false,GSLCX_CHECKBOX_STYLE_BOX,((gslc_tsColor){255,0,178}),false);
-  m_pElemCB1_4_9_23 = gslc_PageFindElemById(&m_gui,edit_prescription_3,E_ELEM_CHECK23);
+  edit_sat_check = gslc_PageFindElemById(&m_gui,edit_prescription_3,E_ELEM_CHECK23);
    
   // create checkbox E_ELEM_CHECK24 in flash 
   gslc_ElemXCheckboxCreate_P(&m_gui,E_ELEM_CHECK24,edit_prescription_3,270,190,50,50,GSLC_COL_WHITE,true,
     GSLC_GROUP_ID_NONE,false,GSLCX_CHECKBOX_STYLE_BOX,((gslc_tsColor){255,0,178}),false);
-  m_pElemCB1_4_10_24 = gslc_PageFindElemById(&m_gui,edit_prescription_3,E_ELEM_CHECK24);
+  edit_sun_check = gslc_PageFindElemById(&m_gui,edit_prescription_3,E_ELEM_CHECK24);
   
   // Create E_ELEM_TEXT103 text label using flash API
   gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT103,edit_prescription_3,65,154,24,15,
@@ -1671,7 +1683,7 @@ void InitGUIslice_gen()
     GSLC_COL_PURPLE,GSLC_COL_PURPLE,GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_ALIGN_MID_MID,10,10,
     false,false,false,false,NULL,NULL,NULL,NULL);
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
-  empty_rack = gslc_PageFindElemById(&m_gui,delete_done,RACK_NUMBER_TEXT);
+  empty_rack_txt = gslc_PageFindElemById(&m_gui,delete_done,RACK_NUMBER_TEXT);
 
   // -----------------------------------
   // PAGE: refill_1
@@ -1698,6 +1710,7 @@ void InitGUIslice_gen()
     GSLC_COL_BLUE_DK1,GSLC_ALIGN_MID_MID,true,true,&CbBtnCommon,NULL);
   // gslc_ElemSetRoundEn(); currently not supported by the FLASH _P calls.
   // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
+  refill_bttn_2 = gslc_PageFindElemById(&m_gui,refill_1,E_ELEM_BTN37);
    
   // Create listbox
   pElemRef = gslc_ElemXListboxCreate(&m_gui,PRESCRIPTION_LISTBOX_2,refill_1,&m_sListbox3,
@@ -1903,7 +1916,7 @@ void InitGUIslice_gen()
     true,false,false,false,NULL,NULL,NULL,NULL);
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
   // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
-  pw_digit_1_150 = gslc_PageFindElemById(&m_gui,password,E_ELEM_TEXT150);
+  pw_digit_1 = gslc_PageFindElemById(&m_gui,password,E_ELEM_TEXT150);
   
   // Create E_ELEM_TEXT151 modifiable text using flash API
   static char m_sDisplayText151[2] = "0";
@@ -1913,7 +1926,7 @@ void InitGUIslice_gen()
     true,false,false,false,NULL,NULL,NULL,NULL);
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
   // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
-  pw_digit_2_151 = gslc_PageFindElemById(&m_gui,password,E_ELEM_TEXT151);
+  pw_digit_2 = gslc_PageFindElemById(&m_gui,password,E_ELEM_TEXT151);
   
   // Create E_ELEM_TEXT152 modifiable text using flash API
   static char m_sDisplayText152[2] = "0";
@@ -1923,7 +1936,7 @@ void InitGUIslice_gen()
     true,false,false,false,NULL,NULL,NULL,NULL);
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
   // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
-  pw_digit_3_152 = gslc_PageFindElemById(&m_gui,password,E_ELEM_TEXT152);
+  pw_digit_3 = gslc_PageFindElemById(&m_gui,password,E_ELEM_TEXT152);
   
   // Create E_ELEM_TEXT153 modifiable text using flash API
   static char m_sDisplayText153[2] = "0";
@@ -1933,7 +1946,7 @@ void InitGUIslice_gen()
     true,false,false,false,NULL,NULL,NULL,NULL);
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
   // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
-  pw_digit_4_153 = gslc_PageFindElemById(&m_gui,password,E_ELEM_TEXT153);
+  pw_digit_4 = gslc_PageFindElemById(&m_gui,password,E_ELEM_TEXT153);
   
   // create E_ELEM_BTN42 button with text label
   gslc_ElemCreateBtnTxt_P(&m_gui,E_ELEM_BTN42,password,10,270,60,40,
@@ -1960,7 +1973,7 @@ void InitGUIslice_gen()
   gslc_ElemXProgressCreate_P(&m_gui,E_ELEM_PROGRESS4,dispensing,120,160,240,40,
     0,100,0,
     GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_COL_GREEN,false);
-  m_pElemProgress1_4 = gslc_PageFindElemById(&m_gui,dispensing,E_ELEM_PROGRESS4);
+  dispense_progress = gslc_PageFindElemById(&m_gui,dispensing,E_ELEM_PROGRESS4);
   
   // Create E_ELEM_TEXT155 text label using flash API
   gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT155,dispensing,62,20,356,44,
@@ -2044,6 +2057,7 @@ void InitGUIslice_gen()
     GSLC_COL_BLUE_DK1,GSLC_ALIGN_MID_MID,true,true,&CbBtnCommon,NULL);
   // gslc_ElemSetRoundEn(); currently not supported by the FLASH _P calls.
   // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
+  del_pw_bttn = gslc_PageFindElemById(&m_gui,pw_options,E_ELEM_BTN45);
   
   // create E_ELEM_BTN46 button with text label
   gslc_ElemCreateBtnTxt_P(&m_gui,E_ELEM_BTN46,pw_options,310,270,160,40,
@@ -2124,22 +2138,22 @@ void InitGUIslice_gen()
   // create checkbox E_ELEM_CHECK29 in flash 
   gslc_ElemXCheckboxCreate_P(&m_gui,E_ELEM_CHECK29,new_prescription_3,60,100,50,50,GSLC_COL_WHITE,true,
     GSLC_GROUP_ID_NONE,false,GSLCX_CHECKBOX_STYLE_BOX,((gslc_tsColor){255,0,178}),false);
-  m_pElemCB1_4_11_29 = gslc_PageFindElemById(&m_gui,new_prescription_3,E_ELEM_CHECK29);
+  new_wake_check = gslc_PageFindElemById(&m_gui,new_prescription_3,E_ELEM_CHECK29);
    
   // create checkbox E_ELEM_CHECK30 in flash 
   gslc_ElemXCheckboxCreate_P(&m_gui,E_ELEM_CHECK30,new_prescription_3,210,100,50,50,GSLC_COL_WHITE,true,
     GSLC_GROUP_ID_NONE,false,GSLCX_CHECKBOX_STYLE_BOX,((gslc_tsColor){255,0,178}),false);
-  m_pElemCB1_4_15_30 = gslc_PageFindElemById(&m_gui,new_prescription_3,E_ELEM_CHECK30);
+  new_morn_check = gslc_PageFindElemById(&m_gui,new_prescription_3,E_ELEM_CHECK30);
    
   // create checkbox E_ELEM_CHECK31 in flash 
   gslc_ElemXCheckboxCreate_P(&m_gui,E_ELEM_CHECK31,new_prescription_3,360,100,50,50,GSLC_COL_WHITE,true,
     GSLC_GROUP_ID_NONE,false,GSLCX_CHECKBOX_STYLE_BOX,((gslc_tsColor){255,0,178}),false);
-  m_pElemCB1_4_16_31 = gslc_PageFindElemById(&m_gui,new_prescription_3,E_ELEM_CHECK31);
+  new_lunch_check = gslc_PageFindElemById(&m_gui,new_prescription_3,E_ELEM_CHECK31);
    
   // create checkbox E_ELEM_CHECK32 in flash 
   gslc_ElemXCheckboxCreate_P(&m_gui,E_ELEM_CHECK32,new_prescription_3,60,190,50,50,GSLC_COL_WHITE,true,
     GSLC_GROUP_ID_NONE,false,GSLCX_CHECKBOX_STYLE_BOX,((gslc_tsColor){255,0,178}),false);
-  m_pElemCB1_4_17_32 = gslc_PageFindElemById(&m_gui,new_prescription_3,E_ELEM_CHECK32);
+  new_after_check = gslc_PageFindElemById(&m_gui,new_prescription_3,E_ELEM_CHECK32);
   
   // Create E_ELEM_TEXT170 text label using flash API
   gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT170,new_prescription_3,205,150,64,15,
@@ -2184,12 +2198,12 @@ void InitGUIslice_gen()
   // create checkbox E_ELEM_CHECK33 in flash 
   gslc_ElemXCheckboxCreate_P(&m_gui,E_ELEM_CHECK33,new_prescription_3,210,190,50,50,GSLC_COL_WHITE,true,
     GSLC_GROUP_ID_NONE,false,GSLCX_CHECKBOX_STYLE_BOX,((gslc_tsColor){255,0,178}),false);
-  m_pElemCB1_4_17_32_33 = gslc_PageFindElemById(&m_gui,new_prescription_3,E_ELEM_CHECK33);
+  new_dinn_check = gslc_PageFindElemById(&m_gui,new_prescription_3,E_ELEM_CHECK33);
    
   // create checkbox E_ELEM_CHECK34 in flash 
   gslc_ElemXCheckboxCreate_P(&m_gui,E_ELEM_CHECK34,new_prescription_3,360,190,50,50,GSLC_COL_WHITE,true,
     GSLC_GROUP_ID_NONE,false,GSLCX_CHECKBOX_STYLE_BOX,((gslc_tsColor){255,0,178}),false);
-  m_pElemCB1_4_17_32_33_34 = gslc_PageFindElemById(&m_gui,new_prescription_3,E_ELEM_CHECK34);
+  new_bed_check = gslc_PageFindElemById(&m_gui,new_prescription_3,E_ELEM_CHECK34);
   
   // Create E_ELEM_TEXT175 text label using flash API
   gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT175,new_prescription_3,50,240,75,15,
@@ -2228,22 +2242,22 @@ void InitGUIslice_gen()
   // create checkbox E_ELEM_CHECK41 in flash 
   gslc_ElemXCheckboxCreate_P(&m_gui,E_ELEM_CHECK41,edit_prescription_4,60,100,50,50,GSLC_COL_WHITE,true,
     GSLC_GROUP_ID_NONE,false,GSLCX_CHECKBOX_STYLE_BOX,((gslc_tsColor){255,0,178}),false);
-  m_pElemCB1_4_11_29_41 = gslc_PageFindElemById(&m_gui,edit_prescription_4,E_ELEM_CHECK41);
+  edit_wake_check = gslc_PageFindElemById(&m_gui,edit_prescription_4,E_ELEM_CHECK41);
    
   // create checkbox E_ELEM_CHECK42 in flash 
   gslc_ElemXCheckboxCreate_P(&m_gui,E_ELEM_CHECK42,edit_prescription_4,210,100,50,50,GSLC_COL_WHITE,true,
     GSLC_GROUP_ID_NONE,false,GSLCX_CHECKBOX_STYLE_BOX,((gslc_tsColor){255,0,178}),false);
-  m_pElemCB1_4_15_30_42 = gslc_PageFindElemById(&m_gui,edit_prescription_4,E_ELEM_CHECK42);
+  edit_morn_check = gslc_PageFindElemById(&m_gui,edit_prescription_4,E_ELEM_CHECK42);
    
   // create checkbox E_ELEM_CHECK43 in flash 
   gslc_ElemXCheckboxCreate_P(&m_gui,E_ELEM_CHECK43,edit_prescription_4,360,100,50,50,GSLC_COL_WHITE,true,
     GSLC_GROUP_ID_NONE,false,GSLCX_CHECKBOX_STYLE_BOX,((gslc_tsColor){255,0,178}),false);
-  m_pElemCB1_4_16_31_43 = gslc_PageFindElemById(&m_gui,edit_prescription_4,E_ELEM_CHECK43);
+  edit_lunch_check = gslc_PageFindElemById(&m_gui,edit_prescription_4,E_ELEM_CHECK43);
    
   // create checkbox E_ELEM_CHECK44 in flash 
   gslc_ElemXCheckboxCreate_P(&m_gui,E_ELEM_CHECK44,edit_prescription_4,60,190,50,50,GSLC_COL_WHITE,true,
     GSLC_GROUP_ID_NONE,false,GSLCX_CHECKBOX_STYLE_BOX,((gslc_tsColor){255,0,178}),false);
-  m_pElemCB1_4_17_32_44 = gslc_PageFindElemById(&m_gui,edit_prescription_4,E_ELEM_CHECK44);
+  edit_after_check = gslc_PageFindElemById(&m_gui,edit_prescription_4,E_ELEM_CHECK44);
   
   // Create E_ELEM_TEXT188 text label using flash API
   gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT188,edit_prescription_4,205,150,64,15,
@@ -2282,12 +2296,12 @@ void InitGUIslice_gen()
   // create checkbox E_ELEM_CHECK45 in flash 
   gslc_ElemXCheckboxCreate_P(&m_gui,E_ELEM_CHECK45,edit_prescription_4,210,190,50,50,GSLC_COL_WHITE,true,
     GSLC_GROUP_ID_NONE,false,GSLCX_CHECKBOX_STYLE_BOX,((gslc_tsColor){255,0,178}),false);
-  m_pElemCB1_4_17_32_33_45 = gslc_PageFindElemById(&m_gui,edit_prescription_4,E_ELEM_CHECK45);
+  edit_dinn_check = gslc_PageFindElemById(&m_gui,edit_prescription_4,E_ELEM_CHECK45);
    
   // create checkbox E_ELEM_CHECK46 in flash 
   gslc_ElemXCheckboxCreate_P(&m_gui,E_ELEM_CHECK46,edit_prescription_4,360,190,50,50,GSLC_COL_WHITE,true,
     GSLC_GROUP_ID_NONE,false,GSLCX_CHECKBOX_STYLE_BOX,((gslc_tsColor){255,0,178}),false);
-  m_pElemCB1_4_17_32_33_34_46 = gslc_PageFindElemById(&m_gui,edit_prescription_4,E_ELEM_CHECK46);
+  edit_bed_check = gslc_PageFindElemById(&m_gui,edit_prescription_4,E_ELEM_CHECK46);
   
   // Create E_ELEM_TEXT192 text label using flash API
   gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT192,edit_prescription_4,50,240,75,15,
