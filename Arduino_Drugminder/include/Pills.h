@@ -6,13 +6,10 @@
 using namespace std;
 
 #define NB_RACKS 10
-
-//attention quand on passe au code arduino il faut rajouter changer string en String
-
 struct Pill_param{
     String name = "None";
-    unsigned int ra;
-    unsigned int amount;
+    unsigned int ra = 0;
+    unsigned int amount = 0;
     bool al_day[WEEK_DAYS] = {false};
     bool al_t[NB_OF_ALARMS]= {false};
 };
