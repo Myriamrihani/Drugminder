@@ -468,7 +468,7 @@ extern gslc_tsElemRef* add_wed_check;
 extern gslc_tsElemRef* after_h;
 extern gslc_tsElemRef* after_min;
 extern gslc_tsElemRef* alarm_progress;
-extern gslc_tsElemRef* bde_min;
+extern gslc_tsElemRef* bed_min;
 extern gslc_tsElemRef* bed_h;
 extern gslc_tsElemRef* date_set;
 extern gslc_tsElemRef* day_set;
@@ -2552,7 +2552,7 @@ void InitGUIslice_gen()
     true,false,false,false,NULL,NULL,NULL,NULL);
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
   // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
-  bde_min = gslc_PageFindElemById(&m_gui,alarm_times,E_ELEM_TEXT230);
+  bed_min = gslc_PageFindElemById(&m_gui,alarm_times,E_ELEM_TEXT230);
 //<InitGUI !End!>
 
 //<Startup !Start!>

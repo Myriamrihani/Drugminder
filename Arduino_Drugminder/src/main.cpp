@@ -35,7 +35,7 @@ gslc_tsElemRef* add_wed_check     = NULL;
 gslc_tsElemRef* after_h           = NULL;
 gslc_tsElemRef* after_min         = NULL;
 gslc_tsElemRef* alarm_progress    = NULL;
-gslc_tsElemRef* bde_min           = NULL;
+gslc_tsElemRef* bed_min           = NULL;
 gslc_tsElemRef* bed_h             = NULL;
 gslc_tsElemRef* date_set          = NULL;
 gslc_tsElemRef* day_set           = NULL;
@@ -523,6 +523,52 @@ void check_encoder(int16_t current_page){
     
     case alarm_times:
       encoder_enabled = true;
+      switch(pos_encoder){
+        case 0:
+          the_setting.cycle.wake_up.hour = change_element_encoder(the_setting.cycle.wake_up.hour,0,MAX_H-1,wake_h,TEXT_INT);
+          break;
+        case 1:
+          the_setting.cycle.wake_up.minute = change_element_encoder(the_setting.cycle.wake_up.minute,0,MAX_MIN-1,wake_min,TEXT_INT);
+          break;
+        case 2:
+          the_setting.cycle.morning.hour = change_element_encoder(the_setting.cycle.morning.hour,0,MAX_H-1,morn_h,TEXT_INT);
+          break;
+        case 3:
+          the_setting.cycle.morning.minute = change_element_encoder(the_setting.cycle.morning.minute,0,MAX_MIN-1,morn_min,TEXT_INT);
+          break;
+        case 4:
+          the_setting.cycle.lunch.hour = change_element_encoder(the_setting.cycle.lunch.hour,0,MAX_H-1,lunch_h,TEXT_INT);
+          break;
+        case 5:
+          the_setting.cycle.lunch.minute = change_element_encoder(the_setting.cycle.lunch.minute,0,MAX_MIN-1,lunch_min,TEXT_INT);
+          break;
+        case 6:
+          the_setting.cycle.afternoon.hour = change_element_encoder(the_setting.cycle.afternoon.hour,0,MAX_H-1,after_h,TEXT_INT);
+          break;
+        case 7:
+          the_setting.cycle.afternoon.minute = change_element_encoder(the_setting.cycle.afternoon.minute,0,MAX_MIN-1,after_min,TEXT_INT);
+          break;
+         case 8:
+          the_setting.cycle.dinner.hour = change_element_encoder(the_setting.cycle.dinner.hour,0,MAX_H-1,dinn_h,TEXT_INT);
+          break;
+        case 9:
+          the_setting.cycle.dinner.minute = change_element_encoder(the_setting.cycle.dinner.minute,0,MAX_MIN-1,dinn_min,TEXT_INT);
+          break;
+         case 10:
+          the_setting.cycle.bedtime.hour = change_element_encoder(the_setting.cycle.bedtime.hour,0,MAX_H-1,bed_h,TEXT_INT);
+          break;
+        case 11:
+          the_setting.cycle.bedtime.minute = change_element_encoder(the_setting.cycle.bedtime.minute,0,MAX_MIN-1,bed_min,TEXT_INT);
+          break;
+      }
+
+      if(enc_btnAction == true){
+        pos_encoder++;
+      }
+      //go to beginning after all changed (loop)
+      if(pos_encoder>=12){pos_encoder=0;}
+
+      enc_btnAction = false;
       break;
 
     case Date_hour:
@@ -876,6 +922,7 @@ void btn3_action(int16_t current_page){
 
     case alarm_times:
       //save all the alarm times too
+      pos_encoder = 0;
       gslc_SetPageCur(&m_gui,settings);
       break;
 
@@ -892,7 +939,7 @@ void btn3_action(int16_t current_page){
 
 void btn4_action(int16_t current_page){
   switch(current_page){
-    
+    char s[12];
     case med_list:
       gslc_SetPageCur(&m_gui,Default);
       break;
@@ -900,6 +947,11 @@ void btn4_action(int16_t current_page){
     case password:
       gslc_SetPageCur(&m_gui,Default);
       pw_for_pres = false;
+      temp_pw_1 = temp_pw_2 = temp_pw_3 = temp_pw_4 = pos_encoder = 0;
+      gslc_ElemSetTxtStr(&m_gui,pw_digit_1,itoa(0, s, 10 ));
+      gslc_ElemSetTxtStr(&m_gui,pw_digit_2,itoa(0, s, 10 ));
+      gslc_ElemSetTxtStr(&m_gui,pw_digit_3,itoa(0, s, 10 ));
+      gslc_ElemSetTxtStr(&m_gui,pw_digit_4,itoa(0, s, 10 ));
       break;
 
     case settings:
@@ -924,11 +976,17 @@ void btn4_action(int16_t current_page){
       break;
 
     case alarm_times:
+      pos_encoder = 0;
       gslc_SetPageCur(&m_gui,settings);
       break;
 
     case Set_password:
       gslc_SetPageCur(&m_gui,pw_options);
+      temp_pw_1 = temp_pw_2 = temp_pw_3 = temp_pw_4 = pos_encoder = 0;
+      gslc_ElemSetTxtStr(&m_gui,new_pw_digit_1,itoa(0, s, 10 ));
+      gslc_ElemSetTxtStr(&m_gui,new_pw_digit_2,itoa(0, s, 10 ));
+      gslc_ElemSetTxtStr(&m_gui,new_pw_digit_3,itoa(0, s, 10 ));
+      gslc_ElemSetTxtStr(&m_gui,new_pw_digit_4,itoa(0, s, 10 ));
       break;
 
     case pw_del_conf:
