@@ -386,6 +386,7 @@ int status4 = false;
 int enc_btnState = false;
 bool encoder_enabled = false;
 bool enc_btnAction = false;
+bool pw_enabled = false;
 int settings_item = 0;
 int pos_encoder =0;
 
@@ -500,7 +501,13 @@ void check_encoder(int16_t current_page){
             gslc_SetPageCur(&m_gui,Volume);
             break;
           case 4:
-            gslc_SetPageCur(&m_gui,password);
+            if(pw_enabled == true){
+              gslc_SetPageCur(&m_gui,password);
+            }
+            else{
+              //gslc_ElemSetVisible(&m_gui,del_pw_bttn,false);
+              gslc_SetPageCur(&m_gui,pw_options);
+            }
             break;
         }
         enc_btnAction = false;
@@ -519,7 +526,6 @@ void check_encoder(int16_t current_page){
         if(currentDir == 1 && the_setting.current_date.day<WEEK_DAYS-1){
           the_setting.current_date.day++;
           currentDir=0;
-          // String s = leonardo[1];
           gslc_ElemSetTxtStr(&m_gui,day_set,week_str[the_setting.current_date.day]);
         }else if(currentDir == -1 && the_setting.current_date.day>0){
           the_setting.current_date.day--;
@@ -532,12 +538,36 @@ void check_encoder(int16_t current_page){
         if(currentDir == 1 && the_setting.current_date.month_day<MONTH_DAY-1){
           the_setting.current_date.month_day++;
           currentDir=0;
-
           gslc_ElemSetTxtStr(&m_gui,date_set,itoa( the_setting.current_date.month_day, s, 10 ));
+
         }else if(currentDir == -1 && the_setting.current_date.month_day>1){
           the_setting.current_date.month_day--;
           currentDir=0;
           gslc_ElemSetTxtStr(&m_gui,date_set,itoa( the_setting.current_date.month_day, s, 10 ));
+        }
+        break;
+        case 2:
+          if(currentDir == 1 && the_setting.current_date.time.hour<MAX_H-1){
+          the_setting.current_date.time.hour++;
+          currentDir=0;
+          gslc_ElemSetTxtStr(&m_gui,hour_set,itoa( the_setting.current_date.time.hour, s, 10 ));
+
+        }else if(currentDir == -1 && the_setting.current_date.time.hour>0){
+          the_setting.current_date.time.hour--;
+          currentDir=0;
+          gslc_ElemSetTxtStr(&m_gui,hour_set,itoa( the_setting.current_date.time.hour, s, 10 ));
+        }
+        break;
+        case 3:
+          if(currentDir == 1 && the_setting.current_date.time.minute<MAX_MIN-1){
+          the_setting.current_date.time.minute++;
+          currentDir=0;
+          gslc_ElemSetTxtStr(&m_gui,min_set,itoa( the_setting.current_date.time.minute, s, 10 ));
+
+        }else if(currentDir == -1 && the_setting.current_date.time.minute>0){
+          the_setting.current_date.time.minute--;
+          currentDir=0;
+          gslc_ElemSetTxtStr(&m_gui,min_set,itoa( the_setting.current_date.time.minute, s, 10 ));
         }
         break;
       
@@ -548,8 +578,9 @@ void check_encoder(int16_t current_page){
       if(enc_btnAction == true){
         pos_encoder++;
       }
-      enc_btnAction = false;  
-      break;
+      enc_btnAction = false;
+
+    break;
 
     case Volume:
       encoder_enabled = true;
