@@ -3,7 +3,6 @@ using namespace std;
 #include <Settings.h>
 
 const char* week_str[WEEK_DAYS] = {"Mo" , "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
-const char* month_num[MONTH_DAY] = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21"};
 
 
 Settings the_setting;

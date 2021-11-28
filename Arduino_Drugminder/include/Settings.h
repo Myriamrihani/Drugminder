@@ -23,7 +23,6 @@ enum alarm_type {None, Sound, Light, Both};
 enum alarm_cycle {wake, morn, lun, after, din, bed};
 
 extern const char* week_str[WEEK_DAYS];
-extern const char* month_num[MONTH_DAY];
 
 struct Time{
     unsigned int hour;
