@@ -3,6 +3,12 @@
 #include <Arduino.h>
 using namespace std;
 
+
+#define TEXT_INT        0
+#define TEXT_WEEKDAY    1
+#define SLIDER          2
+#define LISTBOX_POS     3
+
 #define NB_OF_ALARMS    6 
 #define WEEK_DAYS       7
 #define MAX_VOLUME      30

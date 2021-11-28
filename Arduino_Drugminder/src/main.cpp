@@ -409,6 +409,7 @@ void btn3_action(int16_t current_page);
 void btn4_action(int16_t current_page);
 void updateEncoder();
 void check_encoder(int16_t current_page);
+int change_element_encoder(int value, int min_val, int max_val, gslc_tsElemRef * element, int element_type);
 
 
 void setup()
@@ -489,15 +490,8 @@ void check_encoder(int16_t current_page){
   switch (current_page){
     case settings:
       encoder_enabled = true;
-      if(currentDir == 1 && settings_item<NB_SETTINGS_ITEM-1){
-        settings_item++;
-        currentDir=0;
-        gslc_ElemXListboxSetSel(&m_gui,m_pElemListbox1,settings_item);
-      }else if(currentDir == -1 && settings_item>0){
-        settings_item--;
-        currentDir=0;
-        gslc_ElemXListboxSetSel(&m_gui,m_pElemListbox1,settings_item);
-      }
+      settings_item = change_element_encoder(settings_item,0,NB_SETTINGS_ITEM-1,m_pElemListbox1,LISTBOX_POS);
+
       if(enc_btnAction == true){
         switch(settings_item){
           case 0:
@@ -526,7 +520,7 @@ void check_encoder(int16_t current_page){
         enc_btnAction = false;
       }
       break;
-      
+    
     case alarm_times:
       encoder_enabled = true;
       break;
@@ -536,52 +530,18 @@ void check_encoder(int16_t current_page){
       switch (pos_encoder)
       {
       case 0:
-        if(currentDir == 1 && the_setting.current_date.day<WEEK_DAYS-1){
-          the_setting.current_date.day++;
-          currentDir=0;
-          gslc_ElemSetTxtStr(&m_gui,day_set,week_str[the_setting.current_date.day]);
-        }else if(currentDir == -1 && the_setting.current_date.day>0){
-          the_setting.current_date.day--;
-          currentDir=0;
-          gslc_ElemSetTxtStr(&m_gui,day_set,week_str[the_setting.current_date.day]);
-        }        
+        the_setting.current_date.day = change_element_encoder(the_setting.current_date.day,0,WEEK_DAYS-1,day_set,TEXT_WEEKDAY);
         break;
       case 1:
-        char s[12];
-        if(currentDir == 1 && the_setting.current_date.month_day<MONTH_DAY-1){
-          the_setting.current_date.month_day++;
-          currentDir=0;
-          gslc_ElemSetTxtStr(&m_gui,date_set,itoa( the_setting.current_date.month_day, s, 10 ));
-
-        }else if(currentDir == -1 && the_setting.current_date.month_day>1){
-          the_setting.current_date.month_day--;
-          currentDir=0;
-          gslc_ElemSetTxtStr(&m_gui,date_set,itoa( the_setting.current_date.month_day, s, 10 ));
-        }
+        the_setting.current_date.month_day = change_element_encoder(the_setting.current_date.month_day,1,MONTH_DAY-1,date_set,TEXT_INT);
         break;
-        case 2:
-          if(currentDir == 1 && the_setting.current_date.time.hour<MAX_H-1){
-          the_setting.current_date.time.hour++;
-          currentDir=0;
-          gslc_ElemSetTxtStr(&m_gui,hour_set,itoa( the_setting.current_date.time.hour, s, 10 ));
-
-        }else if(currentDir == -1 && the_setting.current_date.time.hour>0){
-          the_setting.current_date.time.hour--;
-          currentDir=0;
-          gslc_ElemSetTxtStr(&m_gui,hour_set,itoa( the_setting.current_date.time.hour, s, 10 ));
-        }
+      
+      case 2:
+        the_setting.current_date.time.hour= change_element_encoder(the_setting.current_date.time.hour,0,MAX_H-1,hour_set,TEXT_INT);
         break;
-        case 3:
-          if(currentDir == 1 && the_setting.current_date.time.minute<MAX_MIN-1){
-          the_setting.current_date.time.minute++;
-          currentDir=0;
-          gslc_ElemSetTxtStr(&m_gui,min_set,itoa( the_setting.current_date.time.minute, s, 10 ));
 
-        }else if(currentDir == -1 && the_setting.current_date.time.minute>0){
-          the_setting.current_date.time.minute--;
-          currentDir=0;
-          gslc_ElemSetTxtStr(&m_gui,min_set,itoa( the_setting.current_date.time.minute, s, 10 ));
-        }
+      case 3:
+        the_setting.current_date.time.minute= change_element_encoder(the_setting.current_date.time.minute,0,MAX_MIN-1,min_set,TEXT_INT);
         break;
       
       default:
@@ -592,20 +552,11 @@ void check_encoder(int16_t current_page){
         pos_encoder++;
       }
       enc_btnAction = false;
-
     break;
 
     case Volume:
       encoder_enabled = true;
-      if(currentDir == 1 && the_setting.vol<MAX_VOLUME-1){
-        the_setting.vol++;
-        currentDir=0;
-        gslc_ElemXSliderSetPos(&m_gui,vol_slider,the_setting.vol);
-      }else if(currentDir == -1 && the_setting.vol>0){
-        the_setting.vol--;
-        currentDir=0;
-        gslc_ElemXSliderSetPos(&m_gui,vol_slider,the_setting.vol);
-      }   
+      the_setting.vol = change_element_encoder(the_setting.vol,0,MAX_VOLUME-1,vol_slider,SLIDER);
       break;
 
     case password:
@@ -613,52 +564,19 @@ void check_encoder(int16_t current_page){
       switch (pos_encoder)
       {
       case 0:
-        char s[12];
-        if(currentDir == 1 && temp_pw_1<NB_DIGITS-1){
-          temp_pw_1++;
-          currentDir=0;
-          gslc_ElemSetTxtStr(&m_gui,pw_digit_1,itoa(temp_pw_1, s, 10 ));
-        }else if(currentDir == -1 && temp_pw_1>0){
-          temp_pw_1--;
-          currentDir=0;
-          gslc_ElemSetTxtStr(&m_gui,pw_digit_1,itoa(temp_pw_1, s, 10 ));
-        }        
-      break;
+        temp_pw_1 = change_element_encoder(temp_pw_1,0,NB_DIGITS-1,pw_digit_1,TEXT_INT);    
+        break;
 
       case 1:
-        if(currentDir == 1 && temp_pw_2<NB_DIGITS-1){
-          temp_pw_2++;
-          currentDir=0;
-          gslc_ElemSetTxtStr(&m_gui,pw_digit_2,itoa(temp_pw_2, s, 10 ));
-        }else if(currentDir == -1 && temp_pw_2>0){
-          temp_pw_2--;
-          currentDir=0;
-          gslc_ElemSetTxtStr(&m_gui,pw_digit_2,itoa(temp_pw_2, s, 10 ));
-        }        
+        temp_pw_2 = change_element_encoder(temp_pw_2,0,NB_DIGITS-1,pw_digit_2,TEXT_INT);
       break;
 
       case 2:
-        if(currentDir == 1 && temp_pw_3<NB_DIGITS-1){
-          temp_pw_3++;
-          currentDir=0;
-          gslc_ElemSetTxtStr(&m_gui,pw_digit_3,itoa(temp_pw_3, s, 10 ));
-        }else if(currentDir == -1 && temp_pw_3>0){
-          temp_pw_3--;
-          currentDir=0;
-          gslc_ElemSetTxtStr(&m_gui,pw_digit_3,itoa(temp_pw_3, s, 10 ));
-        }        
+        temp_pw_3 = change_element_encoder(temp_pw_3,0,NB_DIGITS-1,pw_digit_3,TEXT_INT);    
       break;
 
       case 3:
-        if(currentDir == 1 && temp_pw_4<NB_DIGITS-1){
-          temp_pw_4++;
-          currentDir=0;
-          gslc_ElemSetTxtStr(&m_gui,pw_digit_4,itoa(temp_pw_4, s, 10 ));
-        }else if(currentDir == -1 && temp_pw_4>0){
-          temp_pw_4--;
-          currentDir=0;
-          gslc_ElemSetTxtStr(&m_gui,pw_digit_4,itoa(temp_pw_4, s, 10 ));
-        }        
+        temp_pw_4 = change_element_encoder(temp_pw_4,0,NB_DIGITS-1,pw_digit_4,TEXT_INT);       
       break;
 
       case 4:
@@ -667,13 +585,17 @@ void check_encoder(int16_t current_page){
           //password is correct
           gslc_ElemSetVisible(&m_gui,wrong_pw_text,false);
           temp_pw_1 = temp_pw_2 = temp_pw_3 = temp_pw_4 = pos_encoder = 0;
+          //check if we want to go to Prescription
           if(pw_for_pres == true){
             gslc_SetPageCur(&m_gui,Prescription);
             pw_for_pres = false;
           }
+          //else go to password options
           else{
             gslc_SetPageCur(&m_gui,pw_options);
           }
+          //put every digit ON DISPLAY to 0
+          char s[12];
           gslc_ElemSetTxtStr(&m_gui,pw_digit_1,itoa(0, s, 10 ));
           gslc_ElemSetTxtStr(&m_gui,pw_digit_2,itoa(0, s, 10 ));
           gslc_ElemSetTxtStr(&m_gui,pw_digit_3,itoa(0, s, 10 ));
@@ -694,61 +616,27 @@ void check_encoder(int16_t current_page){
       }
       enc_btnAction = false;
 
-    break;
-      
       break;
+    break;
 
     case Set_password:
       encoder_enabled = true;
       switch (pos_encoder)
       {
       case 0:
-        char s[12];
-        if(currentDir == 1 && temp_pw_1<NB_DIGITS-1){
-          temp_pw_1++;
-          currentDir=0;
-          gslc_ElemSetTxtStr(&m_gui,new_pw_digit_1,itoa(temp_pw_1, s, 10 ));
-        }else if(currentDir == -1 && temp_pw_1>0){
-          temp_pw_1--;
-          currentDir=0;
-          gslc_ElemSetTxtStr(&m_gui,new_pw_digit_1,itoa(temp_pw_1, s, 10 ));
-        }        
-      break;
+        temp_pw_1 = change_element_encoder(temp_pw_1,0,NB_DIGITS-1,new_pw_digit_1,TEXT_INT);       
+        break;
 
       case 1:
-        if(currentDir == 1 && temp_pw_2<NB_DIGITS-1){
-          temp_pw_2++;
-          currentDir=0;
-          gslc_ElemSetTxtStr(&m_gui,new_pw_digit_2,itoa(temp_pw_2, s, 10 ));
-        }else if(currentDir == -1 && temp_pw_2>0){
-          temp_pw_2--;
-          currentDir=0;
-          gslc_ElemSetTxtStr(&m_gui,new_pw_digit_2,itoa(temp_pw_2, s, 10 ));
-        }        
-      break;
+         temp_pw_2 = change_element_encoder(temp_pw_2,0,NB_DIGITS-1,new_pw_digit_2,TEXT_INT);      
+       break;
 
       case 2:
-        if(currentDir == 1 && temp_pw_3<NB_DIGITS-1){
-          temp_pw_3++;
-          currentDir=0;
-          gslc_ElemSetTxtStr(&m_gui,new_pw_digit_3,itoa(temp_pw_3, s, 10 ));
-        }else if(currentDir == -1 && temp_pw_3>0){
-          temp_pw_3--;
-          currentDir=0;
-          gslc_ElemSetTxtStr(&m_gui,new_pw_digit_3,itoa(temp_pw_3, s, 10 ));
-        }        
+        temp_pw_3 = change_element_encoder(temp_pw_3,0,NB_DIGITS-1,new_pw_digit_3,TEXT_INT);    
       break;
 
       case 3:
-        if(currentDir == 1 && temp_pw_4<NB_DIGITS-1){
-          temp_pw_4++;
-          currentDir=0;
-          gslc_ElemSetTxtStr(&m_gui,new_pw_digit_4,itoa(temp_pw_4, s, 10 ));
-        }else if(currentDir == -1 && temp_pw_4>0){
-          temp_pw_4--;
-          currentDir=0;
-          gslc_ElemSetTxtStr(&m_gui,new_pw_digit_4,itoa(temp_pw_4, s, 10 ));
-        }        
+        temp_pw_4 = change_element_encoder(temp_pw_4,0,NB_DIGITS-1,new_pw_digit_4,TEXT_INT);     
       break;  
       
       default:
@@ -759,8 +647,7 @@ void check_encoder(int16_t current_page){
         pos_encoder++;
       }
       enc_btnAction = false;
-
-    break;
+      break;
 
     case new_prescription_1:
       encoder_enabled = true;
@@ -1100,4 +987,60 @@ void btn4_action(int16_t current_page){
       gslc_SetPageCur(&m_gui,edit_prescription_1);
       break;
   }
+}
+
+int change_element_encoder(int value, int min_val, int max_val, gslc_tsElemRef * element, int element_type){
+  char s[12];
+  if(currentDir == 1 && value<max_val){
+    value++;
+    currentDir=0;
+
+    switch (element_type)
+    {
+    case TEXT_INT:
+      gslc_ElemSetTxtStr(&m_gui,element,itoa(value, s, 10 ));
+      break;
+    case TEXT_WEEKDAY:
+       gslc_ElemSetTxtStr(&m_gui,day_set,week_str[value]);
+      break;
+
+    case SLIDER:
+      gslc_ElemXSliderSetPos(&m_gui,element,value);
+      break;
+    
+    case LISTBOX_POS:
+      gslc_ElemXListboxSetSel(&m_gui,element,value);
+      break;
+
+    default:
+      break;
+    }
+    
+  }
+  else if(currentDir == -1 && value>min_val){
+    value--;
+    currentDir=0;
+    switch (element_type)
+    {
+    case TEXT_INT:
+      gslc_ElemSetTxtStr(&m_gui,element,itoa(value, s, 10 ));
+      break;
+    case TEXT_WEEKDAY:
+       gslc_ElemSetTxtStr(&m_gui,day_set,week_str[value]);
+      break;
+
+    case SLIDER:
+      gslc_ElemXSliderSetPos(&m_gui,element,value);
+      break;
+    
+    case LISTBOX_POS:
+      gslc_ElemXListboxSetSel(&m_gui,element,value);
+      break;
+
+    default:
+      break;
+    }
+  }
+
+  return value;    
 }
