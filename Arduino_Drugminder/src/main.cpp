@@ -394,8 +394,13 @@ int enc_btnState = false;
 bool encoder_enabled = false;
 bool enc_btnAction = false;
 bool pw_enabled = false;
+bool pw_for_pres = false;
 int settings_item = 0;
 int pos_encoder =0;
+unsigned int temp_pw_1 = 0;
+unsigned int temp_pw_2 = 0;
+unsigned int temp_pw_3 = 0;
+unsigned int temp_pw_4 = 0;
 
 
 void btn1_action(int16_t current_page);
@@ -509,10 +514,11 @@ void check_encoder(int16_t current_page){
             break;
           case 4:
             if(pw_enabled == true){
+              gslc_ElemSetVisible(&m_gui,del_pw_bttn,true);
               gslc_SetPageCur(&m_gui,password);
             }
             else{
-              //gslc_ElemSetVisible(&m_gui,del_pw_bttn,false);
+              gslc_ElemSetVisible(&m_gui,del_pw_bttn,false);
               gslc_SetPageCur(&m_gui,pw_options);
             }
             break;
@@ -604,11 +610,157 @@ void check_encoder(int16_t current_page){
 
     case password:
       encoder_enabled = true;
+      switch (pos_encoder)
+      {
+      case 0:
+        char s[12];
+        if(currentDir == 1 && temp_pw_1<NB_DIGITS-1){
+          temp_pw_1++;
+          currentDir=0;
+          gslc_ElemSetTxtStr(&m_gui,pw_digit_1,itoa(temp_pw_1, s, 10 ));
+        }else if(currentDir == -1 && temp_pw_1>0){
+          temp_pw_1--;
+          currentDir=0;
+          gslc_ElemSetTxtStr(&m_gui,pw_digit_1,itoa(temp_pw_1, s, 10 ));
+        }        
+      break;
+
+      case 1:
+        if(currentDir == 1 && temp_pw_2<NB_DIGITS-1){
+          temp_pw_2++;
+          currentDir=0;
+          gslc_ElemSetTxtStr(&m_gui,pw_digit_2,itoa(temp_pw_2, s, 10 ));
+        }else if(currentDir == -1 && temp_pw_2>0){
+          temp_pw_2--;
+          currentDir=0;
+          gslc_ElemSetTxtStr(&m_gui,pw_digit_2,itoa(temp_pw_2, s, 10 ));
+        }        
+      break;
+
+      case 2:
+        if(currentDir == 1 && temp_pw_3<NB_DIGITS-1){
+          temp_pw_3++;
+          currentDir=0;
+          gslc_ElemSetTxtStr(&m_gui,pw_digit_3,itoa(temp_pw_3, s, 10 ));
+        }else if(currentDir == -1 && temp_pw_3>0){
+          temp_pw_3--;
+          currentDir=0;
+          gslc_ElemSetTxtStr(&m_gui,pw_digit_3,itoa(temp_pw_3, s, 10 ));
+        }        
+      break;
+
+      case 3:
+        if(currentDir == 1 && temp_pw_4<NB_DIGITS-1){
+          temp_pw_4++;
+          currentDir=0;
+          gslc_ElemSetTxtStr(&m_gui,pw_digit_4,itoa(temp_pw_4, s, 10 ));
+        }else if(currentDir == -1 && temp_pw_4>0){
+          temp_pw_4--;
+          currentDir=0;
+          gslc_ElemSetTxtStr(&m_gui,pw_digit_4,itoa(temp_pw_4, s, 10 ));
+        }        
+      break;
+
+      case 4:
+        //check if password is correct
+        if(temp_pw_1 == the_setting.pass_dg1 && temp_pw_2 == the_setting.pass_dg2 && temp_pw_3== the_setting.pass_dg3 && temp_pw_4 == the_setting.pass_dg4){
+          //password is correct
+          gslc_ElemSetVisible(&m_gui,wrong_pw_text,false);
+          temp_pw_1 = temp_pw_2 = temp_pw_3 = temp_pw_4 = pos_encoder = 0;
+          if(pw_for_pres == true){
+            gslc_SetPageCur(&m_gui,Prescription);
+            pw_for_pres = false;
+          }
+          else{
+            gslc_SetPageCur(&m_gui,pw_options);
+          }
+          gslc_ElemSetTxtStr(&m_gui,pw_digit_1,itoa(0, s, 10 ));
+          gslc_ElemSetTxtStr(&m_gui,pw_digit_2,itoa(0, s, 10 ));
+          gslc_ElemSetTxtStr(&m_gui,pw_digit_3,itoa(0, s, 10 ));
+          gslc_ElemSetTxtStr(&m_gui,pw_digit_4,itoa(0, s, 10 ));
+        }
+        else{
+          //password is not correct
+          gslc_ElemSetVisible(&m_gui,wrong_pw_text,true);
+          pos_encoder = 0;
+        }
+      
+      default:
+        break;
+      }
+      
+      if(enc_btnAction == true){
+        pos_encoder++;
+      }
+      enc_btnAction = false;
+
+    break;
+      
       break;
 
     case Set_password:
       encoder_enabled = true;
+      switch (pos_encoder)
+      {
+      case 0:
+        char s[12];
+        if(currentDir == 1 && temp_pw_1<NB_DIGITS-1){
+          temp_pw_1++;
+          currentDir=0;
+          gslc_ElemSetTxtStr(&m_gui,new_pw_digit_1,itoa(temp_pw_1, s, 10 ));
+        }else if(currentDir == -1 && temp_pw_1>0){
+          temp_pw_1--;
+          currentDir=0;
+          gslc_ElemSetTxtStr(&m_gui,new_pw_digit_1,itoa(temp_pw_1, s, 10 ));
+        }        
       break;
+
+      case 1:
+        if(currentDir == 1 && temp_pw_2<NB_DIGITS-1){
+          temp_pw_2++;
+          currentDir=0;
+          gslc_ElemSetTxtStr(&m_gui,new_pw_digit_2,itoa(temp_pw_2, s, 10 ));
+        }else if(currentDir == -1 && temp_pw_2>0){
+          temp_pw_2--;
+          currentDir=0;
+          gslc_ElemSetTxtStr(&m_gui,new_pw_digit_2,itoa(temp_pw_2, s, 10 ));
+        }        
+      break;
+
+      case 2:
+        if(currentDir == 1 && temp_pw_3<NB_DIGITS-1){
+          temp_pw_3++;
+          currentDir=0;
+          gslc_ElemSetTxtStr(&m_gui,new_pw_digit_3,itoa(temp_pw_3, s, 10 ));
+        }else if(currentDir == -1 && temp_pw_3>0){
+          temp_pw_3--;
+          currentDir=0;
+          gslc_ElemSetTxtStr(&m_gui,new_pw_digit_3,itoa(temp_pw_3, s, 10 ));
+        }        
+      break;
+
+      case 3:
+        if(currentDir == 1 && temp_pw_4<NB_DIGITS-1){
+          temp_pw_4++;
+          currentDir=0;
+          gslc_ElemSetTxtStr(&m_gui,new_pw_digit_4,itoa(temp_pw_4, s, 10 ));
+        }else if(currentDir == -1 && temp_pw_4>0){
+          temp_pw_4--;
+          currentDir=0;
+          gslc_ElemSetTxtStr(&m_gui,new_pw_digit_4,itoa(temp_pw_4, s, 10 ));
+        }        
+      break;  
+      
+      default:
+        break;
+      }
+      
+      if(enc_btnAction == true && pos_encoder<3){
+        pos_encoder++;
+      }
+      enc_btnAction = false;
+
+    break;
 
     case new_prescription_1:
       encoder_enabled = true;
@@ -706,7 +858,13 @@ void btn2_action(int16_t current_page){
   switch(current_page){
     
     case Default:
-      gslc_SetPageCur(&m_gui,Prescription);
+      if(pw_enabled == true){
+        pw_for_pres = true;
+        gslc_SetPageCur(&m_gui,password);
+      }
+      else{
+        gslc_SetPageCur(&m_gui,Prescription);
+      }
       break;
       
     case Prescription:
@@ -728,7 +886,9 @@ void btn2_action(int16_t current_page){
       
     case pw_options:
       //a password must exist to perform this
-      gslc_SetPageCur(&m_gui,pw_del_conf);
+      if(pw_enabled==true){
+        gslc_SetPageCur(&m_gui,pw_del_conf);
+      }
       break;
   }
 }
@@ -804,12 +964,27 @@ void btn3_action(int16_t current_page){
 
     case pw_del_conf:
       //delete the password too
+      pw_enabled = false;
+      the_setting.password_set = false;
       gslc_SetPageCur(&m_gui,settings);
       break;
 
     case Set_password:
-      //save the new password too
+      char s[12];
+      //new password is set in the settings
+      the_setting.password_set = true;
+      the_setting.pass_dg1 = temp_pw_1;
+      the_setting.pass_dg2 = temp_pw_2;
+      the_setting.pass_dg3 = temp_pw_3;
+      the_setting.pass_dg4 = temp_pw_4;
+      temp_pw_1 = temp_pw_2 = temp_pw_3 = temp_pw_4 = pos_encoder = 0;
+      pw_enabled = true;
+      gslc_ElemSetVisible(&m_gui,del_pw_bttn,true);
       gslc_SetPageCur(&m_gui,settings);
+      gslc_ElemSetTxtStr(&m_gui,new_pw_digit_1,itoa(0, s, 10 ));
+      gslc_ElemSetTxtStr(&m_gui,new_pw_digit_2,itoa(0, s, 10 ));
+      gslc_ElemSetTxtStr(&m_gui,new_pw_digit_3,itoa(0, s, 10 ));
+      gslc_ElemSetTxtStr(&m_gui,new_pw_digit_4,itoa(0, s, 10 ));
       break;
 
     case alarm_times:
@@ -837,6 +1012,7 @@ void btn4_action(int16_t current_page){
 
     case password:
       gslc_SetPageCur(&m_gui,Default);
+      pw_for_pres = false;
       break;
 
     case settings:

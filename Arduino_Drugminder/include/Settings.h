@@ -9,9 +9,10 @@ using namespace std;
 #define MONTH_DAY       31
 #define MAX_H           24
 #define MAX_MIN         60
+#define NB_DIGITS       10
 
 // enum set { a_type, a_times, date, volume, password};
-enum alarm_type {Sound, Light, Both, None};
+enum alarm_type {None, Sound, Light, Both};
 // enum week_day {Monday=0, Tuesday=1, Wednesday=2, Thrusday=3, Friday=4, Saturday=5, Sunday=6};
 enum alarm_cycle {wake, morn, lun, after, din, bed};
 
@@ -41,7 +42,11 @@ struct Day_cycle{
 struct Settings{
     Date current_date;
     int vol =0;
-    unsigned int pass = 0;
+    bool password_set = false;
+    unsigned int pass_dg1 = 0;
+    unsigned int pass_dg2 = 0;
+    unsigned int pass_dg3 = 0;
+    unsigned int pass_dg4 = 0;
     alarm_type type = Sound;
     Day_cycle cycle;
 };
