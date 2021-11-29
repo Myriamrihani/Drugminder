@@ -14,5 +14,8 @@ int eeAd_Inventory = eeAd_set + sizeof(Inventory);
 
 void save_in_EE();
 
+Settings get_settings_from_EE();
+
+Pill get_pill_from_EE();
 
 #endif
