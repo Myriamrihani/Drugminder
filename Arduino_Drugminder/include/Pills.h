@@ -36,6 +36,7 @@ class Pill{
 
 extern Pill Inventory [NB_RACKS];
 extern int total_pills;
+extern Pill_param temp_presc;
 
 void get_prescription_size();
 

@@ -385,7 +385,6 @@ const int button4Pin = 25;
 int currentStateCLK;
 int lastStateCLK;
 volatile int currentDir = 0;
-//unsigned long lastButtonPress = 0;
 int status1 = false;
 int status2 = false;
 int status3 = false;
@@ -394,6 +393,7 @@ int enc_btnState = false;
 bool encoder_enabled = false;
 bool enc_btnAction = false;
 bool pw_enabled = false;
+bool rack_taken[NB_RACKS] = {false};
 bool pw_for_pres = false;
 int settings_item = 0;
 int pos_encoder =0;
@@ -401,8 +401,21 @@ unsigned int temp_pw_1 = 0;
 unsigned int temp_pw_2 = 0;
 unsigned int temp_pw_3 = 0;
 unsigned int temp_pw_4 = 0;
+unsigned int temp_pills = 0;
+unsigned int temp_rack = 0;
+unsigned int free_rack_index = 0;
+
+unsigned int temp_char_1 = 0;
+unsigned int temp_char_2 = 0;
+unsigned int temp_char_3 = 0;
+unsigned int temp_char_4 = 0;
+unsigned int temp_char_5 = 0;
+unsigned int temp_char_6 = 0;
+unsigned int temp_char_7 = 0;
+unsigned int temp_char_8 = 0;
 
 
+//functions declaration
 void btn1_action(int16_t current_page);
 void btn2_action(int16_t current_page);
 void btn3_action(int16_t current_page);
@@ -410,7 +423,11 @@ void btn4_action(int16_t current_page);
 void updateEncoder();
 void check_encoder(int16_t current_page);
 int change_element_encoder(int value, int min_val, int max_val, gslc_tsElemRef * element, int element_type);
-
+int check_rack_avaible(gslc_tsElemRef * element, int value);
+int checkbox_encoder_nav(int value, int min_val, int max_val);
+void reset_default_elements_add();
+void load_pill_data_to_elements();
+void save_new_pill();
 
 void setup()
 {
@@ -474,7 +491,7 @@ void loop()
    // Read the encoder button state
   if(digitalRead(SW) == LOW && encoder_enabled == true){
     enc_btnState = !enc_btnState;
-    Serial.println("Button pressed!");
+    //Serial.println("Button pressed!");
     enc_btnAction = true;
     }while(digitalRead(SW) == LOW && encoder_enabled == true);
       delay(10);
@@ -697,14 +714,103 @@ void check_encoder(int16_t current_page){
 
     case new_prescription_1:
       encoder_enabled = true;
+      switch(pos_encoder){
+        case 0:
+          temp_rack = check_rack_avaible(add_rack,temp_rack);
+          break;
+        case 1:
+          temp_pills = change_element_encoder(temp_pills,1,MAX_NB_PILLS-1,add_pfilled,TEXT_INT);
+          break;
+        case 2:
+          temp_char_1 = change_element_encoder(temp_char_1,0,L_ALPHABET-1,name_char_1,TXT_ALPHABET);
+          break;
+        case 3:
+          temp_char_2 = change_element_encoder(temp_char_2,0,L_ALPHABET-1,name_char_2,TXT_ALPHABET);
+          break;
+        case 4:
+          temp_char_3 = change_element_encoder(temp_char_3,0,L_ALPHABET-1,name_char_3,TXT_ALPHABET);
+          break;
+        case 5:
+          temp_char_4 = change_element_encoder(temp_char_4,0,L_ALPHABET-1,name_char_4,TXT_ALPHABET);
+          break;
+        case 6:
+          temp_char_5 = change_element_encoder(temp_char_5,0,L_ALPHABET-1,name_char_5,TXT_ALPHABET);
+          break;
+        case 7:
+          temp_char_6 = change_element_encoder(temp_char_6,0,L_ALPHABET-1,name_char_6,TXT_ALPHABET);
+          break;
+        case 8:
+          temp_char_7 = change_element_encoder(temp_char_7,0,L_ALPHABET-1,name_char_7,TXT_ALPHABET);
+          break;
+        case 9:
+          temp_char_8 = change_element_encoder(temp_char_8,0,L_ALPHABET-1,name_char_8,TXT_ALPHABET);
+          break;
+        
+      }
+
+      if(enc_btnAction == true && pos_encoder<9){
+        pos_encoder++;
+      }
+      enc_btnAction = false;
       break;
     
     case new_prescription_2:
       encoder_enabled = true;
+      pos_encoder = checkbox_encoder_nav(pos_encoder,0,WEEK_DAYS-1);
+
+      switch(pos_encoder){
+        case 0:
+          if(enc_btnAction == true){gslc_ElemXCheckboxToggleState(&m_gui,add_mo_check);}
+          break;
+        case 1:
+          if(enc_btnAction == true){gslc_ElemXCheckboxToggleState(&m_gui,add_tue_check);}
+          break;
+        case 2:
+          if(enc_btnAction == true){gslc_ElemXCheckboxToggleState(&m_gui,add_wed_check);}
+          break;
+        case 3:
+          if(enc_btnAction == true){gslc_ElemXCheckboxToggleState(&m_gui,add_thu_check);}
+          break;
+        case 4:
+          if(enc_btnAction == true){gslc_ElemXCheckboxToggleState(&m_gui,add_fri_check);}
+          break;
+        case 5:
+          if(enc_btnAction == true){gslc_ElemXCheckboxToggleState(&m_gui,add_sat_check);}
+          break;
+        case 6:
+          if(enc_btnAction == true){gslc_ElemXCheckboxToggleState(&m_gui,add_sun_check);}
+          break;
+      }
+
+      enc_btnAction = false;
       break;
 
     case new_prescription_3:
       encoder_enabled = true;
+       pos_encoder = checkbox_encoder_nav(pos_encoder,0,NB_OF_ALARMS-1);
+
+      switch(pos_encoder){
+        case 0:
+          if(enc_btnAction == true){gslc_ElemXCheckboxToggleState(&m_gui,new_wake_check);}
+          break;
+        case 1:
+          if(enc_btnAction == true){gslc_ElemXCheckboxToggleState(&m_gui,new_morn_check);}
+          break;
+        case 2:
+          if(enc_btnAction == true){gslc_ElemXCheckboxToggleState(&m_gui,new_lunch_check);}
+          break;
+        case 3:
+          if(enc_btnAction == true){gslc_ElemXCheckboxToggleState(&m_gui,new_after_check);}
+          break;
+        case 4:
+          if(enc_btnAction == true){gslc_ElemXCheckboxToggleState(&m_gui,new_dinn_check);}
+          break;
+        case 5:
+          if(enc_btnAction == true){gslc_ElemXCheckboxToggleState(&m_gui,new_bed_check);}
+          break;
+      }
+
+      enc_btnAction = false;
       break;
 
     case edit_prescription_1:
@@ -861,15 +967,19 @@ void btn3_action(int16_t current_page){
 
     case new_prescription_1:
       gslc_SetPageCur(&m_gui,new_prescription_2);
+      pos_encoder = 0;
       break;
 
     case new_prescription_2:
       gslc_SetPageCur(&m_gui,new_prescription_3);
+      pos_encoder = 0;
       break;
 
     case new_prescription_3:
       //must save all data too
       gslc_SetPageCur(&m_gui,Prescription);
+      save_new_pill();
+      reset_default_elements_add();
       break;
 
     case delete_conf:
@@ -1003,14 +1113,17 @@ void btn4_action(int16_t current_page){
 
     case new_prescription_1:
       gslc_SetPageCur(&m_gui,Prescription);
+      reset_default_elements_add();
       break;
 
     case new_prescription_2:
       gslc_SetPageCur(&m_gui,new_prescription_1);
+      pos_encoder = 0;
       break;
 
     case new_prescription_3:
       gslc_SetPageCur(&m_gui,new_prescription_2);
+      pos_encoder = 0;
       break;
 
     case edit_prescription_1:
@@ -1058,8 +1171,9 @@ int change_element_encoder(int value, int min_val, int max_val, gslc_tsElemRef *
     case TEXT_INT:
       gslc_ElemSetTxtStr(&m_gui,element,itoa(value, s, 10 ));
       break;
+
     case TEXT_WEEKDAY:
-       gslc_ElemSetTxtStr(&m_gui,day_set,week_str[value]);
+       gslc_ElemSetTxtStr(&m_gui,element,week_str[value]);
       break;
 
     case SLIDER:
@@ -1068,6 +1182,10 @@ int change_element_encoder(int value, int min_val, int max_val, gslc_tsElemRef *
     
     case LISTBOX_POS:
       gslc_ElemXListboxSetSel(&m_gui,element,value);
+      break;
+    
+    case TXT_ALPHABET:
+       gslc_ElemSetTxtStr(&m_gui,element,alphabet_list[value]);
       break;
 
     default:
@@ -1083,8 +1201,9 @@ int change_element_encoder(int value, int min_val, int max_val, gslc_tsElemRef *
     case TEXT_INT:
       gslc_ElemSetTxtStr(&m_gui,element,itoa(value, s, 10 ));
       break;
+
     case TEXT_WEEKDAY:
-       gslc_ElemSetTxtStr(&m_gui,day_set,week_str[value]);
+       gslc_ElemSetTxtStr(&m_gui,element,week_str[value]);
       break;
 
     case SLIDER:
@@ -1095,10 +1214,142 @@ int change_element_encoder(int value, int min_val, int max_val, gslc_tsElemRef *
       gslc_ElemXListboxSetSel(&m_gui,element,value);
       break;
 
+    case TXT_ALPHABET:
+       gslc_ElemSetTxtStr(&m_gui,element,alphabet_list[value]);
+      break;
+
     default:
       break;
     }
   }
 
   return value;    
+}
+
+int check_rack_avaible(gslc_tsElemRef * element, int value){
+  unsigned int nb_free = 0;
+  for(int i = 0;i<NB_RACKS;i++){
+    if(rack_taken[i]==false){
+      nb_free++;
+    }
+  }
+  int free_rack[nb_free];
+  int j = 0;
+
+  for(int i = 0;i<NB_RACKS;i++){
+    if(rack_taken[i]==false){
+      free_rack[j] = i;
+      j++;
+    }
+  }
+
+  if(currentDir == 1 && free_rack_index<nb_free-1){
+    free_rack_index++;
+    value = free_rack[free_rack_index];
+
+    //real rack value (because of 0 index)
+    value = value + 1;
+    currentDir=0;
+  } 
+  else if(currentDir == -1 && free_rack_index>0){
+    free_rack_index--;
+    value = free_rack[free_rack_index];
+
+    //real rack value (because of 0 index)
+    value = value + 1;
+    currentDir=0;
+  }
+  char s[12];
+  gslc_ElemSetTxtStr(&m_gui,element,itoa(value, s, 10 ));
+  //Serial.println(nb_free);
+  //Serial.println(value);
+  return value;
+}
+
+int checkbox_encoder_nav(int value, int min_val, int max_val){
+  if(currentDir == 1 && value<max_val){
+    value++;
+    currentDir=0;
+  }
+  else if(currentDir == -1 && value>min_val){
+    value--;
+    currentDir=0;
+  }
+  return value;
+}
+
+void reset_default_elements_add(){
+  pos_encoder = 0;
+  gslc_ElemSetTxtStr(&m_gui,add_rack," ");
+  gslc_ElemSetTxtStr(&m_gui,add_pfilled,"1");
+  gslc_ElemSetTxtStr(&m_gui,name_char_1,"");
+  gslc_ElemSetTxtStr(&m_gui,name_char_2,"");
+  gslc_ElemSetTxtStr(&m_gui,name_char_3,"");
+  gslc_ElemSetTxtStr(&m_gui,name_char_4,"");
+  gslc_ElemSetTxtStr(&m_gui,name_char_5,"");
+  gslc_ElemSetTxtStr(&m_gui,name_char_6,"");
+  gslc_ElemSetTxtStr(&m_gui,name_char_7,"");
+  gslc_ElemSetTxtStr(&m_gui,name_char_8,"");
+
+  gslc_ElemXCheckboxSetState(&m_gui,add_mo_check,false);
+  gslc_ElemXCheckboxSetState(&m_gui,add_tue_check,false);
+  gslc_ElemXCheckboxSetState(&m_gui,add_wed_check,false);
+  gslc_ElemXCheckboxSetState(&m_gui,add_thu_check,false);
+  gslc_ElemXCheckboxSetState(&m_gui,add_fri_check,false);
+  gslc_ElemXCheckboxSetState(&m_gui,add_sat_check,false);
+  gslc_ElemXCheckboxSetState(&m_gui,add_sun_check,false);
+
+  gslc_ElemXCheckboxSetState(&m_gui,new_wake_check,false);
+  gslc_ElemXCheckboxSetState(&m_gui,new_morn_check,false);
+  gslc_ElemXCheckboxSetState(&m_gui,new_lunch_check,false);
+  gslc_ElemXCheckboxSetState(&m_gui,new_after_check,false);
+  gslc_ElemXCheckboxSetState(&m_gui,new_dinn_check,false);
+  gslc_ElemXCheckboxSetState(&m_gui,new_bed_check,false);
+
+  temp_char_1 = temp_char_2 = temp_char_3 = temp_char_4 = temp_char_5 = temp_char_6 = temp_char_7 = temp_char_8 = free_rack_index = 0;
+  temp_rack = 1;
+  temp_pills = 1;
+
+}
+
+void load_pill_data_to_elements(){
+
+}
+
+void save_new_pill(){
+  temp_presc.ra = temp_rack;
+  temp_presc.amount = temp_pills;
+  rack_taken[temp_presc.ra-1] = true;
+
+  char buf[8];
+
+  //get a full word of each drug name character
+  strcpy(buf,alphabet_list[temp_char_1]);
+  strcat(buf,alphabet_list[temp_char_2]);
+  strcat(buf,alphabet_list[temp_char_3]);
+  strcat(buf,alphabet_list[temp_char_4]);
+  strcat(buf,alphabet_list[temp_char_5]);
+  strcat(buf,alphabet_list[temp_char_6]);
+  strcat(buf,alphabet_list[temp_char_7]);
+  strcat(buf,alphabet_list[temp_char_8]);
+
+  temp_presc.name = buf;
+
+  temp_presc.al_day[0] = gslc_ElemXCheckboxGetState(&m_gui,add_mo_check);
+  temp_presc.al_day[1] = gslc_ElemXCheckboxGetState(&m_gui,add_tue_check);
+  temp_presc.al_day[2] = gslc_ElemXCheckboxGetState(&m_gui,add_wed_check);
+  temp_presc.al_day[3] = gslc_ElemXCheckboxGetState(&m_gui,add_thu_check);
+  temp_presc.al_day[4] = gslc_ElemXCheckboxGetState(&m_gui,add_fri_check);
+  temp_presc.al_day[5] = gslc_ElemXCheckboxGetState(&m_gui,add_sat_check);
+  temp_presc.al_day[6] = gslc_ElemXCheckboxGetState(&m_gui,add_sun_check);
+
+  temp_presc.al_t[0] = gslc_ElemXCheckboxGetState(&m_gui,new_wake_check);
+  temp_presc.al_t[1] = gslc_ElemXCheckboxGetState(&m_gui,new_morn_check);
+  temp_presc.al_t[2] = gslc_ElemXCheckboxGetState(&m_gui,new_lunch_check);
+  temp_presc.al_t[3] = gslc_ElemXCheckboxGetState(&m_gui,new_after_check);
+  temp_presc.al_t[4] = gslc_ElemXCheckboxGetState(&m_gui,new_dinn_check);
+  temp_presc.al_t[5] = gslc_ElemXCheckboxGetState(&m_gui,new_bed_check);
+
+  free_rack_index = 0;
+  Serial.println(temp_presc.name);
 }

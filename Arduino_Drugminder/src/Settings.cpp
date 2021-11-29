@@ -3,7 +3,7 @@ using namespace std;
 #include <Settings.h>
 
 const char* week_str[WEEK_DAYS] = {"Mo" , "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
-
+const char* alphabet_list[L_ALPHABET] = {" ","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
 
 Settings the_setting;
 //All the set functions could be written as a direct interaction with the screen.

@@ -5,6 +5,7 @@ using namespace std;
 #include "Pills.h"
 
 Pill Inventory [NB_RACKS];
+Pill_param temp_presc;
 int total_pills = 0;
 
 void Pill::edit_pill(Pill_param temp){
