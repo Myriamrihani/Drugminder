@@ -39,7 +39,8 @@ extern int total_pills;
 extern Pill_param temp_presc;
 
 void get_prescription_size();
-
+void add_pill (Pill_param temp);
+void delete_pill(int nb);
 // struct Prescription{
 //     Pill pill_1;
 //     Pill pill_2;
