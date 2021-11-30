@@ -33,7 +33,6 @@ class Pill{
     bool alarm_t[NB_OF_ALARMS]= {false};
 };
 
-
 extern Pill Inventory [NB_RACKS];
 extern int total_pills;
 extern Pill_param temp_presc;
@@ -41,27 +40,6 @@ extern Pill_param temp_presc;
 void get_prescription_size();
 void add_pill (Pill_param temp);
 void delete_pill(int nb);
-// struct Prescription{
-//     Pill pill_1;
-//     Pill pill_2;
-//     Pill pill_3;
-//     Pill pill_4;
-//     Pill pill_5;
-//     Pill pill_6;
-//     Pill pill_7;
-//     Pill pill_8;
-//     Pill pill
-// };
-// class Prescription{
-//     private:
-//     Pill Inventory [NB_RACKS];
-//     int total_pills = 0;
-
-//     public:
-//     void add_pill(String name, int r, int nb);
-//     void print_prescription();
-
-// };
-
+void reset_pill_param(Pill_param temp);
 
 #endif /* pill_hpp */

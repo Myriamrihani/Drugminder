@@ -44,20 +44,6 @@ void get_prescription_size(){
 };
 
 
-
-// void Pill::print_pill(){
-//     // cout<< "The Pill name is: " << pill_name << endl;
-//     // cout << "The Rack number is: " << rack <<endl;
-//     // cout << "The number of pills left is: " << nb_pills << endl;
-//     Serial.println("The Pill name is: ");
-//     Serial.print(pill_name);
-
-//     Serial.println("The rack number is: ");
-//     Serial.print(rack);
-
-//     Serial.println("The number of pills left is: ");
-//     Serial.print(nb_pills);  
-// };
 void Pill::reset(){
     pill_name = "None";
     rack = 0;
@@ -86,12 +72,14 @@ void delete_pill(int nb){
     Inventory[nb].reset();
 }
 
-// void Prescription::print_prescription(){
-//     for(unsigned int i=0; i < sizeof(Inventory); i++){
-//         if(Inventory[i].get_name() != "None"){
-//             Inventory[i].print_pill();
-//         }else break;
-//     }
-// };
-
-
+void reset_pill_param(Pill_param temp){
+    temp.name = "None";
+    temp.ra = 0;
+    temp.amount = 0;
+    for(int i=0;i<WEEK_DAYS ; i++){
+        temp.al_day[i] = {false};
+    }
+    for(int j=0; j<NB_OF_ALARMS; j++){
+        temp.al_t[j]= {false};
+    }   
+}
