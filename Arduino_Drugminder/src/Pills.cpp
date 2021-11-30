@@ -83,3 +83,10 @@ void reset_pill_param(Pill_param temp){
         temp.al_t[j]= {false};
     }   
 }
+
+bool Pill::get_alarm_t(){
+    return alarm_t ;
+}
+bool Pill::get_alarm_day(){
+    return alarm_day;
+}
