@@ -10,6 +10,8 @@ int total_pills = 0;
 bool day_matrix[NB_RACKS][WEEK_DAYS] = {false};
 bool time_matrix[NB_RACKS][NB_OF_ALARMS] = {false};
 bool pills_to_dis[NB_RACKS] = {false};
+bool pills_to_refill[NB_RACKS] = {false};
+bool refill = false;
 
 
 void set_alarm_matrix(){
@@ -105,4 +107,17 @@ bool Pill::get_alarm_t(int index){
 }
 bool Pill::get_alarm_day(int index){
     return alarm_day[index];
+}
+
+void check_refill(){
+    for(int i=0; i<NB_RACKS; ++i){
+        if(Inventory[i].get_nb() <= 2){
+            refill = true;
+            pills_to_refill[i] = true;
+        }
+    }
+}
+
+void ask_for_refill(){
+    //display the pills name and rack to be refilled
 }

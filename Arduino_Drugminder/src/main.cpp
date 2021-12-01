@@ -483,8 +483,11 @@ void setup()
 void loop()
 {
   check_alarm();
-
+  check_refill();
   if(start_alarm){play_alarm;}
+  if(refill){ask_for_refill;}
+
+  
   //else{//mettre tout le reste, le bool start_alarm doit jouer comme une interruption}
   if(digitalRead(button1Pin) == true){
     status1 = !status1;

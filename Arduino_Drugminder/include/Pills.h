@@ -41,11 +41,15 @@ extern Pill_param temp_presc;
 extern bool day_matrix[NB_RACKS][WEEK_DAYS];
 extern bool time_matrix[NB_RACKS][NB_OF_ALARMS];
 extern bool pills_to_dis[NB_RACKS];
+extern bool pills_to_refill[NB_RACKS];
+extern bool refill;
 
+void check_refill();
 void set_alarm_matrix();
 void get_prescription_size();
 void add_pill (Pill_param temp);
 void delete_pill(int nb);
 void reset_pill_param(Pill_param temp);
+void ask_for_refill();
 
 #endif /* pill_hpp */
