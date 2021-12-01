@@ -416,7 +416,7 @@ unsigned int temp_char_6 = 0;
 unsigned int temp_char_7 = 0;
 unsigned int temp_char_8 = 0;
 
-char* drug_name_list[NB_RACKS] = {""};
+char drug_name_list[NB_RACKS][10];
 
 
 //functions declaration
@@ -432,6 +432,7 @@ int checkbox_encoder_nav(int value, int min_val, int max_val);
 void reset_default_elements_add();
 void load_pill_data_to_elements();
 void save_new_pill();
+void save_edited_pill();
 void edit_prescription_listbox(gslc_tsElemRef * listbox);
 
 void setup()
@@ -465,7 +466,7 @@ void setup()
 
   if (! rtc.begin()) {
     Serial.println("Couldn't find RTC");
-    while (1);
+    //while (1);
   }
   if (! rtc.isrunning()) {
     Serial.println("RTC is NOT running!");
@@ -845,14 +846,76 @@ void check_encoder(int16_t current_page){
       
     case edit_prescription_2:
       encoder_enabled = true;
+      switch(pos_encoder){
+        case 0:
+          temp_rack = check_rack_avaible(edit_rack_nb,temp_rack);
+          break;
+        case 1:
+          temp_pills = change_element_encoder(temp_pills,1,MAX_NB_PILLS-1,edit_pfilled,TEXT_INT);
+          break;
+      }
+       if(enc_btnAction == true && pos_encoder<1){
+        pos_encoder++;
+      }
+      enc_btnAction = false;
       break;
       
     case edit_prescription_3:
       encoder_enabled = true;
+      pos_encoder = checkbox_encoder_nav(pos_encoder,0,WEEK_DAYS-1);
+
+      switch(pos_encoder){
+        case 0:
+          if(enc_btnAction == true){gslc_ElemXCheckboxToggleState(&m_gui,edit_mo_check);}
+          break;
+        case 1:
+          if(enc_btnAction == true){gslc_ElemXCheckboxToggleState(&m_gui,edit_tue_check);}
+          break;
+        case 2:
+          if(enc_btnAction == true){gslc_ElemXCheckboxToggleState(&m_gui,edit_wed_check);}
+          break;
+        case 3:
+          if(enc_btnAction == true){gslc_ElemXCheckboxToggleState(&m_gui,edit_thu_check);}
+          break;
+        case 4:
+          if(enc_btnAction == true){gslc_ElemXCheckboxToggleState(&m_gui,edit_fri_check);}
+          break;
+        case 5:
+          if(enc_btnAction == true){gslc_ElemXCheckboxToggleState(&m_gui,edit_sat_check);}
+          break;
+        case 6:
+          if(enc_btnAction == true){gslc_ElemXCheckboxToggleState(&m_gui,edit_sun_check);}
+          break;
+      }
+      enc_btnAction = false;
       break;
 
     case edit_prescription_4:
       encoder_enabled = true;
+      pos_encoder = checkbox_encoder_nav(pos_encoder,0,NB_OF_ALARMS-1);
+
+      switch(pos_encoder){
+        case 0:
+          if(enc_btnAction == true){gslc_ElemXCheckboxToggleState(&m_gui,edit_wake_check);}
+          break;
+        case 1:
+          if(enc_btnAction == true){gslc_ElemXCheckboxToggleState(&m_gui,edit_morn_check);}
+          break;
+        case 2:
+          if(enc_btnAction == true){gslc_ElemXCheckboxToggleState(&m_gui,edit_lunch_check);}
+          break;
+        case 3:
+          if(enc_btnAction == true){gslc_ElemXCheckboxToggleState(&m_gui,edit_after_check);}
+          break;
+        case 4:
+          if(enc_btnAction == true){gslc_ElemXCheckboxToggleState(&m_gui,edit_dinn_check);}
+          break;
+        case 5:
+          if(enc_btnAction == true){gslc_ElemXCheckboxToggleState(&m_gui,edit_bed_check);}
+          break;
+      }
+
+      enc_btnAction = false;
       break;
 
     case refill_1:
@@ -862,6 +925,7 @@ void check_encoder(int16_t current_page){
     
     case refill_2:
       encoder_enabled = true;
+      temp_pills = change_element_encoder(temp_pills,1,MAX_NB_PILLS-1,pills_refilled,TEXT_INT);
       break;
 
     case trip:
@@ -870,6 +934,7 @@ void check_encoder(int16_t current_page){
 
     default:
       encoder_enabled = false;
+      break;
   }
 
 }
@@ -922,7 +987,7 @@ void btn1_action(int16_t current_page){
 
 void btn2_action(int16_t current_page){
   switch(current_page){
-    
+    char s[12];
     case Default:
       if(pw_enabled == true){
         pw_for_pres = true;
@@ -949,6 +1014,8 @@ void btn2_action(int16_t current_page){
       //add condition to check if a prescription has been selected
        if(rack_taken[pos_encoder] == true){
         //call function to get data and display in next page
+        gslc_ElemSetTxtStr(&m_gui,sel_drug_del,drug_name_list[pos_encoder]);
+        gslc_ElemSetTxtStr(&m_gui,empty_rack_txt,itoa(pos_encoder+1,s,10));
         gslc_SetPageCur(&m_gui,delete_conf);
         pos_encoder = 0;
       }
@@ -982,6 +1049,9 @@ void btn3_action(int16_t current_page){
       //add condition to check if a prescription has been selected
        if(rack_taken[pos_encoder] == true){
         //call function to get data and display in next page
+        gslc_ElemSetTxtStr(&m_gui,sel_drug_edit2,drug_name_list[pos_encoder]);
+        gslc_ElemSetTxtStr(&m_gui,sel_drug_edit3,drug_name_list[pos_encoder]);
+        gslc_ElemSetTxtStr(&m_gui,sel_drug_edit4,drug_name_list[pos_encoder]);
         gslc_SetPageCur(&m_gui,edit_prescription_2);
         pos_encoder = 0;
       }
@@ -989,15 +1059,18 @@ void btn3_action(int16_t current_page){
       
     case edit_prescription_2:
       gslc_SetPageCur(&m_gui,edit_prescription_3);
+      pos_encoder = 0;
       break;
 
     case edit_prescription_3:
       gslc_SetPageCur(&m_gui,edit_prescription_4);
+      pos_encoder = 0;
       break;
 
     case edit_prescription_4:
       //must save all data too
       gslc_SetPageCur(&m_gui,Prescription);
+      pos_encoder = 0;
       break;
 
     case new_prescription_1:
@@ -1030,6 +1103,7 @@ void btn3_action(int16_t current_page){
       //add condition to check if a prescription has been selected
       if(rack_taken[pos_encoder] == true){
         //call function to get data and display in next page
+        gslc_ElemSetTxtStr(&m_gui,sel_drug_refill,drug_name_list[pos_encoder]);
         gslc_SetPageCur(&m_gui,refill_2);
         pos_encoder = 0;
       }
@@ -1380,7 +1454,8 @@ void save_new_pill(){
   strcat(buf,alphabet_list[temp_char_8]);
 
   temp_presc.name = buf;
-  drug_name_list[temp_presc.ra-1] = buf;
+  strcpy(drug_name_list[temp_presc.ra-1], buf);
+
 
   temp_presc.al_day[0] = gslc_ElemXCheckboxGetState(&m_gui,add_mo_check);
   temp_presc.al_day[1] = gslc_ElemXCheckboxGetState(&m_gui,add_tue_check);
@@ -1402,6 +1477,10 @@ void save_new_pill(){
 
   free_rack_index = 0;
   Serial.println(temp_presc.name);
+}
+
+void save_edited_pill(){
+
 }
 
 void edit_prescription_listbox(gslc_tsElemRef * listbox){

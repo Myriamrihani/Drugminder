@@ -1300,7 +1300,7 @@ void InitGUIslice_gen()
   alarm_progress = gslc_PageFindElemById(&m_gui,Alarm_message,E_ELEM_PROGRESS3);
   
   // Create E_ELEM_TEXT78 modifiable text using flash API
-  static char m_sDisplayText78[21] = "30min left to take them";
+  static char m_sDisplayText78[30] = "30min left to take them";
   gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT78,Alarm_message,122,280,259,20,
     m_sDisplayText78,21,&m_asFont[E_FREESANS12],
     ((gslc_tsColor){255,0,178}),((gslc_tsColor){255,0,178}),GSLC_COL_GRAY,GSLC_COL_WHITE,GSLC_ALIGN_MID_LEFT,0,0,
@@ -1977,7 +1977,7 @@ void InitGUIslice_gen()
   // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
   
   // Create E_ELEM_TEXT154 modifiable text using flash API
-  static char m_sDisplayText154[26] = "wrong password, try again!";
+  static char m_sDisplayText154[45] = "wrong password, try again!";
   gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT154,password,130,200,250,15,
     m_sDisplayText154,26,&m_asFont[E_FREESANS9],
     GSLC_COL_RED,GSLC_COL_RED,GSLC_COL_GRAY,GSLC_COL_WHITE,GSLC_ALIGN_MID_LEFT,0,0,
