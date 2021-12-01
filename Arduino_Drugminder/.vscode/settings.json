@@ -29,7 +29,6 @@
     "/Users/myriamrihani/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
     "/Users/myriamrihani/.platformio/packages/framework-arduino-avr/cores/arduino",
     "/Users/myriamrihani/.platformio/packages/framework-arduino-avr/variants/mega",
-    "/Users/myriamrihani/git/Drugminder/Arduino_Drugminder/.pio/libdeps/megaatmega2560/RTClib/src",
     "/Users/myriamrihani/.platformio/packages/framework-arduino-avr/libraries/HID/src",
     "/Users/myriamrihani/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
     ""
