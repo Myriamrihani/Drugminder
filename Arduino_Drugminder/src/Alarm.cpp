@@ -3,83 +3,65 @@ using namespace std;
 #include <Alarm.h>
 
 
-// Alarm::Alarm(week_day d, alarm_cycle t)
-// {
-//     day = d;
-//     switch (t)
-//     {
-//     case wake:
-//         alarm_time.hour = the_setting.cycle.wake_up.hour;
-//         alarm_time.minute = the_setting.cycle.wake_up.minute;
-//         break;
-//     case morn:
-//         alarm_time.hour = the_setting.cycle.morning.hour;
-//         alarm_time.minute = the_setting.cycle.morning.minute;
-//         break;
-//     case lun:
-//         alarm_time.hour = the_setting.cycle.lunch.hour;
-//         alarm_time.minute = the_setting.cycle.lunch.minute;
-//         break;
-//     case after:
-//         alarm_time.hour = the_setting.cycle.afternoon.hour;
-//         alarm_time.minute = the_setting.cycle.afternoon.minute;
-//         break;
-//     case din:
-//         alarm_time.hour = the_setting.cycle.dinner.hour;
-//         alarm_time.minute = the_setting.cycle.dinner.minute;
-//         break;
-//     case bed:
-//         alarm_time.hour = the_setting.cycle.bedtime.hour;
-//         alarm_time.minute = the_setting.cycle.bedtime.minute;
-//         break;
-//     default:
-//         break;
-//     }
-// }
+RTC_DS1307 rtc;
+bool start_alarm = false;
 
-// Alarm::~Alarm()
-// {
-// }
+uint8_t what_day(){
+    DateTime now = rtc.now();
+    uint8_t flag = now.dayOfTheWeek();
+    
+    return flag;
 
+}
 
-// void Alarm::edit_alarm(week_day d, alarm_cycle t){
-//     day = d;
-//     switch (t)
-//     {
-//     case wake:
-//         alarm_time.hour = the_setting.cycle.wake_up.hour;
-//         alarm_time.minute = the_setting.cycle.wake_up.minute;
-//         break;
-//     case morn:
-//         alarm_time.hour = the_setting.cycle.morning.hour;
-//         alarm_time.minute = the_setting.cycle.morning.minute;
-//         break;
-//     case lun:
-//         alarm_time.hour = the_setting.cycle.lunch.hour;
-//         alarm_time.minute = the_setting.cycle.lunch.minute;
-//         break;
-//     case after:
-//         alarm_time.hour = the_setting.cycle.afternoon.hour;
-//         alarm_time.minute = the_setting.cycle.afternoon.minute;
-//         break;
-//     case din:
-//         alarm_time.hour = the_setting.cycle.dinner.hour;
-//         alarm_time.minute = the_setting.cycle.dinner.minute;
-//         break;
-//     case bed:
-//         alarm_time.hour = the_setting.cycle.bedtime.hour;
-//         alarm_time.minute = the_setting.cycle.bedtime.minute;
-//         break;
-//     default:
-//         break;
-//     }  
-// }
-//this function would compare the alarm time with the clock and return true if they are equal.
-// bool Alarm::is_time(){
+int what_time(){
+    DateTime now = rtc.now();
+    int hour = now.hour();
+    int minutes = now.minute();
+    alarm_cycle flag = nope ;
 
-// }
+    if((hour == the_setting.cycle.wake_up.hour) & (the_setting.cycle.wake_up.minute == minutes)){
+        flag = wake;
+    } else if ((hour ==the_setting.cycle.morning.hour) & (the_setting.cycle.morning.minute == minutes) )
+    {
+        flag = morn;
+    }else if ((hour == the_setting.cycle.lunch.hour) & (the_setting.cycle.lunch.minute == minutes))
+    {
+        flag = lun;
+    }
+    else if ((hour == the_setting.cycle.afternoon.hour) & (the_setting.cycle.afternoon.minute == minutes))
+    {
+        flag = after;
+    }
+    else if ((hour == the_setting.cycle.dinner.hour) & (the_setting.cycle.dinner.minute == minutes))
+    {
+        flag = din;
+    }
+    else if ((hour == the_setting.cycle.bedtime.hour) & (the_setting.cycle.bedtime.minute == minutes))
+    {
+        flag = bed;
+    }
 
+    return flag;
 
-//In this method, we would have a direct interaction with the user
+}
 
+void check_alarm(){
+    uint8_t day = what_day();
+    int time = what_time();
+    set_alarm_matrix();
 
+    for(int rack=0; rack<NB_RACKS ; ++rack){
+        if(day_matrix[rack][day]){
+            if(time_matrix[rack][time]){
+                pills_to_dis[rack] = true;
+                start_alarm = true;
+            }
+        }
+    }
+}
+
+void play_alarm(){
+    //display alarm pages
+    //play sound
+}

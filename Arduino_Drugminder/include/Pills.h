@@ -38,7 +38,11 @@ class Pill{
 extern Pill Inventory [NB_RACKS];
 extern int total_pills;
 extern Pill_param temp_presc;
+extern bool day_matrix[NB_RACKS][WEEK_DAYS];
+extern bool time_matrix[NB_RACKS][NB_OF_ALARMS];
+extern bool pills_to_dis[NB_RACKS];
 
+void set_alarm_matrix();
 void get_prescription_size();
 void add_pill (Pill_param temp);
 void delete_pill(int nb);

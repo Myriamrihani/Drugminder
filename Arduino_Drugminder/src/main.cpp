@@ -15,6 +15,8 @@
 // ------------------------------------------------
 #include "Screen_GUI_V2_GSLC.h"
 #include <Pills.h>
+#include <Alarm.h>
+#include <Settings.h>
 
 
 // ------------------------------------------------
@@ -460,6 +462,19 @@ void setup()
   InitGUIslice_gen();
   gslc_ElemSetVisible(&m_gui,wrong_pw_text,false);
 
+
+  if (! rtc.begin()) {
+    Serial.println("Couldn't find RTC");
+    while (1);
+  }
+  if (! rtc.isrunning()) {
+    Serial.println("RTC is NOT running!");
+    // following line sets the RTC to the date & time this sketch was compiled
+    rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+    // This line sets the RTC with an explicit date & time, for example to set
+    // January 21, 2014 at 3am you would call:
+    // rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
+  }
 }
 
 // -----------------------------------
@@ -467,6 +482,10 @@ void setup()
 // -----------------------------------
 void loop()
 {
+  check_alarm();
+
+  if(start_alarm){play_alarm;}
+  //else{//mettre tout le reste, le bool start_alarm doit jouer comme une interruption}
   if(digitalRead(button1Pin) == true){
     status1 = !status1;
     btn1_action(gslc_GetPageCur(&m_gui));
