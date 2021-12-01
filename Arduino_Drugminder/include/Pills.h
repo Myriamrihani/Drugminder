@@ -20,8 +20,8 @@ class Pill{
     String get_name();
     int get_rack();
     int get_nb();
-    bool get_alarm_t();
-    bool get_alarm_day();
+    bool get_alarm_t(int index);
+    bool get_alarm_day(int index);
     void reset();
     
     void print_pill();

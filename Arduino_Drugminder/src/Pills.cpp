@@ -84,9 +84,9 @@ void reset_pill_param(Pill_param temp){
     }   
 }
 
-bool Pill::get_alarm_t(){
-    return alarm_t ;
+bool Pill::get_alarm_t(int index){
+    return alarm_t[index] ;
 }
-bool Pill::get_alarm_day(){
-    return alarm_day;
+bool Pill::get_alarm_day(int index){
+    return alarm_day[index];
 }
