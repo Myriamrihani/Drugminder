@@ -1,22 +1,20 @@
 #ifndef ALARM_H
 #define ARALM_H
 #include <Arduino.h>
+#include <Wire.h>
+#include <RTClib.h>
+#include <Settings.h>
+#include <Pills.h>
 
 
 using namespace std;
 
-// class Alarm
-// {
-// private:
-//     week_day day;
-//     Time alarm_time;
-// public:
-//     Alarm(week_day d, alarm_cycle t);
-//     ~Alarm();
+extern RTC_DS1307 rtc;
+extern bool start_alarm;
 
-//     void edit_alarm(week_day d, alarm_cycle t);
-//     //this function would compare the alarm time with the clock and return true if they are equal.
-//     bool is_time();
-// };
+uint8_t what_day();
+int what_time();
+void check_alarm();
+void play_alarm();
 
 #endif /* arlarm_hpp */

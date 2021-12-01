@@ -22,15 +22,15 @@ using namespace std;
 
 // enum set { a_type, a_times, date, volume, password};
 enum alarm_type {None, Sound, Light, Both};
-// enum week_day {Monday=0, Tuesday=1, Wednesday=2, Thrusday=3, Friday=4, Saturday=5, Sunday=6};
-enum alarm_cycle {wake, morn, lun, after, din, bed};
+enum week_day {Sunday, Monday, Tuesday, Wednesday, Thrusday, Friday, Saturday};
+enum alarm_cycle {nope, wake, morn, lun, after, din, bed};
 
 extern const char* week_str[WEEK_DAYS];
 extern const char* alphabet_list[L_ALPHABET];
 
 struct Time{
-    unsigned int hour;
-    unsigned int minute;
+    int hour;
+    int minute;
 };
 
 struct Date{

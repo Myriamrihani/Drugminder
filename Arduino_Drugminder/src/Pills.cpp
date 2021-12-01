@@ -7,6 +7,22 @@ using namespace std;
 Pill Inventory [NB_RACKS];
 Pill_param temp_presc;
 int total_pills = 0;
+bool day_matrix[NB_RACKS][WEEK_DAYS] = {false};
+bool time_matrix[NB_RACKS][NB_OF_ALARMS] = {false};
+bool pills_to_dis[NB_RACKS] = {false};
+
+
+void set_alarm_matrix(){
+    for(int i= 0; i<NB_RACKS; ++i ){
+        for(int j =0; j<WEEK_DAYS; ++j){
+            day_matrix[i][j] = Inventory[i].get_alarm_day(j);
+        }
+        for(int t =0; t<NB_OF_ALARMS; ++t){
+            time_matrix[i][t] = Inventory[i].get_alarm_t(t);
+        }        
+    }
+}
+
 
 void Pill::edit_pill(Pill_param temp){
     pill_name = temp.name;
