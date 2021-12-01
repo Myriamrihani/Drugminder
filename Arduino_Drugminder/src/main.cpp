@@ -23,6 +23,8 @@
 
 // Save some element references for direct access
 //<Save_References !Start!>
+gslc_tsElemRef* Listbox_prescription= NULL;
+gslc_tsElemRef* Listbox_prescription_2= NULL;
 gslc_tsElemRef* add_fri_check     = NULL;
 gslc_tsElemRef* add_mo_check      = NULL;
 gslc_tsElemRef* add_pfilled       = NULL;
@@ -35,8 +37,8 @@ gslc_tsElemRef* add_wed_check     = NULL;
 gslc_tsElemRef* after_h           = NULL;
 gslc_tsElemRef* after_min         = NULL;
 gslc_tsElemRef* alarm_progress    = NULL;
-gslc_tsElemRef* bed_min           = NULL;
 gslc_tsElemRef* bed_h             = NULL;
+gslc_tsElemRef* bed_min           = NULL;
 gslc_tsElemRef* date_set          = NULL;
 gslc_tsElemRef* day_set           = NULL;
 gslc_tsElemRef* deadline_time     = NULL;
@@ -72,8 +74,6 @@ gslc_tsElemRef* listbox_pill_given= NULL;
 gslc_tsElemRef* lunch_h           = NULL;
 gslc_tsElemRef* lunch_min         = NULL;
 gslc_tsElemRef* m_pElemListbox1   = NULL;
-gslc_tsElemRef* m_pElemListbox1_2 = NULL;
-gslc_tsElemRef* m_pElemListbox1_2_3= NULL;
 gslc_tsElemRef* m_pElemTextbox2   = NULL;
 gslc_tsElemRef* min_set           = NULL;
 gslc_tsElemRef* morn_h            = NULL;
@@ -104,9 +104,9 @@ gslc_tsElemRef* pw_digit_4        = NULL;
 gslc_tsElemRef* refill_bttn       = NULL;
 gslc_tsElemRef* refill_bttn_2     = NULL;
 gslc_tsElemRef* sel_drug_del      = NULL;
-gslc_tsElemRef* sel_drug_edit1    = NULL;
 gslc_tsElemRef* sel_drug_edit2    = NULL;
 gslc_tsElemRef* sel_drug_edit3    = NULL;
+gslc_tsElemRef* sel_drug_edit4    = NULL;
 gslc_tsElemRef* sel_drug_refill   = NULL;
 gslc_tsElemRef* sound_check       = NULL;
 gslc_tsElemRef* trip_bttn         = NULL;
@@ -329,12 +329,12 @@ bool CbListbox(void* pvGui, void* pvElemRef, int16_t nSelId)
         gslc_ElemXListboxGetItem(&m_gui, pElemRef, nSelId, acTxt, MAX_STR);
       }
       break;
-    case PRESCRIPTION_LISTBOX_2:
+
+    case E_ELEM_LISTBOX4:
       if (nSelId != XLISTBOX_SEL_NONE) {
         gslc_ElemXListboxGetItem(&m_gui, pElemRef, nSelId, acTxt, MAX_STR);
       }
       break;
-
 //<Listbox Enums !End!>
     default:
       break;
@@ -414,6 +414,8 @@ unsigned int temp_char_6 = 0;
 unsigned int temp_char_7 = 0;
 unsigned int temp_char_8 = 0;
 
+char* drug_name_list[NB_RACKS] = {""};
+
 
 //functions declaration
 void btn1_action(int16_t current_page);
@@ -428,6 +430,7 @@ int checkbox_encoder_nav(int value, int min_val, int max_val);
 void reset_default_elements_add();
 void load_pill_data_to_elements();
 void save_new_pill();
+void edit_prescription_listbox(gslc_tsElemRef * listbox);
 
 void setup()
 {
@@ -815,6 +818,7 @@ void check_encoder(int16_t current_page){
 
     case edit_prescription_1:
       encoder_enabled = true;
+      pos_encoder = change_element_encoder(pos_encoder,0,NB_RACKS-1,Listbox_prescription,LISTBOX_POS);
       break;
       
     case edit_prescription_2:
@@ -831,6 +835,7 @@ void check_encoder(int16_t current_page){
 
     case refill_1:
       encoder_enabled = true;
+      pos_encoder = change_element_encoder(pos_encoder,0,NB_RACKS-1,Listbox_prescription_2,LISTBOX_POS);
       break;
     
     case refill_2:
@@ -920,7 +925,11 @@ void btn2_action(int16_t current_page){
 
     case edit_prescription_1:
       //add condition to check if a prescription has been selected
-      gslc_SetPageCur(&m_gui,delete_conf);
+       if(rack_taken[pos_encoder] == true){
+        //call function to get data and display in next page
+        gslc_SetPageCur(&m_gui,delete_conf);
+        pos_encoder = 0;
+      }
       break;
       
     case pw_options:
@@ -949,7 +958,11 @@ void btn3_action(int16_t current_page){
       
     case edit_prescription_1:
       //add condition to check if a prescription has been selected
-      gslc_SetPageCur(&m_gui,edit_prescription_2);
+       if(rack_taken[pos_encoder] == true){
+        //call function to get data and display in next page
+        gslc_SetPageCur(&m_gui,edit_prescription_2);
+        pos_encoder = 0;
+      }
       break;
       
     case edit_prescription_2:
@@ -993,12 +1006,17 @@ void btn3_action(int16_t current_page){
 
     case refill_1:
       //add condition to check if a prescription has been selected
-      gslc_SetPageCur(&m_gui,refill_2);
+      if(rack_taken[pos_encoder] == true){
+        //call function to get data and display in next page
+        gslc_SetPageCur(&m_gui,refill_2);
+        pos_encoder = 0;
+      }
       break;
 
     case refill_2:
       //add the pills added in right prescription too
       gslc_SetPageCur(&m_gui,Prescription);
+      pos_encoder = 0;
       break;
 
     case pw_options:
@@ -1128,26 +1146,32 @@ void btn4_action(int16_t current_page){
 
     case edit_prescription_1:
       gslc_SetPageCur(&m_gui,Prescription);
+      pos_encoder = 0;
       break;
 
     case edit_prescription_2:
       gslc_SetPageCur(&m_gui,edit_prescription_1);
+      pos_encoder = 0;
       break;
 
     case edit_prescription_3:
       gslc_SetPageCur(&m_gui,edit_prescription_2);
+      pos_encoder = 0;
       break;
 
     case edit_prescription_4:
       gslc_SetPageCur(&m_gui,edit_prescription_3);
+      pos_encoder = 0;
       break;
 
     case refill_1:
       gslc_SetPageCur(&m_gui,Prescription);
+      pos_encoder = 0;
       break;
 
     case refill_2:
       gslc_SetPageCur(&m_gui,refill_1);
+      pos_encoder = 0;
       break;
 
     case trip:
@@ -1334,6 +1358,7 @@ void save_new_pill(){
   strcat(buf,alphabet_list[temp_char_8]);
 
   temp_presc.name = buf;
+  drug_name_list[temp_presc.ra-1] = buf;
 
   temp_presc.al_day[0] = gslc_ElemXCheckboxGetState(&m_gui,add_mo_check);
   temp_presc.al_day[1] = gslc_ElemXCheckboxGetState(&m_gui,add_tue_check);
@@ -1350,6 +1375,65 @@ void save_new_pill(){
   temp_presc.al_t[4] = gslc_ElemXCheckboxGetState(&m_gui,new_dinn_check);
   temp_presc.al_t[5] = gslc_ElemXCheckboxGetState(&m_gui,new_bed_check);
 
+  edit_prescription_listbox(Listbox_prescription);
+  edit_prescription_listbox(Listbox_prescription_2);
+
   free_rack_index = 0;
   Serial.println(temp_presc.name);
+}
+
+void edit_prescription_listbox(gslc_tsElemRef * listbox){
+  gslc_ElemXListboxReset(&m_gui,listbox);
+
+  char buf[12];
+  strcpy(buf,"1) ");
+  strcat(buf,drug_name_list[0]);
+  gslc_ElemXListboxAddItem(&m_gui, listbox, buf);
+  memset(&buf[0], 0, sizeof(buf));
+
+  strcpy(buf,"2) ");
+  strcat(buf,drug_name_list[1]);
+  gslc_ElemXListboxAddItem(&m_gui, listbox, buf);
+  memset(&buf[0], 0, sizeof(buf));
+
+  strcpy(buf,"3) ");
+  strcat(buf,drug_name_list[2]);
+  gslc_ElemXListboxAddItem(&m_gui, listbox, buf);
+  memset(&buf[0], 0, sizeof(buf));
+
+  strcpy(buf,"4) ");
+  strcat(buf,drug_name_list[3]);
+  gslc_ElemXListboxAddItem(&m_gui, listbox, buf);
+  memset(&buf[0], 0, sizeof(buf));
+
+  strcpy(buf,"5) ");
+  strcat(buf,drug_name_list[4]);
+  gslc_ElemXListboxAddItem(&m_gui, listbox, buf);
+  memset(&buf[0], 0, sizeof(buf));
+
+  strcpy(buf,"6) ");
+  strcat(buf,drug_name_list[5]);
+  gslc_ElemXListboxAddItem(&m_gui, listbox, buf);
+  memset(&buf[0], 0, sizeof(buf));
+
+  strcpy(buf,"7) ");
+  strcat(buf,drug_name_list[6]);
+  gslc_ElemXListboxAddItem(&m_gui, listbox, buf);
+  memset(&buf[0], 0, sizeof(buf));
+
+  strcpy(buf,"8) ");
+  strcat(buf,drug_name_list[7]);
+  gslc_ElemXListboxAddItem(&m_gui, listbox, buf);
+  memset(&buf[0], 0, sizeof(buf));
+
+  strcpy(buf,"9) ");
+  strcat(buf,drug_name_list[8]);
+  gslc_ElemXListboxAddItem(&m_gui, listbox, buf);
+  memset(&buf[0], 0, sizeof(buf));
+
+  strcpy(buf,"10) ");
+  strcat(buf,drug_name_list[9]);
+  gslc_ElemXListboxAddItem(&m_gui, listbox, buf);
+  //memset(&buf[0], 0, sizeof(buf));
+
 }

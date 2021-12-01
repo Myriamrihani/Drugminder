@@ -61,52 +61,52 @@ enum {Default,settings,med_list,Prescription,Date_hour,Volume
       ,edit_prescription_2,edit_prescription_3,delete_done,refill_1
       ,refill_2,trip,password,dispensing,delete_conf,pw_options
       ,pw_del_conf,new_prescription_3,edit_prescription_4,alarm_times};
-enum {ALL_PILLS_TEXTBOX,DRUG_NAME_TEXT,DRUG_NAME_TEXT_2
-      ,DRUG_NAME_TEXT_3,E_ELEM_BTN1,E_ELEM_BTN10,E_ELEM_BTN11
-      ,E_ELEM_BTN12,E_ELEM_BTN13,E_ELEM_BTN14,E_ELEM_BTN15,E_ELEM_BTN16
-      ,E_ELEM_BTN17,E_ELEM_BTN18,E_ELEM_BTN19,E_ELEM_BTN2,E_ELEM_BTN21
-      ,E_ELEM_BTN22,E_ELEM_BTN23,E_ELEM_BTN24,E_ELEM_BTN25,E_ELEM_BTN26
-      ,E_ELEM_BTN27,E_ELEM_BTN29,E_ELEM_BTN3,E_ELEM_BTN30,E_ELEM_BTN31
-      ,E_ELEM_BTN32,E_ELEM_BTN35,E_ELEM_BTN36,E_ELEM_BTN37,E_ELEM_BTN38
-      ,E_ELEM_BTN39,E_ELEM_BTN4,E_ELEM_BTN40,E_ELEM_BTN41,E_ELEM_BTN42
-      ,E_ELEM_BTN43,E_ELEM_BTN44,E_ELEM_BTN45,E_ELEM_BTN46,E_ELEM_BTN47
-      ,E_ELEM_BTN48,E_ELEM_BTN49,E_ELEM_BTN5,E_ELEM_BTN50,E_ELEM_BTN52
-      ,E_ELEM_BTN53,E_ELEM_BTN54,E_ELEM_BTN55,E_ELEM_BTN56,E_ELEM_BTN57
-      ,E_ELEM_BTN58,E_ELEM_BTN7,E_ELEM_BTN8,E_ELEM_BTN9,E_ELEM_CHECK1
-      ,E_ELEM_CHECK18,E_ELEM_CHECK19,E_ELEM_CHECK2,E_ELEM_CHECK20
-      ,E_ELEM_CHECK21,E_ELEM_CHECK22,E_ELEM_CHECK23,E_ELEM_CHECK24
-      ,E_ELEM_CHECK29,E_ELEM_CHECK30,E_ELEM_CHECK31,E_ELEM_CHECK32
-      ,E_ELEM_CHECK33,E_ELEM_CHECK34,E_ELEM_CHECK41,E_ELEM_CHECK42
-      ,E_ELEM_CHECK43,E_ELEM_CHECK44,E_ELEM_CHECK45,E_ELEM_CHECK46
-      ,E_ELEM_CHECK47,E_ELEM_CHECK48,E_ELEM_CHECK49,E_ELEM_CHECK50
-      ,E_ELEM_CHECK51,E_ELEM_CHECK52,E_ELEM_CHECK53,E_ELEM_PROGRESS3
-      ,E_ELEM_PROGRESS4,E_ELEM_TEXT1,E_ELEM_TEXT101,E_ELEM_TEXT103
-      ,E_ELEM_TEXT104,E_ELEM_TEXT105,E_ELEM_TEXT106,E_ELEM_TEXT107
-      ,E_ELEM_TEXT108,E_ELEM_TEXT109,E_ELEM_TEXT114,E_ELEM_TEXT122
-      ,E_ELEM_TEXT123,E_ELEM_TEXT124,E_ELEM_TEXT125,E_ELEM_TEXT127
-      ,E_ELEM_TEXT131,E_ELEM_TEXT133,E_ELEM_TEXT134,E_ELEM_TEXT135
-      ,E_ELEM_TEXT136,E_ELEM_TEXT137,E_ELEM_TEXT138,E_ELEM_TEXT139
-      ,E_ELEM_TEXT140,E_ELEM_TEXT141,E_ELEM_TEXT142,E_ELEM_TEXT143
-      ,E_ELEM_TEXT144,E_ELEM_TEXT145,E_ELEM_TEXT146,E_ELEM_TEXT147
-      ,E_ELEM_TEXT149,E_ELEM_TEXT15,E_ELEM_TEXT150,E_ELEM_TEXT151
-      ,E_ELEM_TEXT152,E_ELEM_TEXT153,E_ELEM_TEXT154,E_ELEM_TEXT155
-      ,E_ELEM_TEXT156,E_ELEM_TEXT157,E_ELEM_TEXT158,E_ELEM_TEXT159
-      ,E_ELEM_TEXT160,E_ELEM_TEXT161,E_ELEM_TEXT162,E_ELEM_TEXT163
-      ,E_ELEM_TEXT165,E_ELEM_TEXT166,E_ELEM_TEXT167,E_ELEM_TEXT168
-      ,E_ELEM_TEXT169,E_ELEM_TEXT170,E_ELEM_TEXT171,E_ELEM_TEXT173
-      ,E_ELEM_TEXT174,E_ELEM_TEXT175,E_ELEM_TEXT176,E_ELEM_TEXT177
-      ,E_ELEM_TEXT186,E_ELEM_TEXT187,E_ELEM_TEXT188,E_ELEM_TEXT189
-      ,E_ELEM_TEXT19,E_ELEM_TEXT190,E_ELEM_TEXT192,E_ELEM_TEXT193
-      ,E_ELEM_TEXT194,E_ELEM_TEXT195,E_ELEM_TEXT196,E_ELEM_TEXT197
-      ,E_ELEM_TEXT198,E_ELEM_TEXT199,E_ELEM_TEXT20,E_ELEM_TEXT200
-      ,E_ELEM_TEXT201,E_ELEM_TEXT202,E_ELEM_TEXT203,E_ELEM_TEXT204
-      ,E_ELEM_TEXT205,E_ELEM_TEXT207,E_ELEM_TEXT208,E_ELEM_TEXT209
-      ,E_ELEM_TEXT21,E_ELEM_TEXT210,E_ELEM_TEXT211,E_ELEM_TEXT212
-      ,E_ELEM_TEXT213,E_ELEM_TEXT214,E_ELEM_TEXT215,E_ELEM_TEXT216
-      ,E_ELEM_TEXT217,E_ELEM_TEXT218,E_ELEM_TEXT219,E_ELEM_TEXT220
-      ,E_ELEM_TEXT221,E_ELEM_TEXT222,E_ELEM_TEXT223,E_ELEM_TEXT224
-      ,E_ELEM_TEXT225,E_ELEM_TEXT226,E_ELEM_TEXT227,E_ELEM_TEXT228
-      ,E_ELEM_TEXT229,E_ELEM_TEXT23,E_ELEM_TEXT230,E_ELEM_TEXT24
+enum {ALL_PILLS_TEXTBOX,DRUG_NAME_TEXT,E_ELEM_BTN1,E_ELEM_BTN10
+      ,E_ELEM_BTN11,E_ELEM_BTN12,E_ELEM_BTN13,E_ELEM_BTN14,E_ELEM_BTN15
+      ,E_ELEM_BTN16,E_ELEM_BTN17,E_ELEM_BTN18,E_ELEM_BTN19,E_ELEM_BTN2
+      ,E_ELEM_BTN21,E_ELEM_BTN22,E_ELEM_BTN23,E_ELEM_BTN24,E_ELEM_BTN25
+      ,E_ELEM_BTN26,E_ELEM_BTN27,E_ELEM_BTN29,E_ELEM_BTN3,E_ELEM_BTN30
+      ,E_ELEM_BTN31,E_ELEM_BTN32,E_ELEM_BTN35,E_ELEM_BTN36,E_ELEM_BTN37
+      ,E_ELEM_BTN38,E_ELEM_BTN39,E_ELEM_BTN4,E_ELEM_BTN40,E_ELEM_BTN41
+      ,E_ELEM_BTN42,E_ELEM_BTN43,E_ELEM_BTN44,E_ELEM_BTN45,E_ELEM_BTN46
+      ,E_ELEM_BTN47,E_ELEM_BTN48,E_ELEM_BTN49,E_ELEM_BTN5,E_ELEM_BTN50
+      ,E_ELEM_BTN52,E_ELEM_BTN53,E_ELEM_BTN54,E_ELEM_BTN55,E_ELEM_BTN56
+      ,E_ELEM_BTN57,E_ELEM_BTN58,E_ELEM_BTN7,E_ELEM_BTN8,E_ELEM_BTN9
+      ,E_ELEM_CHECK1,E_ELEM_CHECK18,E_ELEM_CHECK19,E_ELEM_CHECK2
+      ,E_ELEM_CHECK20,E_ELEM_CHECK21,E_ELEM_CHECK22,E_ELEM_CHECK23
+      ,E_ELEM_CHECK24,E_ELEM_CHECK29,E_ELEM_CHECK30,E_ELEM_CHECK31
+      ,E_ELEM_CHECK32,E_ELEM_CHECK33,E_ELEM_CHECK34,E_ELEM_CHECK41
+      ,E_ELEM_CHECK42,E_ELEM_CHECK43,E_ELEM_CHECK44,E_ELEM_CHECK45
+      ,E_ELEM_CHECK46,E_ELEM_CHECK47,E_ELEM_CHECK48,E_ELEM_CHECK49
+      ,E_ELEM_CHECK50,E_ELEM_CHECK51,E_ELEM_CHECK52,E_ELEM_CHECK53
+      ,E_ELEM_LISTBOX4,E_ELEM_PROGRESS3,E_ELEM_PROGRESS4,E_ELEM_TEXT1
+      ,E_ELEM_TEXT101,E_ELEM_TEXT103,E_ELEM_TEXT104,E_ELEM_TEXT105
+      ,E_ELEM_TEXT106,E_ELEM_TEXT107,E_ELEM_TEXT108,E_ELEM_TEXT109
+      ,E_ELEM_TEXT114,E_ELEM_TEXT122,E_ELEM_TEXT123,E_ELEM_TEXT124
+      ,E_ELEM_TEXT125,E_ELEM_TEXT127,E_ELEM_TEXT131,E_ELEM_TEXT133
+      ,E_ELEM_TEXT134,E_ELEM_TEXT135,E_ELEM_TEXT136,E_ELEM_TEXT137
+      ,E_ELEM_TEXT138,E_ELEM_TEXT139,E_ELEM_TEXT140,E_ELEM_TEXT141
+      ,E_ELEM_TEXT142,E_ELEM_TEXT143,E_ELEM_TEXT144,E_ELEM_TEXT145
+      ,E_ELEM_TEXT146,E_ELEM_TEXT147,E_ELEM_TEXT149,E_ELEM_TEXT15
+      ,E_ELEM_TEXT150,E_ELEM_TEXT151,E_ELEM_TEXT152,E_ELEM_TEXT153
+      ,E_ELEM_TEXT154,E_ELEM_TEXT155,E_ELEM_TEXT156,E_ELEM_TEXT157
+      ,E_ELEM_TEXT158,E_ELEM_TEXT159,E_ELEM_TEXT160,E_ELEM_TEXT161
+      ,E_ELEM_TEXT162,E_ELEM_TEXT163,E_ELEM_TEXT165,E_ELEM_TEXT166
+      ,E_ELEM_TEXT167,E_ELEM_TEXT168,E_ELEM_TEXT169,E_ELEM_TEXT170
+      ,E_ELEM_TEXT171,E_ELEM_TEXT173,E_ELEM_TEXT174,E_ELEM_TEXT175
+      ,E_ELEM_TEXT176,E_ELEM_TEXT177,E_ELEM_TEXT186,E_ELEM_TEXT187
+      ,E_ELEM_TEXT188,E_ELEM_TEXT189,E_ELEM_TEXT19,E_ELEM_TEXT190
+      ,E_ELEM_TEXT192,E_ELEM_TEXT193,E_ELEM_TEXT194,E_ELEM_TEXT195
+      ,E_ELEM_TEXT197,E_ELEM_TEXT198,E_ELEM_TEXT199,E_ELEM_TEXT20
+      ,E_ELEM_TEXT200,E_ELEM_TEXT201,E_ELEM_TEXT202,E_ELEM_TEXT203
+      ,E_ELEM_TEXT204,E_ELEM_TEXT205,E_ELEM_TEXT207,E_ELEM_TEXT208
+      ,E_ELEM_TEXT209,E_ELEM_TEXT21,E_ELEM_TEXT210,E_ELEM_TEXT211
+      ,E_ELEM_TEXT212,E_ELEM_TEXT213,E_ELEM_TEXT214,E_ELEM_TEXT215
+      ,E_ELEM_TEXT216,E_ELEM_TEXT217,E_ELEM_TEXT218,E_ELEM_TEXT219
+      ,E_ELEM_TEXT220,E_ELEM_TEXT221,E_ELEM_TEXT222,E_ELEM_TEXT223
+      ,E_ELEM_TEXT224,E_ELEM_TEXT225,E_ELEM_TEXT226,E_ELEM_TEXT227
+      ,E_ELEM_TEXT228,E_ELEM_TEXT229,E_ELEM_TEXT23,E_ELEM_TEXT230
+      ,E_ELEM_TEXT232,E_ELEM_TEXT233,E_ELEM_TEXT234,E_ELEM_TEXT24
       ,E_ELEM_TEXT25,E_ELEM_TEXT26,E_ELEM_TEXT27,E_ELEM_TEXT3
       ,E_ELEM_TEXT32,E_ELEM_TEXT33,E_ELEM_TEXT34,E_ELEM_TEXT35
       ,E_ELEM_TEXT37,E_ELEM_TEXT38,E_ELEM_TEXT39,E_ELEM_TEXT4
@@ -120,8 +120,8 @@ enum {ALL_PILLS_TEXTBOX,DRUG_NAME_TEXT,DRUG_NAME_TEXT_2
       ,E_ELEM_TEXT88,E_ELEM_TEXT89,E_ELEM_TEXT91,E_ELEM_TEXT92
       ,E_ELEM_TEXT93,E_ELEM_TEXT94,E_ELEM_TEXT95,E_ELEM_TEXT96
       ,E_ELEM_TEXT97,E_ELEM_TEXT98,E_ELEM_TEXT99,GIVEN_PILLS_TEXTBOX
-      ,PRESCRIPTION_LISTBOX,PRESCRIPTION_LISTBOX_2,RACK_NUMBER_TEXT
-      ,SETTINGS_LISTBOX,TODAY_INFO_TEXT,VOLUME_SLIDER};
+      ,PRESCRIPTION_LISTBOX,RACK_NUMBER_TEXT,SETTINGS_LISTBOX
+      ,TODAY_INFO_TEXT,VOLUME_SLIDER};
 // Must use separate enum for fonts with MAX_FONT at end to use gslc_FontSet.
 enum {E_BUILTIN10X16,E_FREESANS12,E_FREESANS18,E_FREESANS24,E_FREESANS9
       ,E_FREESERIF12,E_FREESERIF18,MAX_FONT};
@@ -441,10 +441,10 @@ gslc_tsXTextbox                 m_sTextbox3;
 char                            m_acTextboxBuf3[168]; // NRows=6 NCols=28
 gslc_tsXListbox                 m_sListbox2;
 // - Note that XLISTBOX_BUF_OH_R is extra required per item
-char                            m_acListboxBuf2[39 + XLISTBOX_BUF_OH_R];
-gslc_tsXListbox                 m_sListbox3;
+char                            m_acListboxBuf2[150 + XLISTBOX_BUF_OH_R];
+gslc_tsXListbox                 m_sListbox4;
 // - Note that XLISTBOX_BUF_OH_R is extra required per item
-char                            m_acListboxBuf3[39 + XLISTBOX_BUF_OH_R];
+char                            m_acListboxBuf4[150 + XLISTBOX_BUF_OH_R];
 
 #define MAX_STR                 100
 
@@ -456,6 +456,8 @@ char                            m_acListboxBuf3[39 + XLISTBOX_BUF_OH_R];
 
 // Element References for direct access
 //<Extern_References !Start!>
+extern gslc_tsElemRef* Listbox_prescription;
+extern gslc_tsElemRef* Listbox_prescription_2;
 extern gslc_tsElemRef* add_fri_check;
 extern gslc_tsElemRef* add_mo_check;
 extern gslc_tsElemRef* add_pfilled;
@@ -468,8 +470,8 @@ extern gslc_tsElemRef* add_wed_check;
 extern gslc_tsElemRef* after_h;
 extern gslc_tsElemRef* after_min;
 extern gslc_tsElemRef* alarm_progress;
-extern gslc_tsElemRef* bed_min;
 extern gslc_tsElemRef* bed_h;
+extern gslc_tsElemRef* bed_min;
 extern gslc_tsElemRef* date_set;
 extern gslc_tsElemRef* day_set;
 extern gslc_tsElemRef* deadline_time;
@@ -505,8 +507,6 @@ extern gslc_tsElemRef* listbox_pill_given;
 extern gslc_tsElemRef* lunch_h;
 extern gslc_tsElemRef* lunch_min;
 extern gslc_tsElemRef* m_pElemListbox1;
-extern gslc_tsElemRef* m_pElemListbox1_2;
-extern gslc_tsElemRef* m_pElemListbox1_2_3;
 extern gslc_tsElemRef* m_pElemTextbox2;
 extern gslc_tsElemRef* m_pListSlider1;
 extern gslc_tsElemRef* m_pListSlider1;
@@ -542,9 +542,9 @@ extern gslc_tsElemRef* pw_digit_4;
 extern gslc_tsElemRef* refill_bttn;
 extern gslc_tsElemRef* refill_bttn_2;
 extern gslc_tsElemRef* sel_drug_del;
-extern gslc_tsElemRef* sel_drug_edit1;
 extern gslc_tsElemRef* sel_drug_edit2;
 extern gslc_tsElemRef* sel_drug_edit3;
+extern gslc_tsElemRef* sel_drug_edit4;
 extern gslc_tsElemRef* sel_drug_refill;
 extern gslc_tsElemRef* sound_check;
 extern gslc_tsElemRef* trip_bttn;
@@ -1065,7 +1065,7 @@ void InitGUIslice_gen()
   // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
   
   // Create E_ELEM_TEXT42 modifiable text using flash API
-  static char m_sDisplayText42[3] = "1";
+  static char m_sDisplayText42[3] = " ";
   gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT42,new_prescription_1,350,70,57,28,
     m_sDisplayText42,3,&m_asFont[E_FREESANS18],
     ((gslc_tsColor){255,0,178}),((gslc_tsColor){255,0,178}),GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_ALIGN_MID_MID,10,10,
@@ -1075,7 +1075,7 @@ void InitGUIslice_gen()
   add_rack = gslc_PageFindElemById(&m_gui,new_prescription_1,E_ELEM_TEXT42);
   
   // Create E_ELEM_TEXT46 modifiable text using flash API
-  static char m_sDisplayText46[2] = "p";
+  static char m_sDisplayText46[2] = " ";
   gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT46,new_prescription_1,80,229,32,20,
     m_sDisplayText46,2,&m_asFont[E_FREESANS12],
     ((gslc_tsColor){255,0,178}),((gslc_tsColor){255,0,178}),GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_ALIGN_MID_MID,10,10,
@@ -1084,7 +1084,7 @@ void InitGUIslice_gen()
   name_char_1 = gslc_PageFindElemById(&m_gui,new_prescription_1,E_ELEM_TEXT46);
   
   // Create E_ELEM_TEXT47 modifiable text using flash API
-  static char m_sDisplayText47[2] = "a";
+  static char m_sDisplayText47[2] = " ";
   gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT47,new_prescription_1,120,230,32,20,
     m_sDisplayText47,2,&m_asFont[E_FREESANS12],
     ((gslc_tsColor){255,0,178}),((gslc_tsColor){255,0,178}),GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_ALIGN_MID_LEFT,10,10,
@@ -1093,7 +1093,7 @@ void InitGUIslice_gen()
   name_char_2 = gslc_PageFindElemById(&m_gui,new_prescription_1,E_ELEM_TEXT47);
   
   // Create E_ELEM_TEXT48 modifiable text using flash API
-  static char m_sDisplayText48[2] = "r";
+  static char m_sDisplayText48[2] = " ";
   gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT48,new_prescription_1,160,230,32,20,
     m_sDisplayText48,2,&m_asFont[E_FREESANS12],
     ((gslc_tsColor){255,0,178}),((gslc_tsColor){255,0,178}),GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_ALIGN_MID_MID,10,10,
@@ -1102,7 +1102,7 @@ void InitGUIslice_gen()
   name_char_3 = gslc_PageFindElemById(&m_gui,new_prescription_1,E_ELEM_TEXT48);
   
   // Create E_ELEM_TEXT49 modifiable text using flash API
-  static char m_sDisplayText49[2] = "a";
+  static char m_sDisplayText49[2] = " ";
   gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT49,new_prescription_1,200,230,32,20,
     m_sDisplayText49,2,&m_asFont[E_FREESANS12],
     ((gslc_tsColor){255,0,178}),((gslc_tsColor){255,0,178}),GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_ALIGN_MID_MID,10,10,
@@ -1111,7 +1111,7 @@ void InitGUIslice_gen()
   name_char_4 = gslc_PageFindElemById(&m_gui,new_prescription_1,E_ELEM_TEXT49);
   
   // Create E_ELEM_TEXT50 modifiable text using flash API
-  static char m_sDisplayText50[2] = "c";
+  static char m_sDisplayText50[2] = " ";
   gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT50,new_prescription_1,240,230,32,20,
     m_sDisplayText50,2,&m_asFont[E_FREESANS12],
     ((gslc_tsColor){255,0,178}),((gslc_tsColor){255,0,178}),GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_ALIGN_MID_MID,10,10,
@@ -1120,7 +1120,7 @@ void InitGUIslice_gen()
   name_char_5 = gslc_PageFindElemById(&m_gui,new_prescription_1,E_ELEM_TEXT50);
   
   // Create E_ELEM_TEXT51 modifiable text using flash API
-  static char m_sDisplayText51[2] = "e";
+  static char m_sDisplayText51[2] = " ";
   gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT51,new_prescription_1,280,230,32,20,
     m_sDisplayText51,2,&m_asFont[E_FREESANS12],
     ((gslc_tsColor){255,0,178}),((gslc_tsColor){255,0,178}),GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_ALIGN_MID_MID,10,10,
@@ -1135,7 +1135,7 @@ void InitGUIslice_gen()
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
   
   // Create E_ELEM_TEXT69 modifiable text using flash API
-  static char m_sDisplayText69[3] = "20";
+  static char m_sDisplayText69[3] = "1";
   gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT69,new_prescription_1,350,140,57,28,
     m_sDisplayText69,3,&m_asFont[E_FREESANS18],
     ((gslc_tsColor){255,0,178}),((gslc_tsColor){255,0,178}),GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_ALIGN_MID_MID,10,10,
@@ -1145,7 +1145,7 @@ void InitGUIslice_gen()
   add_pfilled = gslc_PageFindElemById(&m_gui,new_prescription_1,E_ELEM_TEXT69);
   
   // Create E_ELEM_TEXT84 modifiable text using flash API
-  static char m_sDisplayText84[2] = "t";
+  static char m_sDisplayText84[2] = " ";
   gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT84,new_prescription_1,320,229,32,20,
     m_sDisplayText84,2,&m_asFont[E_FREESANS12],
     ((gslc_tsColor){255,0,178}),((gslc_tsColor){255,0,178}),GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_ALIGN_MID_MID,10,10,
@@ -1154,7 +1154,7 @@ void InitGUIslice_gen()
   name_char_7 = gslc_PageFindElemById(&m_gui,new_prescription_1,E_ELEM_TEXT84);
   
   // Create E_ELEM_TEXT85 modifiable text using flash API
-  static char m_sDisplayText85[2] = "a";
+  static char m_sDisplayText85[2] = " ";
   gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT85,new_prescription_1,360,229,32,20,
     m_sDisplayText85,2,&m_asFont[E_FREESANS12],
     ((gslc_tsColor){255,0,178}),((gslc_tsColor){255,0,178}),GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_ALIGN_MID_MID,10,10,
@@ -1419,14 +1419,24 @@ void InitGUIslice_gen()
   pElemRef = gslc_ElemXListboxCreate(&m_gui,PRESCRIPTION_LISTBOX,edit_prescription_1,&m_sListbox2,
     (gslc_tsRect){100,110,280,200},E_FREESERIF12,
     (uint8_t*)&m_acListboxBuf2,sizeof(m_acListboxBuf2),0);
-  gslc_ElemXListboxSetSize(&m_gui, pElemRef, 6, 1); // 6 rows, 1 columns
+  gslc_ElemXListboxSetSize(&m_gui, pElemRef, 5, 2); // 5 rows, 2 columns
   gslc_ElemXListboxItemsSetSize(&m_gui, pElemRef, XLISTBOX_SIZE_AUTO, XLISTBOX_SIZE_AUTO);
   gslc_ElemSetTxtMarginXY(&m_gui, pElemRef, 5, 0);
   gslc_ElemSetTxtCol(&m_gui,pElemRef,((gslc_tsColor){255,0,178}));
   gslc_ElemSetCol(&m_gui,pElemRef,GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_COL_BLUE_DK2);
   gslc_ElemXListboxSetSelFunc(&m_gui, pElemRef, &CbListbox);
+  gslc_ElemXListboxAddItem(&m_gui, pElemRef, "1)");
+  gslc_ElemXListboxAddItem(&m_gui, pElemRef, "2)");
+  gslc_ElemXListboxAddItem(&m_gui, pElemRef, "3)");
+  gslc_ElemXListboxAddItem(&m_gui, pElemRef, "4)");
+  gslc_ElemXListboxAddItem(&m_gui, pElemRef, "5)");
+  gslc_ElemXListboxAddItem(&m_gui, pElemRef, "6)");
+  gslc_ElemXListboxAddItem(&m_gui, pElemRef, "7)");
+  gslc_ElemXListboxAddItem(&m_gui, pElemRef, "8)");
+  gslc_ElemXListboxAddItem(&m_gui, pElemRef, "9)");
+  gslc_ElemXListboxAddItem(&m_gui, pElemRef, "10)");
   gslc_ElemSetFrameEn(&m_gui,pElemRef,true);
-  m_pElemListbox1_2 = pElemRef;
+  Listbox_prescription = pElemRef;
   
   // Create E_ELEM_TEXT92 text label using flash API
   gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT92,edit_prescription_1,48,70,383,30,
@@ -1476,7 +1486,7 @@ void InitGUIslice_gen()
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
   
   // Create E_ELEM_TEXT96 modifiable text using flash API
-  static char m_sDisplayText96[3] = "1";
+  static char m_sDisplayText96[3] = " ";
   gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT96,edit_prescription_2,359,144,57,28,
     m_sDisplayText96,3,&m_asFont[E_FREESANS18],
     ((gslc_tsColor){255,0,178}),((gslc_tsColor){255,0,178}),GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_ALIGN_MID_MID,10,10,
@@ -1492,7 +1502,7 @@ void InitGUIslice_gen()
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
   
   // Create E_ELEM_TEXT98 modifiable text using flash API
-  static char m_sDisplayText98[3] = "0";
+  static char m_sDisplayText98[3] = "1";
   gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT98,edit_prescription_2,359,214,57,28,
     m_sDisplayText98,3,&m_asFont[E_FREESANS18],
     ((gslc_tsColor){255,0,178}),((gslc_tsColor){255,0,178}),GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_ALIGN_MID_MID,10,10,
@@ -1508,13 +1518,13 @@ void InitGUIslice_gen()
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
   
   // Create DRUG_NAME_TEXT modifiable text using flash API
-  static char m_sDisplayText100[11] = "\"paraceta\"";
+  static char m_sDisplayText100[11] = "\"\"";
   gslc_ElemCreateTxt_P_R_ext(&m_gui,DRUG_NAME_TEXT,edit_prescription_2,210,50,100,15,
     m_sDisplayText100,11,&m_asFont[E_FREESANS9],
     GSLC_COL_PURPLE,GSLC_COL_PURPLE,GSLC_COL_GRAY,GSLC_COL_WHITE,GSLC_ALIGN_MID_LEFT,0,0,
     false,false,false,false,NULL,NULL,NULL,NULL);
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
-  sel_drug_edit1 = gslc_PageFindElemById(&m_gui,edit_prescription_2,DRUG_NAME_TEXT);
+  sel_drug_edit2 = gslc_PageFindElemById(&m_gui,edit_prescription_2,DRUG_NAME_TEXT);
 
   // -----------------------------------
   // PAGE: edit_prescription_3
@@ -1623,15 +1633,6 @@ void InitGUIslice_gen()
     GSLC_COL_BLUE_DK2,GSLC_COL_GRAY,GSLC_COL_WHITE,GSLC_ALIGN_MID_LEFT,false,true);
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
   
-  // Create DRUG_NAME_TEXT_2 modifiable text using flash API
-  static char m_sDisplayText115[11] = "\"paraceta\"";
-  gslc_ElemCreateTxt_P_R_ext(&m_gui,DRUG_NAME_TEXT_2,edit_prescription_3,208,46,100,15,
-    m_sDisplayText115,11,&m_asFont[E_FREESANS9],
-    GSLC_COL_PURPLE,GSLC_COL_PURPLE,GSLC_COL_GRAY,GSLC_COL_WHITE,GSLC_ALIGN_MID_LEFT,0,0,
-    false,false,false,false,NULL,NULL,NULL,NULL);
-  // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
-  sel_drug_edit2 = gslc_PageFindElemById(&m_gui,edit_prescription_3,DRUG_NAME_TEXT_2);
-  
   // create E_ELEM_BTN53 button with text label
   gslc_ElemCreateBtnTxt_P(&m_gui,E_ELEM_BTN53,edit_prescription_3,410,270,60,40,
     "Next",&m_asFont[E_FREESANS9],
@@ -1639,6 +1640,15 @@ void InitGUIslice_gen()
     GSLC_COL_BLUE_DK1,GSLC_ALIGN_MID_MID,true,true,&CbBtnCommon,NULL);
   // gslc_ElemSetRoundEn(); currently not supported by the FLASH _P calls.
   // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
+  
+  // Create E_ELEM_TEXT232 modifiable text using flash API
+  static char m_sDisplayText232[11] = "\"\"";
+  gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT232,edit_prescription_3,210,50,100,15,
+    m_sDisplayText232,11,&m_asFont[E_FREESANS9],
+    GSLC_COL_PURPLE,GSLC_COL_PURPLE,GSLC_COL_GRAY,GSLC_COL_WHITE,GSLC_ALIGN_MID_LEFT,0,0,
+    false,false,false,false,NULL,NULL,NULL,NULL);
+  // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
+  sel_drug_edit3 = gslc_PageFindElemById(&m_gui,edit_prescription_3,E_ELEM_TEXT232);
 
   // -----------------------------------
   // PAGE: delete_done
@@ -1677,7 +1687,7 @@ void InitGUIslice_gen()
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
   
   // Create RACK_NUMBER_TEXT modifiable text using flash API
-  static char m_sDisplayText126[3] = "1";
+  static char m_sDisplayText126[3] = " ";
   gslc_ElemCreateTxt_P_R_ext(&m_gui,RACK_NUMBER_TEXT,delete_done,205,120,70,37,
     m_sDisplayText126,3,&m_asFont[E_FREESANS24],
     GSLC_COL_PURPLE,GSLC_COL_PURPLE,GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_ALIGN_MID_MID,10,10,
@@ -1711,44 +1721,45 @@ void InitGUIslice_gen()
   // gslc_ElemSetRoundEn(); currently not supported by the FLASH _P calls.
   // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
   refill_bttn_2 = gslc_PageFindElemById(&m_gui,refill_1,E_ELEM_BTN37);
+  
+  // Create E_ELEM_TEXT134 text label using flash API
+  gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT134,refill_1,46,60,388,30,
+    "select a prescription you want to refill:",&m_asFont[E_FREESANS12],
+    GSLC_COL_BLUE_DK2,GSLC_COL_GRAY,GSLC_COL_WHITE,GSLC_ALIGN_MID_LEFT,false,true);
+  // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
    
   // Create listbox
-  pElemRef = gslc_ElemXListboxCreate(&m_gui,PRESCRIPTION_LISTBOX_2,refill_1,&m_sListbox3,
+  pElemRef = gslc_ElemXListboxCreate(&m_gui,E_ELEM_LISTBOX4,refill_1,&m_sListbox4,
     (gslc_tsRect){100,110,280,200},E_FREESERIF12,
-    (uint8_t*)&m_acListboxBuf3,sizeof(m_acListboxBuf3),0);
-  gslc_ElemXListboxSetSize(&m_gui, pElemRef, 6, 1); // 6 rows, 1 columns
+    (uint8_t*)&m_acListboxBuf4,sizeof(m_acListboxBuf4),0);
+  gslc_ElemXListboxSetSize(&m_gui, pElemRef, 5, 2); // 5 rows, 2 columns
   gslc_ElemXListboxItemsSetSize(&m_gui, pElemRef, XLISTBOX_SIZE_AUTO, XLISTBOX_SIZE_AUTO);
   gslc_ElemSetTxtMarginXY(&m_gui, pElemRef, 5, 0);
   gslc_ElemSetTxtCol(&m_gui,pElemRef,((gslc_tsColor){255,0,178}));
   gslc_ElemSetCol(&m_gui,pElemRef,GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_COL_BLUE_DK2);
   gslc_ElemXListboxSetSelFunc(&m_gui, pElemRef, &CbListbox);
+  gslc_ElemXListboxAddItem(&m_gui, pElemRef, "1)");
+  gslc_ElemXListboxAddItem(&m_gui, pElemRef, "2)");
+  gslc_ElemXListboxAddItem(&m_gui, pElemRef, "3)");
+  gslc_ElemXListboxAddItem(&m_gui, pElemRef, "4)");
+  gslc_ElemXListboxAddItem(&m_gui, pElemRef, "5)");
+  gslc_ElemXListboxAddItem(&m_gui, pElemRef, "6)");
+  gslc_ElemXListboxAddItem(&m_gui, pElemRef, "7)");
+  gslc_ElemXListboxAddItem(&m_gui, pElemRef, "8)");
+  gslc_ElemXListboxAddItem(&m_gui, pElemRef, "9)");
+  gslc_ElemXListboxAddItem(&m_gui, pElemRef, "10)");
   gslc_ElemSetFrameEn(&m_gui,pElemRef,true);
-  m_pElemListbox1_2_3 = pElemRef;
-  
-  // Create E_ELEM_TEXT134 text label using flash API
-  gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT134,refill_1,46,70,388,30,
-    "select a prescription you want to refill:",&m_asFont[E_FREESANS12],
-    GSLC_COL_BLUE_DK2,GSLC_COL_GRAY,GSLC_COL_WHITE,GSLC_ALIGN_MID_LEFT,false,true);
-  // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
+  Listbox_prescription_2 = pElemRef;
 
   // -----------------------------------
   // PAGE: refill_2
   
   
   // Create E_ELEM_TEXT131 text label using flash API
-  gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT131,refill_2,71,80,126,23,
+  gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT131,refill_2,70,50,126,15,
     "you are refilling:",&m_asFont[E_FREESANS9],
     GSLC_COL_BLUE_DK2,GSLC_COL_GRAY,GSLC_COL_WHITE,GSLC_ALIGN_MID_LEFT,false,true);
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
-  
-  // Create DRUG_NAME_TEXT_3 modifiable text using flash API
-  static char m_sDisplayText132[11] = "\"paraceta\"";
-  gslc_ElemCreateTxt_P_R_ext(&m_gui,DRUG_NAME_TEXT_3,refill_2,201,80,100,15,
-    m_sDisplayText132,11,&m_asFont[E_FREESANS9],
-    GSLC_COL_PURPLE,GSLC_COL_PURPLE,GSLC_COL_GRAY,GSLC_COL_WHITE,GSLC_ALIGN_MID_LEFT,0,0,
-    false,false,false,false,NULL,NULL,NULL,NULL);
-  // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
-  sel_drug_refill = gslc_PageFindElemById(&m_gui,refill_2,DRUG_NAME_TEXT_3);
   
   // Create E_ELEM_TEXT133 text label using flash API
   gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT133,refill_2,170,0,140,42,
@@ -1779,7 +1790,7 @@ void InitGUIslice_gen()
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
   
   // Create E_ELEM_TEXT136 modifiable text using flash API
-  static char m_sDisplayText136[3] = "20";
+  static char m_sDisplayText136[3] = "1";
   gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT136,refill_2,350,140,57,28,
     m_sDisplayText136,3,&m_asFont[E_FREESANS18],
     ((gslc_tsColor){255,0,178}),((gslc_tsColor){255,0,178}),GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_ALIGN_MID_MID,10,10,
@@ -1787,6 +1798,15 @@ void InitGUIslice_gen()
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
   // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
   pills_refilled = gslc_PageFindElemById(&m_gui,refill_2,E_ELEM_TEXT136);
+  
+  // Create E_ELEM_TEXT234 modifiable text using flash API
+  static char m_sDisplayText234[11] = "\"\"";
+  gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT234,refill_2,210,50,100,15,
+    m_sDisplayText234,11,&m_asFont[E_FREESANS9],
+    GSLC_COL_PURPLE,GSLC_COL_PURPLE,GSLC_COL_GRAY,GSLC_COL_WHITE,GSLC_ALIGN_MID_LEFT,0,0,
+    false,false,false,false,NULL,NULL,NULL,NULL);
+  // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
+  sel_drug_refill = gslc_PageFindElemById(&m_gui,refill_2,E_ELEM_TEXT234);
 
   // -----------------------------------
   // PAGE: trip
@@ -1998,7 +2018,7 @@ void InitGUIslice_gen()
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
   
   // Create E_ELEM_TEXT158 modifiable text using flash API
-  static char m_sDisplayText158[11] = "\"paraceta\"";
+  static char m_sDisplayText158[11] = "\"\"";
   gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT158,delete_conf,160,60,189,28,
     m_sDisplayText158,11,&m_asFont[E_FREESANS18],
     GSLC_COL_PURPLE,GSLC_COL_PURPLE,GSLC_COL_GRAY,GSLC_COL_WHITE,GSLC_ALIGN_MID_LEFT,0,0,
@@ -2327,14 +2347,14 @@ void InitGUIslice_gen()
     GSLC_COL_BLUE_DK2,GSLC_COL_GRAY,GSLC_COL_WHITE,GSLC_ALIGN_MID_LEFT,false,true);
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
   
-  // Create E_ELEM_TEXT196 modifiable text using flash API
-  static char m_sDisplayText196[11] = "\"paraceta\"";
-  gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT196,edit_prescription_4,208,46,100,15,
-    m_sDisplayText196,11,&m_asFont[E_FREESANS9],
+  // Create E_ELEM_TEXT233 modifiable text using flash API
+  static char m_sDisplayText233[11] = "\"\"";
+  gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT233,edit_prescription_4,210,50,100,15,
+    m_sDisplayText233,11,&m_asFont[E_FREESANS9],
     GSLC_COL_PURPLE,GSLC_COL_PURPLE,GSLC_COL_GRAY,GSLC_COL_WHITE,GSLC_ALIGN_MID_LEFT,0,0,
     false,false,false,false,NULL,NULL,NULL,NULL);
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
-  sel_drug_edit3 = gslc_PageFindElemById(&m_gui,edit_prescription_4,E_ELEM_TEXT196);
+  sel_drug_edit4 = gslc_PageFindElemById(&m_gui,edit_prescription_4,E_ELEM_TEXT233);
 
   // -----------------------------------
   // PAGE: alarm_times
