@@ -9,6 +9,7 @@ using namespace std;
 #define SLIDER          2
 #define LISTBOX_POS     3
 #define TXT_ALPHABET    4
+#define TXT_RACK_TYPE   5
 
 #define NB_OF_ALARMS    6 
 #define WEEK_DAYS       7
@@ -19,6 +20,7 @@ using namespace std;
 #define NB_DIGITS       10
 #define MAX_NB_PILLS    20
 #define L_ALPHABET      27
+#define RACK_TYPES      3
 
 // enum set { a_type, a_times, date, volume, password};
 enum alarm_type {None, Sound, Light, Both};
@@ -27,6 +29,7 @@ enum alarm_cycle {nope, wake, morn, lun, after, din, bed};
 
 extern const char* week_str[WEEK_DAYS];
 extern const char* alphabet_list[L_ALPHABET];
+extern const char* type_list[RACK_TYPES];
 
 struct Time{
     int hour;

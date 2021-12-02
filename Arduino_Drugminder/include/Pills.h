@@ -7,10 +7,11 @@ using namespace std;
 
 #define NB_RACKS 10
 
-enum rack_type {A, B, C};
+//enum rack_type {A, B, C};
 struct Pill_param{
     String name = "None";
     unsigned int ra = 0;
+    unsigned int ra_type = 0;
     unsigned int amount = 0;
     bool al_day[WEEK_DAYS] = {false};
     bool al_t[NB_OF_ALARMS]= {false};
@@ -32,7 +33,7 @@ class Pill{
     String pill_name = "None";
     unsigned int rack = 0 ;
     unsigned int nb_pills = 0;
-    rack_type type = A;
+    unsigned int type = 0;
     //creer un tableau d'alarm
     bool alarm_day[WEEK_DAYS] = {false};
     bool alarm_t[NB_OF_ALARMS]= {false};
@@ -46,6 +47,7 @@ extern bool time_matrix[NB_RACKS][NB_OF_ALARMS];
 extern bool pills_to_dis[NB_RACKS];
 extern bool pills_to_refill[NB_RACKS];
 extern bool refill;
+extern int max_pills_per_type[RACK_TYPES];
 
 void check_refill();
 void set_alarm_matrix();

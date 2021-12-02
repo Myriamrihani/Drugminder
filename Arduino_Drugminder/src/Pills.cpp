@@ -12,6 +12,7 @@ bool time_matrix[NB_RACKS][NB_OF_ALARMS] = {false};
 bool pills_to_dis[NB_RACKS] = {false};
 bool pills_to_refill[NB_RACKS] = {false};
 bool refill = false;
+int max_pills_per_type[RACK_TYPES] = {16,12,10};
 
 
 void set_alarm_matrix(){
@@ -29,6 +30,7 @@ void set_alarm_matrix(){
 void Pill::edit_pill(Pill_param temp){
     pill_name = temp.name;
     rack = temp.ra;
+    type = temp.ra_type;
     nb_pills = temp.amount;
 
     for(int i=0;i<WEEK_DAYS ; i++){
@@ -65,6 +67,7 @@ void get_prescription_size(){
 void Pill::reset(){
     pill_name = "None";
     rack = 0;
+    type = 0;
     nb_pills = 0;
     for(int i=0;i<WEEK_DAYS ; i++){
         alarm_day[i] = {false};
@@ -93,6 +96,7 @@ void delete_pill(int nb){
 void reset_pill_param(Pill_param temp){
     temp.name = "None";
     temp.ra = 0;
+    temp.ra_type = 0;
     temp.amount = 0;
     for(int i=0;i<WEEK_DAYS ; i++){
         temp.al_day[i] = {false};

@@ -106,7 +106,8 @@ enum {ALL_PILLS_TEXTBOX,DRUG_NAME_TEXT,E_ELEM_BTN1,E_ELEM_BTN10
       ,E_ELEM_TEXT220,E_ELEM_TEXT221,E_ELEM_TEXT222,E_ELEM_TEXT223
       ,E_ELEM_TEXT224,E_ELEM_TEXT225,E_ELEM_TEXT226,E_ELEM_TEXT227
       ,E_ELEM_TEXT228,E_ELEM_TEXT229,E_ELEM_TEXT23,E_ELEM_TEXT230
-      ,E_ELEM_TEXT232,E_ELEM_TEXT233,E_ELEM_TEXT234,E_ELEM_TEXT24
+      ,E_ELEM_TEXT232,E_ELEM_TEXT233,E_ELEM_TEXT234,E_ELEM_TEXT235
+      ,E_ELEM_TEXT236,E_ELEM_TEXT237,E_ELEM_TEXT238,E_ELEM_TEXT24
       ,E_ELEM_TEXT25,E_ELEM_TEXT26,E_ELEM_TEXT27,E_ELEM_TEXT3
       ,E_ELEM_TEXT32,E_ELEM_TEXT33,E_ELEM_TEXT34,E_ELEM_TEXT35
       ,E_ELEM_TEXT37,E_ELEM_TEXT38,E_ELEM_TEXT39,E_ELEM_TEXT4
@@ -118,10 +119,9 @@ enum {ALL_PILLS_TEXTBOX,DRUG_NAME_TEXT,E_ELEM_BTN1,E_ELEM_BTN10
       ,E_ELEM_TEXT80,E_ELEM_TEXT81,E_ELEM_TEXT82,E_ELEM_TEXT83
       ,E_ELEM_TEXT84,E_ELEM_TEXT85,E_ELEM_TEXT86,E_ELEM_TEXT87
       ,E_ELEM_TEXT88,E_ELEM_TEXT89,E_ELEM_TEXT91,E_ELEM_TEXT92
-      ,E_ELEM_TEXT93,E_ELEM_TEXT94,E_ELEM_TEXT95,E_ELEM_TEXT96
-      ,E_ELEM_TEXT97,E_ELEM_TEXT98,E_ELEM_TEXT99,GIVEN_PILLS_TEXTBOX
-      ,PRESCRIPTION_LISTBOX,RACK_NUMBER_TEXT,SETTINGS_LISTBOX
-      ,TODAY_INFO_TEXT,VOLUME_SLIDER};
+      ,E_ELEM_TEXT93,E_ELEM_TEXT94,E_ELEM_TEXT97,E_ELEM_TEXT98
+      ,E_ELEM_TEXT99,GIVEN_PILLS_TEXTBOX,PRESCRIPTION_LISTBOX
+      ,RACK_NUMBER_TEXT,SETTINGS_LISTBOX,TODAY_INFO_TEXT,VOLUME_SLIDER};
 // Must use separate enum for fonts with MAX_FONT at end to use gslc_FontSet.
 enum {E_BUILTIN10X16,E_FREESANS12,E_FREESANS18,E_FREESANS24,E_FREESANS9
       ,E_FREESERIF12,E_FREESERIF18,MAX_FONT};
@@ -206,9 +206,9 @@ enum {E_BUILTIN10X16,E_FREESANS12,E_FREESANS18,E_FREESANS24,E_FREESANS9
 #endif
 #define MAX_ELEM_Set_password_RAM MAX_ELEM_Set_password - MAX_ELEM_Set_password_PROG 
 
-#define MAX_ELEM_new_prescription_1 16 // # Elems total on page
+#define MAX_ELEM_new_prescription_1 17 // # Elems total on page
 #if (GSLC_USE_PROGMEM)
-  #define MAX_ELEM_new_prescription_1_PROG 16 // # Elems in Flash
+  #define MAX_ELEM_new_prescription_1_PROG 17 // # Elems in Flash
 #else
   #define MAX_ELEM_new_prescription_1_PROG 0 // No Elems in Flash
 #endif
@@ -254,9 +254,9 @@ enum {E_BUILTIN10X16,E_FREESANS12,E_FREESANS18,E_FREESANS24,E_FREESANS9
 #endif
 #define MAX_ELEM_edit_prescription_1_RAM MAX_ELEM_edit_prescription_1 - MAX_ELEM_edit_prescription_1_PROG 
 
-#define MAX_ELEM_edit_prescription_2 9 // # Elems total on page
+#define MAX_ELEM_edit_prescription_2 10 // # Elems total on page
 #if (GSLC_USE_PROGMEM)
-  #define MAX_ELEM_edit_prescription_2_PROG 9 // # Elems in Flash
+  #define MAX_ELEM_edit_prescription_2_PROG 10 // # Elems in Flash
 #else
   #define MAX_ELEM_edit_prescription_2_PROG 0 // No Elems in Flash
 #endif
@@ -462,6 +462,7 @@ extern gslc_tsElemRef* add_fri_check;
 extern gslc_tsElemRef* add_mo_check;
 extern gslc_tsElemRef* add_pfilled;
 extern gslc_tsElemRef* add_rack;
+extern gslc_tsElemRef* add_rack_type;
 extern gslc_tsElemRef* add_sat_check;
 extern gslc_tsElemRef* add_sun_check;
 extern gslc_tsElemRef* add_thu_check;
@@ -493,6 +494,7 @@ extern gslc_tsElemRef* edit_p_bttn;
 extern gslc_tsElemRef* edit_p_bttn_2;
 extern gslc_tsElemRef* edit_pfilled;
 extern gslc_tsElemRef* edit_rack_nb;
+extern gslc_tsElemRef* edit_rack_type;
 extern gslc_tsElemRef* edit_sat_check;
 extern gslc_tsElemRef* edit_sun_check;
 extern gslc_tsElemRef* edit_thu_check;
@@ -1043,8 +1045,8 @@ void InitGUIslice_gen()
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
   
   // Create E_ELEM_TEXT41 text label using flash API
-  gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT41,new_prescription_1,210,70,129,20,
-    "rack number",&m_asFont[E_FREESANS12],
+  gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT41,new_prescription_1,30,70,224,30,
+    "rack number and type",&m_asFont[E_FREESANS12],
     GSLC_COL_BLUE_DK2,GSLC_COL_GRAY,GSLC_COL_WHITE,GSLC_ALIGN_MID_LEFT,false,true);
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
   
@@ -1066,7 +1068,7 @@ void InitGUIslice_gen()
   
   // Create E_ELEM_TEXT42 modifiable text using flash API
   static char m_sDisplayText42[3] = " ";
-  gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT42,new_prescription_1,350,70,57,28,
+  gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT42,new_prescription_1,270,70,57,28,
     m_sDisplayText42,3,&m_asFont[E_FREESANS18],
     ((gslc_tsColor){255,0,178}),((gslc_tsColor){255,0,178}),GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_ALIGN_MID_MID,10,10,
     true,false,false,false,NULL,NULL,NULL,NULL);
@@ -1161,6 +1163,16 @@ void InitGUIslice_gen()
     true,true,false,false,NULL,NULL,NULL,NULL);
   // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
   name_char_8 = gslc_PageFindElemById(&m_gui,new_prescription_1,E_ELEM_TEXT85);
+  
+  // Create E_ELEM_TEXT235 modifiable text using flash API
+  static char m_sDisplayText235[3] = "A";
+  gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT235,new_prescription_1,350,70,57,28,
+    m_sDisplayText235,3,&m_asFont[E_FREESANS18],
+    ((gslc_tsColor){255,0,178}),((gslc_tsColor){255,0,178}),GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_ALIGN_MID_MID,10,10,
+    true,false,false,false,NULL,NULL,NULL,NULL);
+  // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
+  // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
+  add_rack_type = gslc_PageFindElemById(&m_gui,new_prescription_1,E_ELEM_TEXT235);
 
   // -----------------------------------
   // PAGE: new_prescription_2
@@ -1300,7 +1312,7 @@ void InitGUIslice_gen()
   alarm_progress = gslc_PageFindElemById(&m_gui,Alarm_message,E_ELEM_PROGRESS3);
   
   // Create E_ELEM_TEXT78 modifiable text using flash API
-  static char m_sDisplayText78[30] = "30min left to take them";
+  static char m_sDisplayText78[45] = "30min left to take them";
   gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT78,Alarm_message,122,280,259,20,
     m_sDisplayText78,21,&m_asFont[E_FREESANS12],
     ((gslc_tsColor){255,0,178}),((gslc_tsColor){255,0,178}),GSLC_COL_GRAY,GSLC_COL_WHITE,GSLC_ALIGN_MID_LEFT,0,0,
@@ -1479,22 +1491,6 @@ void InitGUIslice_gen()
   // gslc_ElemSetRoundEn(); currently not supported by the FLASH _P calls.
   // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
   
-  // Create E_ELEM_TEXT95 text label using flash API
-  gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT95,edit_prescription_2,219,144,129,20,
-    "rack number",&m_asFont[E_FREESANS12],
-    GSLC_COL_BLUE_DK2,GSLC_COL_GRAY,GSLC_COL_WHITE,GSLC_ALIGN_MID_LEFT,false,true);
-  // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
-  
-  // Create E_ELEM_TEXT96 modifiable text using flash API
-  static char m_sDisplayText96[3] = " ";
-  gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT96,edit_prescription_2,359,144,57,28,
-    m_sDisplayText96,3,&m_asFont[E_FREESANS18],
-    ((gslc_tsColor){255,0,178}),((gslc_tsColor){255,0,178}),GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_ALIGN_MID_MID,10,10,
-    true,false,false,false,NULL,NULL,NULL,NULL);
-  // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
-  // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
-  edit_rack_nb = gslc_PageFindElemById(&m_gui,edit_prescription_2,E_ELEM_TEXT96);
-  
   // Create E_ELEM_TEXT97 text label using flash API
   gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT97,edit_prescription_2,149,214,203,28,
     "amount of pills filled",&m_asFont[E_FREESANS12],
@@ -1525,6 +1521,32 @@ void InitGUIslice_gen()
     false,false,false,false,NULL,NULL,NULL,NULL);
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
   sel_drug_edit2 = gslc_PageFindElemById(&m_gui,edit_prescription_2,DRUG_NAME_TEXT);
+  
+  // Create E_ELEM_TEXT236 text label using flash API
+  gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT236,edit_prescription_2,39,144,224,30,
+    "rack number and type",&m_asFont[E_FREESANS12],
+    GSLC_COL_BLUE_DK2,GSLC_COL_GRAY,GSLC_COL_WHITE,GSLC_ALIGN_MID_LEFT,false,true);
+  // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
+  
+  // Create E_ELEM_TEXT237 modifiable text using flash API
+  static char m_sDisplayText237[3] = " ";
+  gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT237,edit_prescription_2,279,144,57,28,
+    m_sDisplayText237,3,&m_asFont[E_FREESANS18],
+    ((gslc_tsColor){255,0,178}),((gslc_tsColor){255,0,178}),GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_ALIGN_MID_MID,10,10,
+    true,false,false,false,NULL,NULL,NULL,NULL);
+  // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
+  // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
+  edit_rack_nb = gslc_PageFindElemById(&m_gui,edit_prescription_2,E_ELEM_TEXT237);
+  
+  // Create E_ELEM_TEXT238 modifiable text using flash API
+  static char m_sDisplayText238[3] = " ";
+  gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT238,edit_prescription_2,359,144,57,28,
+    m_sDisplayText238,3,&m_asFont[E_FREESANS18],
+    ((gslc_tsColor){255,0,178}),((gslc_tsColor){255,0,178}),GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_ALIGN_MID_MID,10,10,
+    true,false,false,false,NULL,NULL,NULL,NULL);
+  // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
+  // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
+  edit_rack_type = gslc_PageFindElemById(&m_gui,edit_prescription_2,E_ELEM_TEXT238);
 
   // -----------------------------------
   // PAGE: edit_prescription_3
