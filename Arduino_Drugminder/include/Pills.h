@@ -6,6 +6,8 @@
 using namespace std;
 
 #define NB_RACKS 10
+
+enum rack_type {A, B, C};
 struct Pill_param{
     String name = "None";
     unsigned int ra = 0;
@@ -22,14 +24,15 @@ class Pill{
     int get_nb();
     bool get_alarm_t(int index);
     bool get_alarm_day(int index);
+    int get_rack_type();
     void reset();
-    
-    void print_pill();
+    void refill_pill(int amount);
     
     private:
     String pill_name = "None";
     unsigned int rack = 0 ;
     unsigned int nb_pills = 0;
+    rack_type type = A;
     //creer un tableau d'alarm
     bool alarm_day[WEEK_DAYS] = {false};
     bool alarm_t[NB_OF_ALARMS]= {false};

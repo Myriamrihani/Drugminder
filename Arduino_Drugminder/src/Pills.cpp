@@ -109,6 +109,14 @@ bool Pill::get_alarm_day(int index){
     return alarm_day[index];
 }
 
+void Pill::refill_pill(int amount){
+    nb_pills +=amount;
+}
+
+int Pill::get_rack_type(){
+    return type;
+}
+
 void check_refill(){
     for(int i=0; i<NB_RACKS; ++i){
         if(Inventory[i].get_nb() <= 2){
@@ -120,4 +128,6 @@ void check_refill(){
 
 void ask_for_refill(){
     //display the pills name and rack to be refilled
+
+
 }
