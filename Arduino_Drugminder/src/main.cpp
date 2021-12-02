@@ -417,6 +417,8 @@ unsigned int temp_char_7 = 0;
 unsigned int temp_char_8 = 0;
 
 char drug_name_list[NB_RACKS][10];
+//contains index of inventory for a pill we are editing
+int inventory_i = 0;
 
 
 //functions declaration
@@ -430,7 +432,7 @@ int change_element_encoder(int value, int min_val, int max_val, gslc_tsElemRef *
 int check_rack_avaible(gslc_tsElemRef * element, int value);
 int checkbox_encoder_nav(int value, int min_val, int max_val);
 void reset_default_elements_add();
-void load_pill_data_to_elements();
+void load_pill_data_to_elements(int value);
 void save_new_pill();
 void save_edited_pill();
 void edit_prescription_listbox(gslc_tsElemRef * listbox);
@@ -848,10 +850,10 @@ void check_encoder(int16_t current_page){
       encoder_enabled = true;
       switch(pos_encoder){
         case 0:
-          temp_rack = check_rack_avaible(edit_rack_nb,temp_rack);
+          temp_presc.ra = check_rack_avaible(edit_rack_nb,temp_presc.ra);
           break;
         case 1:
-          temp_pills = change_element_encoder(temp_pills,1,MAX_NB_PILLS-1,edit_pfilled,TEXT_INT);
+          temp_presc.amount = change_element_encoder(temp_presc.amount,1,MAX_NB_PILLS-1,edit_pfilled,TEXT_INT);
           break;
       }
        if(enc_btnAction == true && pos_encoder<1){
@@ -1052,6 +1054,8 @@ void btn3_action(int16_t current_page){
         gslc_ElemSetTxtStr(&m_gui,sel_drug_edit2,drug_name_list[pos_encoder]);
         gslc_ElemSetTxtStr(&m_gui,sel_drug_edit3,drug_name_list[pos_encoder]);
         gslc_ElemSetTxtStr(&m_gui,sel_drug_edit4,drug_name_list[pos_encoder]);
+        load_pill_data_to_elements(pos_encoder);
+
         gslc_SetPageCur(&m_gui,edit_prescription_2);
         pos_encoder = 0;
       }
@@ -1432,7 +1436,42 @@ void reset_default_elements_add(){
 
 }
 
-void load_pill_data_to_elements(){
+void load_pill_data_to_elements(int value){
+  //find corresponding pill in Inventory
+  for (int i = 0; i < NB_RACKS-1; i++){
+    if(Inventory[i].get_rack()==(value+1)){
+      inventory_i = i;
+      break;
+    }
+  }
+  //load temp_presc data
+  char s[10];
+  temp_presc.name = Inventory[inventory_i].get_name();
+  temp_presc.ra = Inventory[inventory_i].get_rack();
+  temp_presc.amount = Inventory[inventory_i].get_nb();
+
+  gslc_ElemSetTxtStr(&m_gui,edit_rack_nb,itoa(temp_presc.ra, s, 10 ));
+  gslc_ElemSetTxtStr(&m_gui,edit_pfilled,itoa(temp_presc.amount, s, 10 ));
+
+  gslc_ElemXCheckboxSetState(&m_gui,edit_mo_check,Inventory[inventory_i].get_alarm_day(0));
+  gslc_ElemXCheckboxSetState(&m_gui,edit_tue_check,Inventory[inventory_i].get_alarm_day(1));
+  gslc_ElemXCheckboxSetState(&m_gui,edit_wed_check,Inventory[inventory_i].get_alarm_day(2));
+  gslc_ElemXCheckboxSetState(&m_gui,edit_thu_check,Inventory[inventory_i].get_alarm_day(3));
+  gslc_ElemXCheckboxSetState(&m_gui,edit_fri_check,Inventory[inventory_i].get_alarm_day(4));
+  gslc_ElemXCheckboxSetState(&m_gui,edit_sat_check,Inventory[inventory_i].get_alarm_day(5));
+  gslc_ElemXCheckboxSetState(&m_gui,edit_sun_check,Inventory[inventory_i].get_alarm_day(6));
+  
+  gslc_ElemXCheckboxSetState(&m_gui,edit_wake_check,Inventory[inventory_i].get_alarm_t(0));
+  gslc_ElemXCheckboxSetState(&m_gui,edit_morn_check,Inventory[inventory_i].get_alarm_t(1));
+  gslc_ElemXCheckboxSetState(&m_gui,edit_lunch_check,Inventory[inventory_i].get_alarm_t(2));
+  gslc_ElemXCheckboxSetState(&m_gui,edit_after_check,Inventory[inventory_i].get_alarm_t(3));
+  gslc_ElemXCheckboxSetState(&m_gui,edit_dinn_check,Inventory[inventory_i].get_alarm_t(4));
+  gslc_ElemXCheckboxSetState(&m_gui,edit_bed_check,Inventory[inventory_i].get_alarm_t(5));
+
+  Serial.println(temp_presc.name);
+  Serial.println(inventory_i);
+  Serial.println(temp_presc.ra);
+  Serial.println(temp_presc.amount);
 
 }
 
@@ -1475,12 +1514,35 @@ void save_new_pill(){
   edit_prescription_listbox(Listbox_prescription);
   edit_prescription_listbox(Listbox_prescription_2);
 
+  add_pill(temp_presc);
+
   free_rack_index = 0;
-  Serial.println(temp_presc.name);
+  //Serial.println(temp_presc.name);
 }
 
 void save_edited_pill(){
 
+  //name, rack, and amount are already set at edited value
+
+  //now, we just need to load new checkbox state
+
+  temp_presc.al_day[0] = gslc_ElemXCheckboxGetState(&m_gui,edit_mo_check);
+  temp_presc.al_day[1] = gslc_ElemXCheckboxGetState(&m_gui,edit_tue_check);
+  temp_presc.al_day[2] = gslc_ElemXCheckboxGetState(&m_gui,edit_wed_check);
+  temp_presc.al_day[3] = gslc_ElemXCheckboxGetState(&m_gui,edit_thu_check);
+  temp_presc.al_day[4] = gslc_ElemXCheckboxGetState(&m_gui,edit_fri_check);
+  temp_presc.al_day[5] = gslc_ElemXCheckboxGetState(&m_gui,edit_sat_check);
+  temp_presc.al_day[6] = gslc_ElemXCheckboxGetState(&m_gui,edit_sun_check);
+
+  temp_presc.al_t[0] = gslc_ElemXCheckboxGetState(&m_gui,edit_wake_check);
+  temp_presc.al_t[1] = gslc_ElemXCheckboxGetState(&m_gui,edit_morn_check);
+  temp_presc.al_t[2] = gslc_ElemXCheckboxGetState(&m_gui,edit_lunch_check);
+  temp_presc.al_t[3] = gslc_ElemXCheckboxGetState(&m_gui,edit_after_check);
+  temp_presc.al_t[4] = gslc_ElemXCheckboxGetState(&m_gui,edit_dinn_check);
+  temp_presc.al_t[5] = gslc_ElemXCheckboxGetState(&m_gui,edit_bed_check);
+
+  //we edit the inventory pill with its new data
+  Inventory[inventory_i].edit_pill(temp_presc);
 }
 
 void edit_prescription_listbox(gslc_tsElemRef * listbox){
