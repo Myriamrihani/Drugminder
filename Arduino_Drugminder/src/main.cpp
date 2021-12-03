@@ -439,6 +439,8 @@ void save_new_pill();
 void save_edited_pill();
 void delete_pill_prescription(int pill_pos_inventory);
 void edit_prescription_listbox(gslc_tsElemRef * listbox);
+void load_settings();
+void edit_gui_element(gslc_tsElemRef * element,int element_type,int value);
 
 void setup()
 {
@@ -485,9 +487,13 @@ void setup()
   Serial.println(used_EEPROM);
   if(used_EEPROM){
     EEPROM.get(eeAdbool, the_setting);
-    Serial.println(get_settings_from_EE().vol)
+    //load the settings
+    //load_settings();
+
+    Serial.println(get_settings_from_EE().vol);
     for(int i =0; i<NB_RACKS; i++){
       EEPROM.get(eeAd_set+i*sizeof(Pill), Inventory[i]);
+      
     }
   }
 }
@@ -1690,5 +1696,50 @@ void edit_prescription_listbox(gslc_tsElemRef * listbox){
   strcat(buf,drug_name_list[9]);
   gslc_ElemXListboxAddItem(&m_gui, listbox, buf);
   //memset(&buf[0], 0, sizeof(buf));
+
+}
+
+void load_settings(){
+
+  //alarm times
+  edit_gui_element(wake_h,the_setting.cycle.wake_up.hour,TEXT_INT);
+  edit_gui_element(wake_min,the_setting.cycle.wake_up.minute,TEXT_INT);
+
+  //volume
+  edit_gui_element(vol_slider,the_setting.vol,SLIDER);
+
+}
+
+void edit_gui_element(gslc_tsElemRef * element,int value,int element_type){
+  char s[10];
+  switch (element_type)
+    {
+    case TEXT_INT:
+      gslc_ElemSetTxtStr(&m_gui,element,itoa(value, s, 10 ));
+      break;
+
+    case TEXT_WEEKDAY:
+      gslc_ElemSetTxtStr(&m_gui,element,week_str[value]);
+      break;
+
+    case SLIDER:
+      gslc_ElemXSliderSetPos(&m_gui,element,value);
+      break;
+    
+    case LISTBOX_POS:
+      gslc_ElemXListboxSetSel(&m_gui,element,value);
+      break;
+    
+    case TXT_ALPHABET:
+      gslc_ElemSetTxtStr(&m_gui,element,alphabet_list[value]);
+      break;
+    
+    case TXT_RACK_TYPE:
+      gslc_ElemSetTxtStr(&m_gui,element,type_list[value]);
+      break;
+
+    default:
+      break;
+    }
 
 }
