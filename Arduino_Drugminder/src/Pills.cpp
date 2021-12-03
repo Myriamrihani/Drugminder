@@ -40,7 +40,7 @@ void Pill::edit_pill(Pill_param temp){
     for(int j=0; j<NB_OF_ALARMS; j++){
         alarm_t[j] = temp.al_t[j];    
     }
-    save_pills_in_EE();
+
 };
 
 String Pill::get_name(){
@@ -80,14 +80,18 @@ void Pill::reset(){
 }
 
 void add_pill (Pill_param temp){
+    Serial.println("debut add ");
     total_pills += 1;
     for(unsigned int i=0; i < sizeof(Inventory); i++){
-        if(Inventory[i].get_name() == "None"){
+        Serial.println(Inventory[i].get_name());
+        if(Inventory[i].get_rack() == 0){
             Inventory[i].edit_pill(temp);
             break;
         }
     }
+    Serial.println("avant EE ");
     save_pills_in_EE();
+    Serial.println("fin add ");
 };
 
 void delete_pill(int nb){

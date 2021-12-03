@@ -475,14 +475,24 @@ void setup()
     Serial.println("Couldn't find RTC");
     //while (1);
   }
+ 
+
+
   if (! rtc.isrunning()) {
     Serial.println("RTC is NOT running!");
     // following line sets the RTC to the date & time this sketch was compiled
     rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
     // This line sets the RTC with an explicit date & time, for example to set
     // January 21, 2014 at 3am you would call:
-    // rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
+    // rtc.adjust(DateTime(2021, 12, 3, 17, 52, 0));
   }
+  // DateTime hh = rtc.now();
+  // Serial.print(hh.year(), DEC);        
+  // Serial.print('/');        
+  // Serial.print(hh.month(), DEC);        
+  // Serial.print('/');        
+  // Serial.print(hh.day(), DEC);
+
 
   // for (int i = 0 ; i < EEPROM.length() ; i++) {
   //   EEPROM.write(i, 0);
@@ -497,7 +507,7 @@ void setup()
     Serial.println(get_settings_from_EE().vol);
     for(int i =0; i<NB_RACKS; i++){
       EEPROM.get(eeAd_set+i*sizeof(Pill), Inventory[i]);
-      
+      Serial.println(Inventory[i].get_rack());
     }
   }
 }

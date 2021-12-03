@@ -21,8 +21,10 @@ void save_settings_in_EE(){
 }
 
 void save_pills_in_EE(){
+    Serial.println("debut EE ");
     EEPROM.put(eeAd_set, Inventory);
     EE_used();
+    Serial.println("fin EE ");
 }
 
 void save_all_in_EE(){

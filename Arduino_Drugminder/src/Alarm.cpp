@@ -64,4 +64,6 @@ void check_alarm(){
 void play_alarm(){
     //display alarm pages
     //play sound
+    Serial.println("ALARM TIME");
+    start_alarm = false;
 }
