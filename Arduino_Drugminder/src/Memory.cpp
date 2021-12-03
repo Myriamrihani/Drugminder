@@ -31,7 +31,7 @@ void save_all_in_EE(){
 }
 
 Settings get_settings_from_EE(){
-    return EEPROM.get(eeAddress, the_setting);
+    return EEPROM.get(eeAdbool, the_setting);
 }
 
 Pill get_pill_from_EE(int pill_nb){

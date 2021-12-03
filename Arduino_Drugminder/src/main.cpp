@@ -483,12 +483,16 @@ void setup()
     // January 21, 2014 at 3am you would call:
     // rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
   }
+
+  // for (int i = 0 ; i < EEPROM.length() ; i++) {
+  //   EEPROM.write(i, 0);
+  // }
   EEPROM.get(eeAddress, used_EEPROM);
   Serial.println(used_EEPROM);
   if(used_EEPROM){
     EEPROM.get(eeAdbool, the_setting);
     //load the settings
-    //load_settings();
+    load_settings();
 
     Serial.println(get_settings_from_EE().vol);
     for(int i =0; i<NB_RACKS; i++){
