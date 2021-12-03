@@ -36,8 +36,6 @@ void trialF()
   delay(1000); // wait 0.1 sec
   
 
-
-
   // 2) Y movement
   digitalWrite(dirPin_Y, HIGH);
   for(int x = 0; x < step_round*y_box; x++)
@@ -57,8 +55,6 @@ void trialF()
 
 
 
-  
-
   // 3) Forward Z movement with servo
   servo.attach(7); 
   servo.write(180); // start rotation
@@ -70,10 +66,6 @@ void trialF()
   delay(50);
   servo.detach(); 
 
-  
-
-
- 
 
 //4) down with Y axis
   digitalWrite(dirPin_Y, LOW);
@@ -93,8 +85,6 @@ void trialF()
   delay(1000); // wait 0.1 sec
 
 
-  
-
 
 // 5) Backward Z movement with servo
 
@@ -110,7 +100,6 @@ Serial.print("5)Stage moved backward with servo \n");
  servo.detach(); 
 
 
-
 // 6) forward with Z axis
 
  servo.attach(7); 
@@ -122,9 +111,6 @@ Serial.print("6)Stage moved forward with servo \n");
  
  delay(100);
  servo.detach(); 
-
-
-
 
 
 // 7) up with Y axis
@@ -158,7 +144,6 @@ Serial.print("8)Stage moved backward with servo \n");
  
  delay(100);
  servo.detach(); 
-
 
 
 
