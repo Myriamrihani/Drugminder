@@ -17,7 +17,7 @@
 #include <Pills.h>
 #include <Alarm.h>
 #include <Settings.h>
-
+#include <Memory.h>
 
 // ------------------------------------------------
 // Program Globals
@@ -480,6 +480,15 @@ void setup()
     // This line sets the RTC with an explicit date & time, for example to set
     // January 21, 2014 at 3am you would call:
     // rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
+  }
+  EEPROM.get(eeAddress, used_EEPROM);
+  Serial.println(used_EEPROM);
+  if(used_EEPROM){
+    EEPROM.get(eeAdbool, the_setting);
+    Serial.println(get_settings_from_EE().vol)
+    for(int i =0; i<NB_RACKS; i++){
+      EEPROM.get(eeAd_set+i*sizeof(Pill), Inventory[i]);
+    }
   }
 }
 
@@ -1217,6 +1226,7 @@ void btn4_action(int16_t current_page){
 
     case settings:
       gslc_SetPageCur(&m_gui,Default);
+      save_settings_in_EE();
       break;
 
     case Volume:
@@ -1562,6 +1572,7 @@ void save_new_pill(){
 
   free_rack_index = 0;
   //Serial.println(temp_presc.name);
+
 }
 
 void save_edited_pill(){
@@ -1604,6 +1615,12 @@ void save_edited_pill(){
 
   //we edit the inventory pill with its new data
   Inventory[inventory_i].edit_pill(temp_presc);
+  // Serial.println(get_pill_from_EE(inventory_i).get_name());
+  // Serial.println(get_pill_from_EE(inventory_i).get_alarm_day(0)); 
+  // Serial.println(get_pill_from_EE(inventory_i).get_alarm_t(0));
+  // Serial.println(get_pill_from_EE(inventory_i).get_rack());
+  // Serial.println(get_pill_from_EE(inventory_i).get_rack_type());
+  // Serial.println(get_pill_from_EE(inventory_i).get_nb());
 }
 
 void delete_pill_prescription(int pill_pos_inventory){

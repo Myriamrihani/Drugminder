@@ -51,7 +51,7 @@ void check_alarm(){
     int time = what_time();
     set_alarm_matrix();
 
-    for(int rack=0; rack<NB_RACKS ; ++rack){
+    for(int rack=0; rack<NB_RACKS ; rack++){
         if(day_matrix[rack][day]){
             if(time_matrix[rack][time]){
                 pills_to_dis[rack] = true;

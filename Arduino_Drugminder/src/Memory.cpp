@@ -2,9 +2,32 @@
 #include <EEPROM.h>
 #include <Memory.h>
 
-void save_in_EE(){
-    EEPROM.put(eeAddress, the_setting);
+int eeAddress = 0;
+int eeAdbool = sizeof(bool);
+int eeAd_set = eeAdbool + sizeof(Settings);
+bool used_EEPROM = false;
+
+void EE_used(){
+    EEPROM.put(eeAddress, true);
+}
+
+void EE_empty(){
+    EEPROM.put(eeAddress, false);
+}
+
+void save_settings_in_EE(){
+    EEPROM.put(eeAdbool, the_setting);
+    EE_used();
+}
+
+void save_pills_in_EE(){
     EEPROM.put(eeAd_set, Inventory);
+    EE_used();
+}
+
+void save_all_in_EE(){
+    save_pills_in_EE();
+    save_settings_in_EE();
 }
 
 Settings get_settings_from_EE(){
@@ -12,5 +35,6 @@ Settings get_settings_from_EE(){
 }
 
 Pill get_pill_from_EE(int pill_nb){
-    return EEPROM.get(eeAd_set+pill_nb*sizeof(Pill), Inventory[pill_nb]);
+    Pill temp = EEPROM.get(eeAd_set+pill_nb*sizeof(Pill), Inventory[pill_nb]);
+    return temp;
 }

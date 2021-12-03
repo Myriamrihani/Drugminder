@@ -65,19 +65,5 @@ struct Settings{
 
 extern Settings the_setting;
 
-// void set_day_cycle();
-
-// void set_current_date();
-// // Date get_current_date();
-
-// void edit_alarm_volume();
-// double get_volume();
-
-// void delete_password();
-// void edit_password(unsigned int p);
-// bool check_password(unsigned int p);
-
-// void change_alarm_type(alarm_type t);
-
 
 #endif 

@@ -6,16 +6,20 @@
 #include <Pills.h>
 using namespace std;
 
-int eeAddress = 0;
-int eeAd_set = eeAddress + sizeof(Settings);
-int eeAd_Pill = eeAd_set + sizeof(Pill);
-int eeAd_Inventory = eeAd_set + sizeof(Inventory);
+extern int eeAddress;
+extern int eeAdbool;
+extern int eeAd_set;
+extern bool used_EEPROM;
+// int eeAd_Pill = eeAd_set + sizeof(Pill);
+// int eeAd_Inventory = eeAd_set + sizeof(Inventory);
 
-
-void save_in_EE();
-
+void EE_used();
+void EE_empty();
+void save_all_in_EE();
+void save_pills_in_EE();
+void save_settings_in_EE();
 Settings get_settings_from_EE();
 
-Pill get_pill_from_EE();
+Pill get_pill_from_EE(int pill_nb);
 
 #endif

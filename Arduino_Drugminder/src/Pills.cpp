@@ -2,7 +2,8 @@
 using namespace std;
 
 #include <Arduino.h>
-#include "Pills.h"
+
+#include <Memory.h>
 
 Pill Inventory [NB_RACKS];
 Pill_param temp_presc;
@@ -16,11 +17,11 @@ int max_pills_per_type[RACK_TYPES] = {16,12,10};
 
 
 void set_alarm_matrix(){
-    for(int i= 0; i<NB_RACKS; ++i ){
-        for(int j =0; j<WEEK_DAYS; ++j){
+    for(int i= 0; i<NB_RACKS; i++ ){
+        for(int j =0; j<WEEK_DAYS; j++){
             day_matrix[i][j] = Inventory[i].get_alarm_day(j);
         }
-        for(int t =0; t<NB_OF_ALARMS; ++t){
+        for(int t =0; t<NB_OF_ALARMS; t++){
             time_matrix[i][t] = Inventory[i].get_alarm_t(t);
         }        
     }
@@ -39,6 +40,7 @@ void Pill::edit_pill(Pill_param temp){
     for(int j=0; j<NB_OF_ALARMS; j++){
         alarm_t[j] = temp.al_t[j];    
     }
+    save_pills_in_EE();
 };
 
 String Pill::get_name(){
@@ -85,7 +87,7 @@ void add_pill (Pill_param temp){
             break;
         }
     }
-
+    save_pills_in_EE();
 };
 
 void delete_pill(int nb){
@@ -122,7 +124,7 @@ int Pill::get_rack_type(){
 }
 
 void check_refill(){
-    for(int i=0; i<NB_RACKS; ++i){
+    for(int i=0; i<NB_RACKS; i++){
         if(Inventory[i].get_nb() <= 2){
             refill = true;
             pills_to_refill[i] = true;
