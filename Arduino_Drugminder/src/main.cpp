@@ -439,6 +439,7 @@ void save_new_pill();
 void save_edited_pill();
 void delete_pill_prescription(int pill_pos_inventory);
 void edit_prescription_listbox(gslc_tsElemRef * listbox);
+void load_inventory();
 void load_settings();
 void edit_gui_element(gslc_tsElemRef * element,int element_type,int value);
 
@@ -493,7 +494,7 @@ void setup()
   // Serial.print('/');        
   // Serial.print(hh.day(), DEC);
 
-
+  rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   // for (int i = 0 ; i < EEPROM.length() ; i++) {
   //   EEPROM.write(i, 0);
   // }
@@ -509,6 +510,8 @@ void setup()
       EEPROM.get(eeAd_set+i*sizeof(Pill), Inventory[i]);
       Serial.println(Inventory[i].get_rack());
     }
+
+    load_inventory();
   }
 }
 
@@ -519,8 +522,8 @@ void loop()
 {
   check_alarm();
   check_refill();
-  if(start_alarm){play_alarm;}
-  if(refill){ask_for_refill;}
+  if(start_alarm){play_alarm();}
+  if(refill){ask_for_refill();}
 
   
   //else{//mettre tout le reste, le bool start_alarm doit jouer comme une interruption}
@@ -1055,7 +1058,7 @@ void btn2_action(int16_t current_page){
        if(rack_taken[pos_encoder] == true){
 
         //find corresponding pill in Inventory
-        for (int i = 0; i < NB_RACKS-1; i++){
+        for (int i = 0; i < NB_RACKS; i++){
           if(Inventory[i].get_rack()==(pos_encoder+1)){
             inventory_i = i;
             break;
@@ -1159,7 +1162,7 @@ void btn3_action(int16_t current_page){
         gslc_ElemSetTxtStr(&m_gui,sel_drug_refill,drug_name_list[pos_encoder]);
 
         //find corresponding pill in Inventory
-        for (int i = 0; i < NB_RACKS-1; i++){
+        for (int i = 0; i < NB_RACKS; i++){
           if(Inventory[i].get_rack()==(pos_encoder+1)){
             inventory_i = i;
             break;
@@ -1260,6 +1263,15 @@ void btn4_action(int16_t current_page){
 
     case Alarm_type:
       gslc_SetPageCur(&m_gui,settings);
+
+      if(gslc_ElemXCheckboxGetState(&m_gui,sound_check) == true && gslc_ElemXCheckboxGetState(&m_gui,light_check) == true){
+        the_setting.type = Both;
+      }else if(gslc_ElemXCheckboxGetState(&m_gui,sound_check) == true && gslc_ElemXCheckboxGetState(&m_gui,light_check) == false){
+        the_setting.type = Sound;
+      }else if(gslc_ElemXCheckboxGetState(&m_gui,sound_check) ==false && gslc_ElemXCheckboxGetState(&m_gui,light_check) == true){
+        the_setting.type = Light;
+      }else{the_setting.type = None;}
+
       break;
 
     case pw_options:
@@ -1510,7 +1522,7 @@ void reset_default_elements_add(){
 
 void load_pill_data_to_elements(int value){
   //find corresponding pill in Inventory
-  for (int i = 0; i < NB_RACKS-1; i++){
+  for (int i = 0; i < NB_RACKS; i++){
     if(Inventory[i].get_rack()==(value+1)){
       inventory_i = i;
       break;
@@ -1646,7 +1658,7 @@ void save_edited_pill(){
 void delete_pill_prescription(int pill_pos_inventory){
   
   //delete from Inventory
-  Inventory[pill_pos_inventory].reset();
+  delete_pill(pill_pos_inventory);
 
   //delete from the rest
   rack_taken[pos_encoder] = false;
@@ -1715,13 +1727,66 @@ void edit_prescription_listbox(gslc_tsElemRef * listbox){
 
 void load_settings(){
 
-  //alarm times
+  //load alarm times
   edit_gui_element(wake_h,the_setting.cycle.wake_up.hour,TEXT_INT);
   edit_gui_element(wake_min,the_setting.cycle.wake_up.minute,TEXT_INT);
+  edit_gui_element(morn_h,the_setting.cycle.morning.hour,TEXT_INT);
+  edit_gui_element(morn_min,the_setting.cycle.morning.minute,TEXT_INT);
+  edit_gui_element(lunch_h,the_setting.cycle.lunch.hour,TEXT_INT);
+  edit_gui_element(lunch_min,the_setting.cycle.lunch.minute,TEXT_INT);
+  edit_gui_element(after_h,the_setting.cycle.afternoon.hour,TEXT_INT);
+  edit_gui_element(after_min,the_setting.cycle.afternoon.minute,TEXT_INT);
+  edit_gui_element(dinn_h,the_setting.cycle.dinner.hour,TEXT_INT);
+  edit_gui_element(dinn_min,the_setting.cycle.dinner.minute,TEXT_INT);
+  edit_gui_element(bed_h,the_setting.cycle.bedtime.hour,TEXT_INT);
+  edit_gui_element(bed_min,the_setting.cycle.bedtime.minute,TEXT_INT);
 
-  //volume
+  //load alarm type
+  if(the_setting.type == None){
+    gslc_ElemXCheckboxSetState(&m_gui,sound_check,false);
+    gslc_ElemXCheckboxSetState(&m_gui,light_check,false);
+  }
+  else if(the_setting.type == Sound){
+    gslc_ElemXCheckboxSetState(&m_gui,sound_check,true);
+    gslc_ElemXCheckboxSetState(&m_gui,light_check,false);
+  }
+  else if(the_setting.type == Light){
+    gslc_ElemXCheckboxSetState(&m_gui,sound_check,false);
+    gslc_ElemXCheckboxSetState(&m_gui,light_check,true);
+  }
+  else{
+    gslc_ElemXCheckboxSetState(&m_gui,sound_check,true);
+    gslc_ElemXCheckboxSetState(&m_gui,light_check,true); 
+  }
+
+  //load date & hour
+  edit_gui_element(day_set, rtc.now().dayOfTheWeek(),TEXT_WEEKDAY);
+  edit_gui_element(date_set, rtc.now().day(),TEXT_INT);
+  edit_gui_element(hour_set, rtc.now().hour(),TEXT_INT);
+  edit_gui_element(min_set, rtc.now().minute(),TEXT_INT);
+  
+
+  //load volume
   edit_gui_element(vol_slider,the_setting.vol,SLIDER);
 
+  //load password
+  pw_enabled = the_setting.password_set;
+
+}
+
+void load_inventory(){
+
+  //prepare rack_taken and drug_name_list
+  for (int i = 0; i < NB_RACKS; i++){
+    if(Inventory[i].get_rack() != 0){
+      rack_taken[Inventory[i].get_rack()-1] = true;
+      strcpy(drug_name_list[Inventory[i].get_rack()-1], Inventory[i].get_name().c_str());
+    }
+  }
+
+  //create the listboxes
+  edit_prescription_listbox(Listbox_prescription);
+  edit_prescription_listbox(Listbox_prescription_2);
 }
 
 void edit_gui_element(gslc_tsElemRef * element,int value,int element_type){

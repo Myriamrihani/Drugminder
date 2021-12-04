@@ -41,6 +41,7 @@ void Pill::edit_pill(Pill_param temp){
         alarm_t[j] = temp.al_t[j];    
     }
 
+    save_pills_in_EE();
 };
 
 String Pill::get_name(){
@@ -77,6 +78,7 @@ void Pill::reset(){
     for(int j=0; j<NB_OF_ALARMS; j++){
         alarm_t[j]= {false};
     }
+    save_pills_in_EE();
 }
 
 void add_pill (Pill_param temp){
@@ -89,9 +91,6 @@ void add_pill (Pill_param temp){
             break;
         }
     }
-    Serial.println("avant EE ");
-    save_pills_in_EE();
-    Serial.println("fin add ");
 };
 
 void delete_pill(int nb){
