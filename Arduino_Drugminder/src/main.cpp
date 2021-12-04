@@ -510,6 +510,9 @@ void setup()
       // Pill_param pill_load;
       // EEPROM.get(eeAd_set+i*sizeof(pill_load), pill_load);
       // add_pill(pill_load); 
+
+      //maybe eeprom is not working, because we are loading a hole ass class object in inventory
+      //the solution might be to change the class Pill into a structure
       EEPROM.get(eeAd_set + i*sizeof(Pill), Inventory[i]);
       Serial.println(Inventory[i].get_rack());
     }
