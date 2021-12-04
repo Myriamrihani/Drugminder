@@ -507,7 +507,9 @@ void setup()
 
     Serial.println(get_settings_from_EE().vol);
     for(int i =0; i<NB_RACKS; i++){
-      EEPROM.get(eeAd_set+i*sizeof(Pill), Inventory[i]);
+      Pill_param pill_load;
+      EEPROM.get(eeAd_set+i*sizeof(pill_load), pill_load);
+      add_pill(pill_load);
       Serial.println(Inventory[i].get_rack());
     }
 

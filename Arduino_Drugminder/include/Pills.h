@@ -39,6 +39,7 @@ class Pill{
     bool alarm_t[NB_OF_ALARMS]= {false};
 };
 
+
 extern Pill Inventory [NB_RACKS];
 extern int total_pills;
 extern Pill_param temp_presc;
