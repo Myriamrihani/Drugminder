@@ -25,7 +25,7 @@ using namespace std;
 // enum set { a_type, a_times, date, volume, password};
 enum alarm_type {None, Sound, Light, Both};
 // enum week_day {Sunday, Monday, Tuesday, Wednesday, Thrusday, Friday, Saturday};
-enum alarm_cycle {nope, wake, morn, lun, after, din, bed};
+enum alarm_cycle {wake, morn, lun, after, din, bed, nope};
 
 extern const char* week_str[WEEK_DAYS];
 extern const char* alphabet_list[L_ALPHABET];

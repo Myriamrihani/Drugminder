@@ -18,7 +18,7 @@ int what_time(){
     DateTime now = rtc.now();
     int hour = now.hour();
     int minutes = now.minute();
-    alarm_cycle flag = nope ;
+    alarm_cycle flag = nope;
 
     if((hour == the_setting.cycle.wake_up.hour) & (the_setting.cycle.wake_up.minute == minutes)){
         flag = wake;
@@ -51,11 +51,15 @@ void check_alarm(){
     int time = what_time();
     set_alarm_matrix();
 
-    for(int rack=0; rack<NB_RACKS ; rack++){
-        if(day_matrix[rack][day]){
-            if(time_matrix[rack][time]){
-                pills_to_dis[rack] = true;
-                start_alarm = true;
+    if(time != nope){
+        for(int rack=0; rack<NB_RACKS ; rack++){
+            if(day_matrix[rack][day]){
+                if(time_matrix[rack][time]){
+                    pills_to_dis[rack] = true;
+                    start_alarm = true;
+                    day_matrix[rack][day] = false;
+                    time_matrix[rack][time]= false;
+                }
             }
         }
     }
@@ -64,6 +68,6 @@ void check_alarm(){
 void play_alarm(){
     //display alarm pages
     //play sound
-    //Serial.println("ALARM TIME");
+    Serial.println("ALARM TIME");
     start_alarm = false;
 }
