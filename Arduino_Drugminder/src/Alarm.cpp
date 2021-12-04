@@ -44,7 +44,7 @@ int what_time(){
             flag = bed;
         }
     }
-    
+
     return flag;
 
 }
@@ -72,5 +72,48 @@ void play_alarm(){
     //display alarm pages
     //play sound
     Serial.println("ALARM TIME");
+    //code to make sure right pills are dispensed. 
+    for(int i = 0; i<NB_RACKS; i++){
+        Serial.println("the pills to dispense are :");
+        if(pills_to_dis[i] == true){
+            Serial.println(Inventory[i].get_name());
+        }
+        
+    }
     start_alarm = false;
+}
+
+void dispense_pills(){
+    for (int i = 0; i < NB_RACKS; i++)
+    {
+        //pills to dispense is an array that contains all the racks, 
+        //with true if this rack is to dispense and false if not.
+        //this should work, considering that pills_to_dis gives back the right pills to dispense
+        if(pills_to_dis[i]==true){
+            int rack_to_go_to = Inventory[i].get_rack();
+            int total_containers = 0;
+            int container_to_reach = 0;
+            switch (Inventory[i].get_rack_type())
+            {
+            case 0:
+                total_containers = 16;
+                break;
+            case 1:
+                total_containers = 12;
+                break;
+
+            case 2 :
+                total_containers = 10;
+                break;
+            default:
+                break;
+            }
+
+            //for me, the first container is the one near the refilling handle.
+            //and the first rack the oen at the bottom. 
+            //This would not change my code, but should change john's if he does not take the same considerations
+            
+        }
+    }
+    
 }
