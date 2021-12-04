@@ -18,30 +18,33 @@ int what_time(){
     DateTime now = rtc.now();
     int hour = now.hour();
     int minutes = now.minute();
+    int seconde = now.second();
     alarm_cycle flag = nope;
 
-    if((hour == the_setting.cycle.wake_up.hour) & (the_setting.cycle.wake_up.minute == minutes)){
-        flag = wake;
-    } else if ((hour ==the_setting.cycle.morning.hour) & (the_setting.cycle.morning.minute == minutes) )
-    {
-        flag = morn;
-    }else if ((hour == the_setting.cycle.lunch.hour) & (the_setting.cycle.lunch.minute == minutes))
-    {
-        flag = lun;
+    if(seconde == 0){
+        if((hour == the_setting.cycle.wake_up.hour) & (the_setting.cycle.wake_up.minute == minutes)){
+            flag = wake;
+        } else if ((hour ==the_setting.cycle.morning.hour) & (the_setting.cycle.morning.minute == minutes) )
+        {
+            flag = morn;
+        }else if ((hour == the_setting.cycle.lunch.hour) & (the_setting.cycle.lunch.minute == minutes))
+        {
+            flag = lun;
+        }
+        else if ((hour == the_setting.cycle.afternoon.hour) & (the_setting.cycle.afternoon.minute == minutes))
+        {
+            flag = after;
+        }
+        else if ((hour == the_setting.cycle.dinner.hour) & (the_setting.cycle.dinner.minute == minutes))
+        {
+            flag = din;
+        }
+        else if ((hour == the_setting.cycle.bedtime.hour) & (the_setting.cycle.bedtime.minute == minutes))
+        {
+            flag = bed;
+        }
     }
-    else if ((hour == the_setting.cycle.afternoon.hour) & (the_setting.cycle.afternoon.minute == minutes))
-    {
-        flag = after;
-    }
-    else if ((hour == the_setting.cycle.dinner.hour) & (the_setting.cycle.dinner.minute == minutes))
-    {
-        flag = din;
-    }
-    else if ((hour == the_setting.cycle.bedtime.hour) & (the_setting.cycle.bedtime.minute == minutes))
-    {
-        flag = bed;
-    }
-
+    
     return flag;
 
 }
