@@ -6,6 +6,9 @@ using namespace std;
 RTC_DS1307 rtc;
 bool start_alarm = false;
 
+int alarm_counter = 0;
+bool stop_alarm_waiting = true;
+
 uint8_t what_day(){
     DateTime now = rtc.now();
     uint8_t flag = now.dayOfTheWeek();
@@ -71,7 +74,38 @@ void check_alarm(){
 void play_alarm(){
     //display alarm pages
     //play sound
+
+    // DateTime now = rtc.now();
+    // int minutes = now.minute();
+    // int hour = now.hour();
+    // int min_waiting_done = minutes+30;
+    // int hour_done = hour;
+    // stop_alarm_waiting = false;
+
+    // if(min_waiting_done > 59){
+    //     min_waiting_done = min_waiting_done - 60;
+    //     hour_done +=1;
+
+    //     if(hour_done > 23){
+    //         hour_done= 0;
+    //     }
+    // }
+
+    // if((hour == hour_done) & (min_waiting_done == minutes)){
+    //     stop_alarm_waiting = true;
+    // }
+
+
+    alarm_counter += 1;
+    stop_alarm_waiting = false;
+    if(alarm_counter >= 100){ //the 100 needs to be calibrated
+        alarm_counter = 0;
+        stop_alarm_waiting = true;
+        start_alarm = false;
+        Serial.println("Pills won't be dispensed anymore");
+    }
     Serial.println("ALARM TIME");
+    Serial.println(alarm_counter);
     //code to make sure right pills are dispensed. 
     for(int i = 0; i<NB_RACKS; i++){
         Serial.println("the pills to dispense are :");
@@ -80,9 +114,9 @@ void play_alarm(){
         }
         
     }
-    start_alarm = false;
 }
 
+//This function is called when DISPENSE button is pressed!
 void dispense_pills(){
     for (int i = 0; i < NB_RACKS; i++)
     {
@@ -90,30 +124,31 @@ void dispense_pills(){
         //with true if this rack is to dispense and false if not.
         //this should work, considering that pills_to_dis gives back the right pills to dispense
         if(pills_to_dis[i]==true){
-            int rack_to_go_to = Inventory[i].get_rack();
-            int total_containers = 0;
-            int container_to_reach = 0;
-            switch (Inventory[i].get_rack_type())
-            {
-            case 0:
-                total_containers = 16;
-                break;
-            case 1:
-                total_containers = 12;
-                break;
 
-            case 2 :
-                total_containers = 10;
-                break;
-            default:
-                break;
-            }
+            int rack_to_reach = Inventory[i].get_rack();
+            int container_to_reach = Inventory[i].get_next_container();
+            Serial.print("in rack ");
+            Serial.println(rack_to_reach);
+            Serial.print (" we have ");
+            Serial.print(Inventory[i].get_nb());
+            Serial.println(" pills");
+            Serial.print(" We take the pill from container nb ");
+            Serial.println(container_to_reach);
 
             //for me, the first container is the one near the refilling handle.
             //and the first rack the oen at the bottom. 
             //This would not change my code, but should change john's if he does not take the same considerations
-            
+            //john_function(rack_to_reach, container_to_reach, Inventory[i].get_rack_type());
+           
+           //at the end reset that pill to dispense
+            pills_to_dis[i] = false;
+
+            //decrease the amout of pill in that rack 
+            Inventory[i].take_a_pill();
+            Serial.print("After dispensing, we should have ");
+            Serial.print(Inventory[i].get_nb());
+            Serial.print(" pills in rack ");
+            Serial.println(rack_to_reach);
         }
     }
-    
 }

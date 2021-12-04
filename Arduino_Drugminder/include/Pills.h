@@ -13,21 +13,24 @@ struct Pill_param{
     unsigned int ra = 0;
     unsigned int ra_type = 0;
     unsigned int amount = 0;
+    int containers = 0;
     bool al_day[WEEK_DAYS] = {false};
     bool al_t[NB_OF_ALARMS]= {false};
 };
 class Pill{
     public:
     void edit_pill(Pill_param temp);
-    int pill_parameters = 3;
+    // int pill_parameters = 3;
     String get_name();
     int get_rack();
     int get_nb();
     bool get_alarm_t(int index);
     bool get_alarm_day(int index);
     int get_rack_type();
+    void take_a_pill();
     void reset();
     void refill_pill(int amount);
+    int get_next_container();
     
     private:
     String pill_name = "None";
@@ -37,6 +40,7 @@ class Pill{
     //creer un tableau d'alarm
     bool alarm_day[WEEK_DAYS] = {false};
     bool alarm_t[NB_OF_ALARMS]= {false};
+    int next_container = 0;
 };
 
 

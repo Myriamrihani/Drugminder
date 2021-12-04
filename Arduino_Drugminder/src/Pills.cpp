@@ -56,6 +56,31 @@ int Pill::get_nb(){
     return nb_pills;
 };
 
+int Pill::get_next_container(){
+    int total_containers = 0;
+    switch (type)
+    {
+    case 0:
+        total_containers = 16;
+        break;
+    case 1:
+        total_containers = 12;
+        break;
+
+    case 2 :
+        total_containers = 10;
+        break;
+    default:
+        break;
+    }   
+
+    if(next_container < total_containers){
+        next_container = next_container+1;
+    }
+
+    return next_container;
+}
+
 void get_prescription_size(){
     int size = 0;
     for(int i=0; i<NB_RACKS ; i++){
@@ -65,6 +90,10 @@ void get_prescription_size(){
     }
     total_pills = size;
 };
+
+void Pill::take_a_pill(){
+    nb_pills-=1;
+}
 
 
 void Pill::reset(){
@@ -103,6 +132,7 @@ void reset_pill_param(Pill_param temp){
     temp.ra = 0;
     temp.ra_type = 0;
     temp.amount = 0;
+    temp.containers = 0;
     for(int i=0;i<WEEK_DAYS ; i++){
         temp.al_day[i] = {false};
     }
@@ -120,6 +150,7 @@ bool Pill::get_alarm_day(int index){
 
 void Pill::refill_pill(int amount){
     nb_pills +=amount;
+    next_container = 0;
 }
 
 int Pill::get_rack_type(){
@@ -128,7 +159,7 @@ int Pill::get_rack_type(){
 
 void check_refill(){
     for(int i=0; i<NB_RACKS; i++){
-        if(Inventory[i].get_nb() <= 2){
+        if(Inventory[i].get_nb() == 0){
             refill = true;
             pills_to_refill[i] = true;
         }
@@ -137,6 +168,15 @@ void check_refill(){
 
 void ask_for_refill(){
     //display the pills name and rack to be refilled
-
+    Serial.println("REFILL TIME");
+    //code to make sure right pills are dispensed. 
+    for(int i = 0; i<NB_RACKS; i++){
+        Serial.println("the pills to refill are :");
+        if(pills_to_refill[i] == true){
+            Serial.println(Inventory[i].get_name());
+        }
+        
+    }
+    refill = false;   
 
 }
