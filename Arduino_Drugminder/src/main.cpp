@@ -378,6 +378,7 @@ const int button1Pin = 22;
 const int button2Pin = 23;
 const int button3Pin = 24;
 const int button4Pin = 25;
+const int button_dis_Pin = 26;
 
 // Rotary Encoder Inputs
 #define CLK 3 //interrupt pin
@@ -393,6 +394,7 @@ int status1 = false;
 int status2 = false;
 int status3 = false;
 int status4 = false;
+int status_dispense = false;
 int enc_btnState = false;
 bool encoder_enabled = false;
 bool enc_btnAction = false;
@@ -457,6 +459,7 @@ void setup()
   pinMode(button2Pin, INPUT);
   pinMode(button3Pin, INPUT);
   pinMode(button4Pin, INPUT);
+  pinMode(button_dis_Pin, INPUT);
    // Set encoder pins as inputs
   pinMode(CLK,INPUT);
   pinMode(DT,INPUT);
@@ -555,6 +558,14 @@ void loop()
     status4 = !status4;
     btn4_action(gslc_GetPageCur(&m_gui));
     }while(digitalRead(button4Pin) == true);
+      delay(10);
+
+  if(digitalRead(button_dis_Pin) == true){
+    status_dispense = !status_dispense;
+    if(start_alarm == true){
+      stop_alarm_waiting = true;
+    }
+  }while(digitalRead(button_dis_Pin) == true);
       delay(10);
 
    // Read the encoder button state

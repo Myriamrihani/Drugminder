@@ -7,7 +7,7 @@ RTC_DS1307 rtc;
 bool start_alarm = false;
 
 int alarm_counter = 0;
-bool stop_alarm_waiting = true;
+bool stop_alarm_waiting = false;
 
 uint8_t what_day(){
     DateTime now = rtc.now();
@@ -94,16 +94,6 @@ void play_alarm(){
     // if((hour == hour_done) & (min_waiting_done == minutes)){
     //     stop_alarm_waiting = true;
     // }
-
-
-    alarm_counter += 1;
-    stop_alarm_waiting = false;
-    if(alarm_counter >= 100){ //the 100 needs to be calibrated
-        alarm_counter = 0;
-        stop_alarm_waiting = true;
-        start_alarm = false;
-        Serial.println("Pills won't be dispensed anymore");
-    }
     Serial.println("ALARM TIME");
     Serial.println(alarm_counter);
     //code to make sure right pills are dispensed. 
@@ -114,6 +104,27 @@ void play_alarm(){
         }
         
     }
+
+    alarm_counter += 1;
+    // stop_alarm_waiting = false;
+    if((alarm_counter >= 1800) or (stop_alarm_waiting == true)){ //the 100 needs to be calibrated
+        alarm_counter = 0;
+        
+        if(stop_alarm_waiting == true){
+            dispense_pills();
+            Serial.println("Pills will be dispensed");
+            stop_alarm_waiting = false;
+            start_alarm = false;
+        }
+        else{
+            start_alarm = false;
+            Serial.println("Pills won't be dispensed anymore");
+        }
+        
+        
+        
+    }
+
 }
 
 //This function is called when DISPENSE button is pressed!
