@@ -15,6 +15,8 @@ bool pills_to_refill[NB_RACKS] = {false};
 bool refill = false;
 int max_pills_per_type[RACK_TYPES] = {16,12,10};
 
+char drug_name_list[NB_RACKS][10];
+
 
 void set_alarm_matrix(){
     for(int i= 0; i<NB_RACKS; i++ ){
@@ -29,7 +31,7 @@ void set_alarm_matrix(){
 
 
 void Pill::edit_pill(Pill_param temp){
-    pill_name = temp.name;
+    // pill_name = temp.name;
     rack = temp.ra;
     type = temp.ra_type;
     nb_pills = temp.amount;
@@ -44,9 +46,9 @@ void Pill::edit_pill(Pill_param temp){
     save_pills_in_EE();
 };
 
-String Pill::get_name(){
-    return pill_name;
-};
+// String Pill::get_name(){
+//     return pill_name;
+// };
 
 int Pill::get_rack(){
     return rack;
@@ -83,8 +85,8 @@ int Pill::get_next_container(){
 
 void get_prescription_size(){
     int size = 0;
-    for(int i=0; i<NB_RACKS ; i++){
-        if(Inventory[i].get_name() != "None"){
+    for(int i=0; i< NB_RACKS ; i++){
+        if(Inventory[i].get_rack() != 0){
             size +=1;
         }
     }
@@ -97,24 +99,22 @@ void Pill::take_a_pill(){
 
 
 void Pill::reset(){
-    pill_name = "None";
+    // pill_name = "";
     rack = 0;
     type = 0;
     nb_pills = 0;
     for(int i=0;i<WEEK_DAYS ; i++){
-        alarm_day[i] = {false};
+        alarm_day[i] = false;
     }
     for(int j=0; j<NB_OF_ALARMS; j++){
-        alarm_t[j]= {false};
+        alarm_t[j]= false;
     }
     save_pills_in_EE();
 }
 
 void add_pill (Pill_param temp){
-    Serial.println("debut add ");
     total_pills += 1;
-    for(unsigned int i=0; i < sizeof(Inventory); i++){
-        Serial.println(Inventory[i].get_name());
+    for(unsigned int i=0; i < NB_RACKS; i++){
         if(Inventory[i].get_rack() == 0){
             Inventory[i].edit_pill(temp);
             break;
@@ -128,16 +128,16 @@ void delete_pill(int nb){
 }
 
 void reset_pill_param(Pill_param temp){
-    temp.name = "None";
+    // temp.name = "";
     temp.ra = 0;
     temp.ra_type = 0;
     temp.amount = 0;
     temp.containers = 0;
     for(int i=0;i<WEEK_DAYS ; i++){
-        temp.al_day[i] = {false};
+        temp.al_day[i] = false;
     }
     for(int j=0; j<NB_OF_ALARMS; j++){
-        temp.al_t[j]= {false};
+        temp.al_t[j]= false;
     }   
 }
 
@@ -159,21 +159,25 @@ int Pill::get_rack_type(){
 
 void check_refill(){
     for(int i=0; i<NB_RACKS; i++){
-        if(Inventory[i].get_nb() == 0){
-            refill = true;
-            pills_to_refill[i] = true;
+        if(Inventory[i].get_rack() != 0){
+            if(Inventory[i].get_nb() == 0){
+                    refill = true;
+                    pills_to_refill[i] = true;
+            }
         }
+ 
     }
 }
 
 void ask_for_refill(){
     //display the pills name and rack to be refilled
     Serial.println("REFILL TIME");
+    Serial.println("the pills to refill are :");
     //code to make sure right pills are dispensed. 
     for(int i = 0; i<NB_RACKS; i++){
-        Serial.println("the pills to refill are :");
+        
         if(pills_to_refill[i] == true){
-            Serial.println(Inventory[i].get_name());
+            Serial.println(drug_name_list[i]);
         }
         
     }

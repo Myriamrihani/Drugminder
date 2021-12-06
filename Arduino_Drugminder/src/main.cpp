@@ -420,7 +420,6 @@ unsigned int temp_char_6 = 0;
 unsigned int temp_char_7 = 0;
 unsigned int temp_char_8 = 0;
 
-char drug_name_list[NB_RACKS][10];
 //contains index of inventory for a pill we are editing
 int inventory_i = 0;
 
@@ -444,6 +443,7 @@ void edit_prescription_listbox(gslc_tsElemRef * listbox);
 void load_inventory();
 void load_settings();
 void edit_gui_element(gslc_tsElemRef * element,int element_type,int value);
+void display_time();
 
 void setup()
 {
@@ -501,6 +501,7 @@ void setup()
   // for (int i = 0 ; i < EEPROM.length() ; i++) {
   //   EEPROM.write(i, 0);
   // }
+  Serial.println(sizeof(the_setting) + sizeof(Inventory));
   EEPROM.get(eeAddress, used_EEPROM);
   Serial.println(used_EEPROM);
   if(used_EEPROM){
@@ -508,18 +509,40 @@ void setup()
     //load the settings
     load_settings();
 
-    Serial.println(get_settings_from_EE().vol);
-    for(int i =0; i<NB_RACKS; i++){
-      // Pill_param pill_load;
-      // EEPROM.get(eeAd_set+i*sizeof(pill_load), pill_load);
-      // add_pill(pill_load); 
+    Serial.println(the_setting.vol);
+    // for(int i =0; i<NB_RACKS; i++){
+    //   // Pill_param pill_load;
+    //   // EEPROM.get(eeAd_set+i*sizeof(pill_load), pill_load);
+    //   // Serial.println(pill_load.name);
+    //   // add_pill(pill_load); 
 
-      //maybe eeprom is not working, because we are loading a hole ass class object in inventory
-      //the solution might be to change the class Pill into a structure
-      EEPROM.get(eeAd_set + i*sizeof(Pill), Inventory[i]);
-      Serial.println(Inventory[i].get_rack());
+    //   Serial.println("in the loop");
+    //   Serial.println(sizeof(Pill));
+    //   Serial.println(eeAd_set);
+    //   Serial.println(eeAd_set + i*sizeof(Pill));
+    //   //maybe eeprom is not working, because we are loading a hole ass class object in inventory
+    //   //the solution might be to change the class Pill into a structure
+    //   EEPROM.get(eeAd_set + i*sizeof(Pill), Inventory[i]);
+    //   Serial.println(Inventory[i].get_name());
+    // }
+    
+    EEPROM.get(eeAd_set, Inventory);
+    EEPROM.get(eeAd_set + sizeof(Inventory), drug_name_list);
+      for(int i =0; i<NB_RACKS; i++){
+    //   // Pill_param pill_load;
+    //   // EEPROM.get(eeAd_set+i*sizeof(pill_load), pill_load);
+    //   // Serial.println(pill_load.name);
+    //   // add_pill(pill_load); 
+
+    //   Serial.println("in the loop");
+    //   Serial.println(sizeof(Pill));
+    //   Serial.println(eeAd_set);
+    //   Serial.println(eeAd_set + i*sizeof(Pill));
+    //   //maybe eeprom is not working, because we are loading a hole ass class object in inventory
+    //   //the solution might be to change the class Pill into a structure
+    //   EEPROM.get(eeAd_set + i*sizeof(Pill), Inventory[i]);
+      Serial.println(drug_name_list[i]);
     }
-
     load_inventory();
   }
 }
@@ -529,10 +552,14 @@ void setup()
 // -----------------------------------
 void loop()
 {
+  display_time();
   check_alarm();
   check_refill();
   if(start_alarm){play_alarm();}
-  if(refill){ask_for_refill();}
+  if(!is_dispensing){
+    if(refill){ask_for_refill();}
+  }
+
 
   
   //else{//mettre tout le reste, le bool start_alarm doit jouer comme une interruption}
@@ -564,6 +591,7 @@ void loop()
     status_dispense = !status_dispense;
     if(start_alarm == true){
       stop_alarm_waiting = true;
+      is_dispensing = true;
     }
   }while(digitalRead(button_dis_Pin) == true);
       delay(10);
@@ -1547,7 +1575,7 @@ void load_pill_data_to_elements(int value){
   }
   //load temp_presc data
   char s[10];
-  temp_presc.name = Inventory[inventory_i].get_name();
+  //temp_presc.name = Inventory[inventory_i].get_name();
   temp_presc.ra = Inventory[inventory_i].get_rack();
   previous_rack = temp_presc.ra;
   temp_presc.ra_type = Inventory[inventory_i].get_rack_type();
@@ -1595,7 +1623,7 @@ void save_new_pill(){
   strcat(buf,alphabet_list[temp_char_7]);
   strcat(buf,alphabet_list[temp_char_8]);
 
-  temp_presc.name = buf;
+  //temp_presc.name = buf;
   strcpy(drug_name_list[temp_presc.ra-1], buf);
 
   temp_presc.al_day[0] = gslc_ElemXCheckboxGetState(&m_gui,add_sun_check);
@@ -1649,11 +1677,12 @@ void save_edited_pill(){
   if(previous_rack != temp_presc.ra){
     rack_taken[previous_rack-1] = false;
     rack_taken[temp_presc.ra-1] = true;
-
+  
+    strcpy(drug_name_list[temp_presc.ra-1],drug_name_list[previous_rack-1]);
     strcpy(drug_name_list[previous_rack-1],"");
-    char buf[10];
-    temp_presc.name.toCharArray(buf,10);
-    strcpy(drug_name_list[temp_presc.ra-1],buf);
+    
+    // temp_presc.name.toCharArray(buf,10);
+    // strcpy(drug_name_list[temp_presc.ra-1],buf);
     //Serial.println(buf);
     //Serial.println(drug_name_list[temp_presc.ra-1]);
 
@@ -1797,7 +1826,7 @@ void load_inventory(){
   for (int i = 0; i < NB_RACKS; i++){
     if(Inventory[i].get_rack() != 0){
       rack_taken[Inventory[i].get_rack()-1] = true;
-      strcpy(drug_name_list[Inventory[i].get_rack()-1], Inventory[i].get_name().c_str());
+      //strcpy(drug_name_list[Inventory[i].get_rack()-1], Inventory[i].get_name().c_str());
     }
   }
 
@@ -1837,5 +1866,16 @@ void edit_gui_element(gslc_tsElemRef * element,int value,int element_type){
     default:
       break;
     }
+
+}
+
+void display_time(){
+  char buf[6];
+  char s[10];
+  strcpy(buf,itoa(rtc.now().hour(),s,10));
+  strcat(buf,":");
+  strcat(buf,itoa(rtc.now().minute(),s,10));
+
+  gslc_ElemSetTxtStr(&m_gui,default_time,buf);
 
 }

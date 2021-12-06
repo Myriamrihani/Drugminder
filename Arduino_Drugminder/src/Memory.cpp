@@ -35,8 +35,12 @@ void save_pills_in_EE(){
     //     }
     //     EEPROM.put(eeAd_set+i*sizeof(temp), temp);
     // }
+    // for(int i = 0; i <NB_RACKS; i++){
 
+
+    // }
     EEPROM.put(eeAd_set, Inventory);
+    EEPROM.put(eeAd_set + sizeof(Inventory), drug_name_list);
     EE_used();
 }
 

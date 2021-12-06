@@ -12,6 +12,7 @@ using namespace std;
 extern RTC_DS1307 rtc;
 extern bool start_alarm;
 extern bool stop_alarm_waiting;
+extern bool is_dispensing; 
 
 uint8_t what_day();
 int what_time();

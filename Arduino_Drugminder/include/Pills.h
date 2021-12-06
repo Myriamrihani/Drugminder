@@ -7,9 +7,11 @@ using namespace std;
 
 #define NB_RACKS 10
 
+extern char drug_name_list[NB_RACKS][10];
+
 //enum rack_type {A, B, C};
 struct Pill_param{
-    String name = "None";
+    // String name = "";
     unsigned int ra = 0;
     unsigned int ra_type = 0;
     unsigned int amount = 0;
@@ -21,7 +23,7 @@ class Pill{
     public:
     void edit_pill(Pill_param temp);
     // int pill_parameters = 3;
-    String get_name();
+    // String get_name();
     int get_rack();
     int get_nb();
     bool get_alarm_t(int index);
@@ -33,7 +35,7 @@ class Pill{
     int get_next_container();
     
     private:
-    String pill_name = "None";
+    // String pill_name;
     unsigned int rack = 0 ;
     unsigned int nb_pills = 0;
     unsigned int type = 0;

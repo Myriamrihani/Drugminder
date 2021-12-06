@@ -8,6 +8,7 @@ bool start_alarm = false;
 
 int alarm_counter = 0;
 bool stop_alarm_waiting = false;
+bool is_dispensing = false;
 
 uint8_t what_day(){
     DateTime now = rtc.now();
@@ -100,7 +101,7 @@ void play_alarm(){
     for(int i = 0; i<NB_RACKS; i++){
         Serial.println("the pills to dispense are :");
         if(pills_to_dis[i] == true){
-            Serial.println(Inventory[i].get_name());
+            Serial.println(drug_name_list[i]);
         }
         
     }
@@ -162,4 +163,6 @@ void dispense_pills(){
             Serial.println(rack_to_reach);
         }
     }
+
+    // is_dispensing = false;
 }
