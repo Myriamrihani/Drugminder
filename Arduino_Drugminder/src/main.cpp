@@ -1534,7 +1534,7 @@ void reset_default_elements_add(){
   pos_encoder = 0;
   gslc_ElemSetTxtStr(&m_gui,add_rack,"");
   gslc_ElemSetTxtStr(&m_gui,add_rack_type,"A");
-  gslc_ElemSetTxtStr(&m_gui,add_pfilled,"1");
+  gslc_ElemSetTxtStr(&m_gui,add_pfilled,"");
   gslc_ElemSetTxtStr(&m_gui,name_char_1,"");
   gslc_ElemSetTxtStr(&m_gui,name_char_2,"");
   gslc_ElemSetTxtStr(&m_gui,name_char_3,"");
@@ -1713,12 +1713,14 @@ void delete_pill_prescription(int pill_pos_inventory){
   //redraw the listboxes
   edit_prescription_listbox(Listbox_prescription);
   edit_prescription_listbox(Listbox_prescription_2);
+
+  save_pills_in_EE();
 }
 
 void edit_prescription_listbox(gslc_tsElemRef * listbox){
   gslc_ElemXListboxReset(&m_gui,listbox);
 
-  char buf[12];
+  char buf[14];
   strcpy(buf,"1) ");
   strcat(buf,drug_name_list[0]);
   gslc_ElemXListboxAddItem(&m_gui, listbox, buf);
@@ -1874,6 +1876,11 @@ void display_time(){
   char s[10];
   strcpy(buf,itoa(rtc.now().hour(),s,10));
   strcat(buf,":");
+
+  //display a 0 before the minute ex: 01,02 ...
+  if(rtc.now().minute() <= 9){
+    strcat(buf,"0");
+  }
   strcat(buf,itoa(rtc.now().minute(),s,10));
 
   gslc_ElemSetTxtStr(&m_gui,default_time,buf);
