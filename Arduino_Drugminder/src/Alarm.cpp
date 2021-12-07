@@ -112,7 +112,7 @@ void play_alarm(){
         alarm_counter = 0;
         
         if(stop_alarm_waiting == true){
-            dispense_pills();
+            
             Serial.println("Pills will be dispensed");
             stop_alarm_waiting = false;
             start_alarm = false;
@@ -130,6 +130,10 @@ void play_alarm(){
 
 //This function is called when DISPENSE button is pressed!
 void dispense_pills(){
+    int rack_array[] = {};
+    int container_array[] = {};
+    int type_array[] = {};
+
     for (int i = 0; i < NB_RACKS; i++)
     {
         //pills to dispense is an array that contains all the racks, 
@@ -155,14 +159,23 @@ void dispense_pills(){
            //at the end reset that pill to dispense
             pills_to_dis[i] = false;
 
+            rack_array[size_t(rack_array) +1 ] = rack_to_reach;
+            container_array[size_t(container_array) + 1] = container_to_reach;
+            type_array[size_t(type_array) + 1] = Inventory[i].get_rack_type();
+
             //decrease the amout of pill in that rack 
             Inventory[i].take_a_pill();
             Serial.print("After dispensing, we should have ");
             Serial.print(Inventory[i].get_nb());
             Serial.print(" pills in rack ");
             Serial.println(rack_to_reach);
+
+            
+
         }
     }
 
-    // is_dispensing = false;
+    proccess_dis_data(type_array, container_array, rack_array);
+    is_dispensing = false;
+    Serial.println("Dispensing done");
 }

@@ -18,6 +18,7 @@
 #include <Alarm.h>
 #include <Settings.h>
 #include <Memory.h>
+#include <Motor.h>
 
 // ------------------------------------------------
 // Program Globals
@@ -380,9 +381,10 @@ const int button3Pin = 24;
 const int button4Pin = 25;
 const int button_dis_Pin = 26;
 
+
 // Rotary Encoder Inputs
-#define CLK 3 //interrupt pin
-#define DT 2 //interrupt pin
+#define CLK 9 //interrupt pin
+#define DT 8 //interrupt pin
 #define SW 30
 
 #define NB_SETTINGS_ITEM 5
@@ -460,6 +462,12 @@ void setup()
   pinMode(button3Pin, INPUT);
   pinMode(button4Pin, INPUT);
   pinMode(button_dis_Pin, INPUT);
+
+  pinMode(stepPin_X, OUTPUT);
+  pinMode(dirPin_X, OUTPUT);
+  pinMode(stepPin_Y, OUTPUT);
+  pinMode(dirPin_Y, OUTPUT);
+
    // Set encoder pins as inputs
   pinMode(CLK,INPUT);
   pinMode(DT,INPUT);
@@ -555,6 +563,8 @@ void loop()
   display_time();
   check_alarm();
   check_refill();
+
+
   if(start_alarm){play_alarm();}
   if(!is_dispensing){
     if(refill){ask_for_refill();}
@@ -592,7 +602,10 @@ void loop()
     if(start_alarm == true){
       stop_alarm_waiting = true;
       is_dispensing = true;
-    }
+      gslc_SetPageCur(&m_gui,dispensing);
+      dispense_pills();
+  }
+
   }while(digitalRead(button_dis_Pin) == true);
       delay(10);
 

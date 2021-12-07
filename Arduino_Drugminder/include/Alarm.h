@@ -5,7 +5,7 @@
 #include <RTClib.h>
 #include <Settings.h>
 #include <Pills.h>
-
+#include <Motor.h>
 
 using namespace std;
 
