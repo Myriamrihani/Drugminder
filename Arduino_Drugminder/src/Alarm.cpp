@@ -75,44 +75,23 @@ void check_alarm(){
 void play_alarm(){
     //display alarm pages
     //play sound
-
-    // DateTime now = rtc.now();
-    // int minutes = now.minute();
-    // int hour = now.hour();
-    // int min_waiting_done = minutes+30;
-    // int hour_done = hour;
-    // stop_alarm_waiting = false;
-
-    // if(min_waiting_done > 59){
-    //     min_waiting_done = min_waiting_done - 60;
-    //     hour_done +=1;
-
-    //     if(hour_done > 23){
-    //         hour_done= 0;
-    //     }
-    // }
-
-    // if((hour == hour_done) & (min_waiting_done == minutes)){
-    //     stop_alarm_waiting = true;
-    // }
     Serial.println("ALARM TIME");
     Serial.println(alarm_counter);
     //code to make sure right pills are dispensed. 
-    for(int i = 0; i<NB_RACKS; i++){
-        Serial.println("the pills to dispense are :");
-        if(pills_to_dis[i] == true){
-            Serial.println(drug_name_list[i]);
-        }
+    // for(int i = 0; i<NB_RACKS; i++){
+    //     Serial.println("the pills to dispense are :");
+    //     if(pills_to_dis[i] == true){
+    //         Serial.println(drug_name_list[i]);
+    //     }
         
-    }
+    // }
 
     alarm_counter += 1;
     // stop_alarm_waiting = false;
-    if((alarm_counter >= 1800) or (stop_alarm_waiting == true)){ //the 100 needs to be calibrated
+    if((alarm_counter >= 1800) or (stop_alarm_waiting == true)){ //the 1800 needs to be calibrated
         alarm_counter = 0;
         
         if(stop_alarm_waiting == true){
-            
             Serial.println("Pills will be dispensed");
             stop_alarm_waiting = false;
             start_alarm = false;
@@ -121,11 +100,7 @@ void play_alarm(){
             start_alarm = false;
             Serial.println("Pills won't be dispensed anymore");
         }
-        
-        
-        
     }
-
 }
 
 //This function is called when DISPENSE button is pressed!
@@ -151,10 +126,6 @@ void dispense_pills(){
             Serial.print(" We take the pill from container nb ");
             Serial.println(container_to_reach);
 
-            //for me, the first container is the one near the refilling handle.
-            //and the first rack the oen at the bottom. 
-            //This would not change my code, but should change john's if he does not take the same considerations
-            //john_function(rack_to_reach, container_to_reach, Inventory[i].get_rack_type());
            
            //at the end reset that pill to dispense
             pills_to_dis[i] = false;
@@ -169,8 +140,6 @@ void dispense_pills(){
             Serial.print(Inventory[i].get_nb());
             Serial.print(" pills in rack ");
             Serial.println(rack_to_reach);
-
-            
 
         }
     }
