@@ -436,7 +436,7 @@ gslc_tsXListbox                 m_sListbox1;
 // - Note that XLISTBOX_BUF_OH_R is extra required per item
 char                            m_acListboxBuf1[100 + XLISTBOX_BUF_OH_R];
 gslc_tsXTextbox                 m_sTextbox2;
-char                            m_acTextboxBuf2[168]; // NRows=6 NCols=28
+char                            m_acTextboxBuf2[360]; // NRows=10 NCols=36
 gslc_tsXTextbox                 m_sTextbox3;
 char                            m_acTextboxBuf3[168]; // NRows=6 NCols=28
 gslc_tsXListbox                 m_sListbox2;
@@ -749,7 +749,7 @@ void InitGUIslice_gen()
   // Create textbox
   pElemRef = gslc_ElemXTextboxCreate(&m_gui,ALL_PILLS_TEXTBOX,med_list,&m_sTextbox2,
     (gslc_tsRect){30,50,420,210},E_BUILTIN10X16,
-    (char*)&m_acTextboxBuf2,6,28);
+    (char*)&m_acTextboxBuf2,10,36);
   gslc_ElemXTextboxWrapSet(&m_gui,pElemRef,false);
   gslc_ElemSetTxtCol(&m_gui,pElemRef,((gslc_tsColor){255,0,178}));
   gslc_ElemSetCol(&m_gui,pElemRef,GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_COL_BLUE_DK2);
@@ -1307,7 +1307,7 @@ void InitGUIslice_gen()
 
   // Create E_ELEM_PROGRESS3 progress bar in flash
   gslc_ElemXProgressCreate_P(&m_gui,E_ELEM_PROGRESS3,Alarm_message,120,230,240,40,
-    0,100,100,
+    0,30,30,
     GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_COL_GREEN,false);
   alarm_progress = gslc_PageFindElemById(&m_gui,Alarm_message,E_ELEM_PROGRESS3);
   

@@ -383,8 +383,8 @@ const int button_dis_Pin = 26;
 
 
 // Rotary Encoder Inputs
-#define CLK 9 //interrupt pin
-#define DT 8 //interrupt pin
+#define CLK 19 //interrupt pin
+#define DT 18 //interrupt pin
 #define SW 30
 
 #define NB_SETTINGS_ITEM 5
@@ -446,6 +446,7 @@ void load_inventory();
 void load_settings();
 void edit_gui_element(gslc_tsElemRef * element,int element_type,int value);
 void display_time();
+void display_med_list();
 
 void setup()
 {
@@ -505,7 +506,7 @@ void setup()
   // Serial.print('/');        
   // Serial.print(hh.day(), DEC);
 
-  rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   // for (int i = 0 ; i < EEPROM.length() ; i++) {
   //   EEPROM.write(i, 0);
   // }
@@ -565,7 +566,10 @@ void loop()
   check_refill();
 
 
-  if(start_alarm){play_alarm();}
+  if(start_alarm){
+    gslc_SetPageCur(&m_gui,Alarm_message);
+    play_alarm();
+  }
   if(!is_dispensing){
     if(refill){ask_for_refill();}
   }
@@ -603,6 +607,7 @@ void loop()
       stop_alarm_waiting = true;
       is_dispensing = true;
       gslc_SetPageCur(&m_gui,dispensing);
+      gslc_Update(&m_gui);
       dispense_pills();
   }
 
@@ -1073,6 +1078,7 @@ void btn1_action(int16_t current_page){
   switch(current_page){
     
     case Default:
+      display_med_list();
       gslc_SetPageCur(&m_gui,med_list);
       break;
       
@@ -1293,6 +1299,7 @@ void btn4_action(int16_t current_page){
     char s[12];
     case med_list:
       gslc_SetPageCur(&m_gui,Default);
+      gslc_ElemXTextboxReset(&m_gui,m_pElemTextbox2);
       break;
 
     case password:
@@ -1493,16 +1500,16 @@ int change_element_encoder(int value, int min_val, int max_val, gslc_tsElemRef *
 
 int check_rack_avaible(gslc_tsElemRef * element, int value){
   unsigned int nb_free = 0;
-  for(int i = 0;i<NB_RACKS;i++){
-    if(rack_taken[i]==false){
+  for(unsigned int i = 0; i<NB_RACKS; i++){
+    if(rack_taken[i]==false || i == previous_rack-1){
       nb_free++;
     }
   }
   int free_rack[nb_free];
   int j = 0;
 
-  for(int i = 0;i<NB_RACKS;i++){
-    if(rack_taken[i]==false){
+  for(unsigned int i = 0;i<NB_RACKS; i++){
+    if(rack_taken[i]==false || i == previous_rack-1){
       free_rack[j] = i;
       j++;
     }
@@ -1898,4 +1905,28 @@ void display_time(){
 
   gslc_ElemSetTxtStr(&m_gui,default_time,buf);
 
+}
+
+void display_med_list(){
+  for(int i=0; i<NB_RACKS;i++){
+    if(rack_taken[i] == true){
+      char buf[40];
+      char s[4];
+      strcpy(buf,"Rack ");
+      int j=0;
+      for(int k = 0; k<NB_RACKS; k++){
+        if(Inventory[k].get_rack() == i+1){
+          j = k;
+          break;
+        }
+      }
+      strcat(buf,itoa(Inventory[j].get_rack(),s,10));
+      strcat(buf," \"");
+      strcat(buf,drug_name_list[i]);
+      strcat(buf,"\": ");
+      strcat(buf,itoa(Inventory[j].get_nb(),s,10));
+      strcat(buf," pills left\n\n");
+      gslc_ElemXTextboxAdd(&m_gui,m_pElemTextbox2,buf);
+    }
+  }
 }
