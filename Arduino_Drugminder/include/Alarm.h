@@ -16,6 +16,7 @@ extern bool start_alarm;
 extern bool stop_alarm_waiting;
 extern bool is_dispensing; 
 extern bool dispensing_done;
+extern int count_min;
 
 uint8_t what_day();
 int what_time();

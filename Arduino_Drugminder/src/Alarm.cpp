@@ -10,6 +10,7 @@ int alarm_counter = 0;
 bool stop_alarm_waiting = false;
 bool is_dispensing = false;
 bool dispensing_done = false;
+int count_min = 30;
 
 uint8_t what_day(){
     DateTime now = rtc.now();
@@ -89,9 +90,14 @@ void play_alarm(){
 
     alarm_counter += 1;
     delay(1000);
-    // stop_alarm_waiting = false;
-    if((alarm_counter >= 1800) or (stop_alarm_waiting == true)){ //the 1800 needs to be calibrated
+
+    if(alarm_counter == 60){
         alarm_counter = 0;
+        count_min -=1;
+    }
+    // stop_alarm_waiting = false;
+    if((count_min ==0) or (stop_alarm_waiting == true)){ //the 1800 needs to be calibrated
+        count_min = 30;
         
         if(stop_alarm_waiting == true){
             Serial.println("Pills will be dispensed");

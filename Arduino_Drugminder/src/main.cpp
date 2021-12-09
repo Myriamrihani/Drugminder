@@ -571,6 +571,7 @@ void loop()
     gslc_SetPageCur(&m_gui,Alarm_message);
     play_alarm();
   }
+  
   if(!is_dispensing){
     if(refill){
       ask_for_refill();
