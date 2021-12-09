@@ -151,6 +151,7 @@ bool Pill::get_alarm_day(int index){
 void Pill::refill_pill(int amount){
     nb_pills +=amount;
     next_container = 0;
+    
 }
 
 int Pill::get_rack_type(){

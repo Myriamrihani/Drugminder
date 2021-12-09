@@ -568,8 +568,23 @@ void loop()
 
 
   if(start_alarm){
-    gslc_SetPageCur(&m_gui,Alarm_message);
+
+    //updates the elements of the alarm time page
+    gslc_ElemXProgressSetVal(&m_gui,alarm_progress,count_min);
+    char buf[45];
+    char s[2];
+    strcpy(buf,itoa(count_min,s,10));
+    strcat(buf, "min left to take them");
+    gslc_ElemSetTxtStr(&m_gui,deadline_time,buf);
+
+    if(gslc_GetPageCur(&m_gui) != Alarm_message){
+      gslc_SetPageCur(&m_gui,Alarm_message);
+    }
+
     play_alarm();
+    if(start_alarm == false && stop_alarm_waiting == false){
+      gslc_SetPageCur(&m_gui,Default);
+    }
   }
   
   if(!is_dispensing){
@@ -1253,6 +1268,7 @@ void btn3_action(int16_t current_page){
       //add the pills added in right prescription too
       gslc_SetPageCur(&m_gui,Prescription);
       Inventory[inventory_i].refill_pill(temp_pills);
+      save_pills_in_EE();
       
       //Serial.println(Inventory[inventory_i].get_nb());
       pos_encoder = 0;
