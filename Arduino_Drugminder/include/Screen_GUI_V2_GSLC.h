@@ -60,7 +60,8 @@ enum {Default,settings,med_list,Prescription,Date_hour,Volume
       ,Alarm_message,end_dispensing,add_edit,edit_prescription_1
       ,edit_prescription_2,edit_prescription_3,delete_done,refill_1
       ,refill_2,trip,password,dispensing,delete_conf,pw_options
-      ,pw_del_conf,new_prescription_3,edit_prescription_4,alarm_times};
+      ,pw_del_conf,new_prescription_3,edit_prescription_4,alarm_times
+      ,need_refill};
 enum {ALL_PILLS_TEXTBOX,DRUG_NAME_TEXT,E_ELEM_BTN1,E_ELEM_BTN10
       ,E_ELEM_BTN11,E_ELEM_BTN12,E_ELEM_BTN13,E_ELEM_BTN14,E_ELEM_BTN15
       ,E_ELEM_BTN16,E_ELEM_BTN17,E_ELEM_BTN18,E_ELEM_BTN19,E_ELEM_BTN2
@@ -71,43 +72,44 @@ enum {ALL_PILLS_TEXTBOX,DRUG_NAME_TEXT,E_ELEM_BTN1,E_ELEM_BTN10
       ,E_ELEM_BTN42,E_ELEM_BTN43,E_ELEM_BTN44,E_ELEM_BTN45,E_ELEM_BTN46
       ,E_ELEM_BTN47,E_ELEM_BTN48,E_ELEM_BTN49,E_ELEM_BTN5,E_ELEM_BTN50
       ,E_ELEM_BTN52,E_ELEM_BTN53,E_ELEM_BTN54,E_ELEM_BTN55,E_ELEM_BTN56
-      ,E_ELEM_BTN57,E_ELEM_BTN58,E_ELEM_BTN7,E_ELEM_BTN8,E_ELEM_BTN9
-      ,E_ELEM_CHECK1,E_ELEM_CHECK18,E_ELEM_CHECK19,E_ELEM_CHECK2
-      ,E_ELEM_CHECK20,E_ELEM_CHECK21,E_ELEM_CHECK22,E_ELEM_CHECK23
-      ,E_ELEM_CHECK24,E_ELEM_CHECK29,E_ELEM_CHECK30,E_ELEM_CHECK31
-      ,E_ELEM_CHECK32,E_ELEM_CHECK33,E_ELEM_CHECK34,E_ELEM_CHECK41
-      ,E_ELEM_CHECK42,E_ELEM_CHECK43,E_ELEM_CHECK44,E_ELEM_CHECK45
-      ,E_ELEM_CHECK46,E_ELEM_CHECK47,E_ELEM_CHECK48,E_ELEM_CHECK49
-      ,E_ELEM_CHECK50,E_ELEM_CHECK51,E_ELEM_CHECK52,E_ELEM_CHECK53
-      ,E_ELEM_LISTBOX4,E_ELEM_PROGRESS3,E_ELEM_PROGRESS4,E_ELEM_TEXT1
-      ,E_ELEM_TEXT101,E_ELEM_TEXT103,E_ELEM_TEXT104,E_ELEM_TEXT105
-      ,E_ELEM_TEXT106,E_ELEM_TEXT107,E_ELEM_TEXT108,E_ELEM_TEXT109
-      ,E_ELEM_TEXT114,E_ELEM_TEXT122,E_ELEM_TEXT123,E_ELEM_TEXT124
-      ,E_ELEM_TEXT125,E_ELEM_TEXT127,E_ELEM_TEXT131,E_ELEM_TEXT133
-      ,E_ELEM_TEXT134,E_ELEM_TEXT135,E_ELEM_TEXT136,E_ELEM_TEXT137
-      ,E_ELEM_TEXT138,E_ELEM_TEXT139,E_ELEM_TEXT140,E_ELEM_TEXT141
-      ,E_ELEM_TEXT142,E_ELEM_TEXT143,E_ELEM_TEXT144,E_ELEM_TEXT145
-      ,E_ELEM_TEXT146,E_ELEM_TEXT147,E_ELEM_TEXT149,E_ELEM_TEXT15
-      ,E_ELEM_TEXT150,E_ELEM_TEXT151,E_ELEM_TEXT152,E_ELEM_TEXT153
-      ,E_ELEM_TEXT154,E_ELEM_TEXT155,E_ELEM_TEXT156,E_ELEM_TEXT157
-      ,E_ELEM_TEXT158,E_ELEM_TEXT159,E_ELEM_TEXT160,E_ELEM_TEXT161
-      ,E_ELEM_TEXT162,E_ELEM_TEXT163,E_ELEM_TEXT165,E_ELEM_TEXT166
-      ,E_ELEM_TEXT167,E_ELEM_TEXT168,E_ELEM_TEXT169,E_ELEM_TEXT170
-      ,E_ELEM_TEXT171,E_ELEM_TEXT173,E_ELEM_TEXT174,E_ELEM_TEXT175
-      ,E_ELEM_TEXT176,E_ELEM_TEXT177,E_ELEM_TEXT186,E_ELEM_TEXT187
-      ,E_ELEM_TEXT188,E_ELEM_TEXT189,E_ELEM_TEXT19,E_ELEM_TEXT190
-      ,E_ELEM_TEXT192,E_ELEM_TEXT193,E_ELEM_TEXT194,E_ELEM_TEXT195
-      ,E_ELEM_TEXT197,E_ELEM_TEXT198,E_ELEM_TEXT199,E_ELEM_TEXT20
-      ,E_ELEM_TEXT200,E_ELEM_TEXT201,E_ELEM_TEXT202,E_ELEM_TEXT203
-      ,E_ELEM_TEXT204,E_ELEM_TEXT205,E_ELEM_TEXT207,E_ELEM_TEXT208
-      ,E_ELEM_TEXT209,E_ELEM_TEXT21,E_ELEM_TEXT210,E_ELEM_TEXT211
-      ,E_ELEM_TEXT212,E_ELEM_TEXT213,E_ELEM_TEXT214,E_ELEM_TEXT215
-      ,E_ELEM_TEXT216,E_ELEM_TEXT217,E_ELEM_TEXT218,E_ELEM_TEXT219
-      ,E_ELEM_TEXT220,E_ELEM_TEXT221,E_ELEM_TEXT222,E_ELEM_TEXT223
-      ,E_ELEM_TEXT224,E_ELEM_TEXT225,E_ELEM_TEXT226,E_ELEM_TEXT227
-      ,E_ELEM_TEXT228,E_ELEM_TEXT229,E_ELEM_TEXT23,E_ELEM_TEXT230
-      ,E_ELEM_TEXT232,E_ELEM_TEXT233,E_ELEM_TEXT234,E_ELEM_TEXT235
-      ,E_ELEM_TEXT236,E_ELEM_TEXT237,E_ELEM_TEXT238,E_ELEM_TEXT24
+      ,E_ELEM_BTN57,E_ELEM_BTN58,E_ELEM_BTN59,E_ELEM_BTN7,E_ELEM_BTN8
+      ,E_ELEM_BTN9,E_ELEM_CHECK1,E_ELEM_CHECK18,E_ELEM_CHECK19
+      ,E_ELEM_CHECK2,E_ELEM_CHECK20,E_ELEM_CHECK21,E_ELEM_CHECK22
+      ,E_ELEM_CHECK23,E_ELEM_CHECK24,E_ELEM_CHECK29,E_ELEM_CHECK30
+      ,E_ELEM_CHECK31,E_ELEM_CHECK32,E_ELEM_CHECK33,E_ELEM_CHECK34
+      ,E_ELEM_CHECK41,E_ELEM_CHECK42,E_ELEM_CHECK43,E_ELEM_CHECK44
+      ,E_ELEM_CHECK45,E_ELEM_CHECK46,E_ELEM_CHECK47,E_ELEM_CHECK48
+      ,E_ELEM_CHECK49,E_ELEM_CHECK50,E_ELEM_CHECK51,E_ELEM_CHECK52
+      ,E_ELEM_CHECK53,E_ELEM_LISTBOX4,E_ELEM_PROGRESS3,E_ELEM_PROGRESS4
+      ,E_ELEM_TEXT1,E_ELEM_TEXT101,E_ELEM_TEXT103,E_ELEM_TEXT104
+      ,E_ELEM_TEXT105,E_ELEM_TEXT106,E_ELEM_TEXT107,E_ELEM_TEXT108
+      ,E_ELEM_TEXT109,E_ELEM_TEXT114,E_ELEM_TEXT122,E_ELEM_TEXT123
+      ,E_ELEM_TEXT124,E_ELEM_TEXT125,E_ELEM_TEXT127,E_ELEM_TEXT131
+      ,E_ELEM_TEXT133,E_ELEM_TEXT134,E_ELEM_TEXT135,E_ELEM_TEXT136
+      ,E_ELEM_TEXT137,E_ELEM_TEXT138,E_ELEM_TEXT139,E_ELEM_TEXT140
+      ,E_ELEM_TEXT141,E_ELEM_TEXT142,E_ELEM_TEXT143,E_ELEM_TEXT144
+      ,E_ELEM_TEXT145,E_ELEM_TEXT146,E_ELEM_TEXT147,E_ELEM_TEXT149
+      ,E_ELEM_TEXT15,E_ELEM_TEXT150,E_ELEM_TEXT151,E_ELEM_TEXT152
+      ,E_ELEM_TEXT153,E_ELEM_TEXT154,E_ELEM_TEXT155,E_ELEM_TEXT156
+      ,E_ELEM_TEXT157,E_ELEM_TEXT158,E_ELEM_TEXT159,E_ELEM_TEXT160
+      ,E_ELEM_TEXT161,E_ELEM_TEXT162,E_ELEM_TEXT163,E_ELEM_TEXT165
+      ,E_ELEM_TEXT166,E_ELEM_TEXT167,E_ELEM_TEXT168,E_ELEM_TEXT169
+      ,E_ELEM_TEXT170,E_ELEM_TEXT171,E_ELEM_TEXT173,E_ELEM_TEXT174
+      ,E_ELEM_TEXT175,E_ELEM_TEXT176,E_ELEM_TEXT177,E_ELEM_TEXT186
+      ,E_ELEM_TEXT187,E_ELEM_TEXT188,E_ELEM_TEXT189,E_ELEM_TEXT19
+      ,E_ELEM_TEXT190,E_ELEM_TEXT192,E_ELEM_TEXT193,E_ELEM_TEXT194
+      ,E_ELEM_TEXT195,E_ELEM_TEXT197,E_ELEM_TEXT198,E_ELEM_TEXT199
+      ,E_ELEM_TEXT20,E_ELEM_TEXT200,E_ELEM_TEXT201,E_ELEM_TEXT202
+      ,E_ELEM_TEXT203,E_ELEM_TEXT204,E_ELEM_TEXT205,E_ELEM_TEXT207
+      ,E_ELEM_TEXT208,E_ELEM_TEXT209,E_ELEM_TEXT21,E_ELEM_TEXT210
+      ,E_ELEM_TEXT211,E_ELEM_TEXT212,E_ELEM_TEXT213,E_ELEM_TEXT214
+      ,E_ELEM_TEXT215,E_ELEM_TEXT216,E_ELEM_TEXT217,E_ELEM_TEXT218
+      ,E_ELEM_TEXT219,E_ELEM_TEXT220,E_ELEM_TEXT221,E_ELEM_TEXT222
+      ,E_ELEM_TEXT223,E_ELEM_TEXT224,E_ELEM_TEXT225,E_ELEM_TEXT226
+      ,E_ELEM_TEXT227,E_ELEM_TEXT228,E_ELEM_TEXT229,E_ELEM_TEXT23
+      ,E_ELEM_TEXT230,E_ELEM_TEXT232,E_ELEM_TEXT233,E_ELEM_TEXT234
+      ,E_ELEM_TEXT235,E_ELEM_TEXT236,E_ELEM_TEXT237,E_ELEM_TEXT238
+      ,E_ELEM_TEXT24,E_ELEM_TEXT240,E_ELEM_TEXT241,E_ELEM_TEXT242
       ,E_ELEM_TEXT25,E_ELEM_TEXT26,E_ELEM_TEXT27,E_ELEM_TEXT3
       ,E_ELEM_TEXT32,E_ELEM_TEXT33,E_ELEM_TEXT34,E_ELEM_TEXT35
       ,E_ELEM_TEXT37,E_ELEM_TEXT38,E_ELEM_TEXT39,E_ELEM_TEXT4
@@ -121,7 +123,8 @@ enum {ALL_PILLS_TEXTBOX,DRUG_NAME_TEXT,E_ELEM_BTN1,E_ELEM_BTN10
       ,E_ELEM_TEXT88,E_ELEM_TEXT89,E_ELEM_TEXT91,E_ELEM_TEXT92
       ,E_ELEM_TEXT93,E_ELEM_TEXT94,E_ELEM_TEXT97,E_ELEM_TEXT98
       ,E_ELEM_TEXT99,GIVEN_PILLS_TEXTBOX,PRESCRIPTION_LISTBOX
-      ,RACK_NUMBER_TEXT,SETTINGS_LISTBOX,TODAY_INFO_TEXT,VOLUME_SLIDER};
+      ,RACK_NUMBER_TEXT,SETTINGS_LISTBOX,TODAY_INFO_TEXT,VOLUME_SLIDER
+      ,need};
 // Must use separate enum for fonts with MAX_FONT at end to use gslc_FontSet.
 enum {E_BUILTIN10X16,E_FREESANS12,E_FREESANS18,E_FREESANS24,E_FREESANS9
       ,E_FREESERIF12,E_FREESERIF18,MAX_FONT};
@@ -135,7 +138,7 @@ enum {E_BUILTIN10X16,E_FREESANS12,E_FREESANS18,E_FREESANS24,E_FREESANS9
 // Define the maximum number of elements and pages
 // ------------------------------------------------
 //<ElementDefines !Start!>
-#define MAX_PAGE                28
+#define MAX_PAGE                29
 // Define the maximum number of elements per page
 // - To enable the same code to run on devices that support storing
 //   data into Flash (PROGMEM) and those that don't, we can make the
@@ -365,6 +368,14 @@ enum {E_BUILTIN10X16,E_FREESANS12,E_FREESANS18,E_FREESANS24,E_FREESANS9
   #define MAX_ELEM_alarm_times_PROG 0 // No Elems in Flash
 #endif
 #define MAX_ELEM_alarm_times_RAM MAX_ELEM_alarm_times - MAX_ELEM_alarm_times_PROG 
+
+#define MAX_ELEM_need_refill 5 // # Elems total on page
+#if (GSLC_USE_PROGMEM)
+  #define MAX_ELEM_need_refill_PROG 4 // # Elems in Flash
+#else
+  #define MAX_ELEM_need_refill_PROG 0 // No Elems in Flash
+#endif
+#define MAX_ELEM_need_refill_RAM MAX_ELEM_need_refill - MAX_ELEM_need_refill_PROG 
 //<ElementDefines !End!>
 
 // ------------------------------------------------
@@ -432,6 +443,8 @@ gslc_tsElem                     m_asPage27Elem[MAX_ELEM_edit_prescription_4_RAM]
 gslc_tsElemRef                  m_asPage27ElemRef[MAX_ELEM_edit_prescription_4];
 gslc_tsElem                     m_asPage28Elem[MAX_ELEM_alarm_times_RAM];
 gslc_tsElemRef                  m_asPage28ElemRef[MAX_ELEM_alarm_times];
+gslc_tsElem                     m_asPage29Elem[MAX_ELEM_need_refill_RAM];
+gslc_tsElemRef                  m_asPage29ElemRef[MAX_ELEM_need_refill];
 gslc_tsXListbox                 m_sListbox1;
 // - Note that XLISTBOX_BUF_OH_R is extra required per item
 char                            m_acListboxBuf1[100 + XLISTBOX_BUF_OH_R];
@@ -445,6 +458,8 @@ char                            m_acListboxBuf2[150 + XLISTBOX_BUF_OH_R];
 gslc_tsXListbox                 m_sListbox4;
 // - Note that XLISTBOX_BUF_OH_R is extra required per item
 char                            m_acListboxBuf4[150 + XLISTBOX_BUF_OH_R];
+gslc_tsXTextbox                 m_sTextbox4;
+char                            m_acTextboxBuf4[300]; // NRows=10 NCols=30
 
 #define MAX_STR                 100
 
@@ -515,6 +530,7 @@ extern gslc_tsElemRef* m_pListSlider1;
 extern gslc_tsElemRef* m_pListSlider1;
 extern gslc_tsElemRef* m_pTextSlider2;
 extern gslc_tsElemRef* m_pTextSlider2;
+extern gslc_tsElemRef* m_pTextSlider2;
 extern gslc_tsElemRef* min_set;
 extern gslc_tsElemRef* morn_h;
 extern gslc_tsElemRef* morn_min;
@@ -549,6 +565,7 @@ extern gslc_tsElemRef* sel_drug_edit3;
 extern gslc_tsElemRef* sel_drug_edit4;
 extern gslc_tsElemRef* sel_drug_refill;
 extern gslc_tsElemRef* sound_check;
+extern gslc_tsElemRef* textbox_pill_refill;
 extern gslc_tsElemRef* trip_bttn;
 extern gslc_tsElemRef* trip_date;
 extern gslc_tsElemRef* trip_day;
@@ -626,6 +643,7 @@ void InitGUIslice_gen()
   gslc_PageAdd(&m_gui,new_prescription_3,m_asPage26Elem,MAX_ELEM_new_prescription_3_RAM,m_asPage26ElemRef,MAX_ELEM_new_prescription_3);
   gslc_PageAdd(&m_gui,edit_prescription_4,m_asPage27Elem,MAX_ELEM_edit_prescription_4_RAM,m_asPage27ElemRef,MAX_ELEM_edit_prescription_4);
   gslc_PageAdd(&m_gui,alarm_times,m_asPage28Elem,MAX_ELEM_alarm_times_RAM,m_asPage28ElemRef,MAX_ELEM_alarm_times);
+  gslc_PageAdd(&m_gui,need_refill,m_asPage29Elem,MAX_ELEM_need_refill_RAM,m_asPage29ElemRef,MAX_ELEM_need_refill);
 
   // NOTE: The current page defaults to the first page added. Here we explicitly
   //       ensure that the main page is the correct page no matter the add order.
@@ -1314,7 +1332,7 @@ void InitGUIslice_gen()
   // Create E_ELEM_TEXT78 modifiable text using flash API
   static char m_sDisplayText78[45] = "30min left to take them";
   gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT78,Alarm_message,122,280,259,20,
-    m_sDisplayText78,21,&m_asFont[E_FREESANS12],
+    m_sDisplayText78,45,&m_asFont[E_FREESANS12],
     ((gslc_tsColor){255,0,178}),((gslc_tsColor){255,0,178}),GSLC_COL_GRAY,GSLC_COL_WHITE,GSLC_ALIGN_MID_LEFT,0,0,
     false,false,false,false,NULL,NULL,NULL,NULL);
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
@@ -2001,7 +2019,7 @@ void InitGUIslice_gen()
   // Create E_ELEM_TEXT154 modifiable text using flash API
   static char m_sDisplayText154[45] = "wrong password, try again!";
   gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT154,password,130,200,250,15,
-    m_sDisplayText154,26,&m_asFont[E_FREESANS9],
+    m_sDisplayText154,45,&m_asFont[E_FREESANS9],
     GSLC_COL_RED,GSLC_COL_RED,GSLC_COL_GRAY,GSLC_COL_WHITE,GSLC_ALIGN_MID_LEFT,0,0,
     false,false,false,false,NULL,NULL,NULL,NULL);
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
@@ -2595,6 +2613,45 @@ void InitGUIslice_gen()
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
   // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
   bed_min = gslc_PageFindElemById(&m_gui,alarm_times,E_ELEM_TEXT230);
+
+  // -----------------------------------
+  // PAGE: need_refill
+  
+  
+  // Create E_ELEM_TEXT240 text label using flash API
+  gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT240,need_refill,88,10,304,28,
+    "A refill is needed for",&m_asFont[E_FREESANS18],
+    ((gslc_tsColor){255,0,178}),GSLC_COL_GRAY,GSLC_COL_WHITE,GSLC_ALIGN_MID_LEFT,false,true);
+  // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
+  
+  // create E_ELEM_BTN59 button with text label
+  gslc_ElemCreateBtnTxt_P(&m_gui,E_ELEM_BTN59,need_refill,410,270,60,40,
+    "OK",&m_asFont[E_FREESANS9],
+    GSLC_COL_WHITE,GSLC_COL_BLUE_DK2,GSLC_COL_BLUE_DK4,GSLC_COL_BLUE_DK2,
+    GSLC_COL_BLUE_DK1,GSLC_ALIGN_MID_MID,true,true,&CbBtnCommon,NULL);
+  // gslc_ElemSetRoundEn(); currently not supported by the FLASH _P calls.
+  // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
+  
+  // Create E_ELEM_TEXT241 text label using flash API
+  gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT241,need_refill,99,100,282,15,
+    "Please refill them before next alarm",&m_asFont[E_FREESANS9],
+    GSLC_COL_BLUE_DK2,GSLC_COL_GRAY,GSLC_COL_WHITE,GSLC_ALIGN_MID_LEFT,false,true);
+  // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
+   
+  // Create textbox
+  pElemRef = gslc_ElemXTextboxCreate(&m_gui,need,need_refill,&m_sTextbox4,
+    (gslc_tsRect){100,130,300,180},E_BUILTIN10X16,
+    (char*)&m_acTextboxBuf4,10,30);
+  gslc_ElemXTextboxWrapSet(&m_gui,pElemRef,true);
+  gslc_ElemSetTxtCol(&m_gui,pElemRef,((gslc_tsColor){255,0,178}));
+  gslc_ElemSetCol(&m_gui,pElemRef,GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_COL_BLUE_DK2);
+  textbox_pill_refill = pElemRef;
+  
+  // Create E_ELEM_TEXT242 text label using flash API
+  gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT242,need_refill,106,40,268,44,
+    "the following pills!",&m_asFont[E_FREESANS18],
+    ((gslc_tsColor){255,0,178}),GSLC_COL_GRAY,GSLC_COL_WHITE,GSLC_ALIGN_MID_LEFT,false,true);
+  // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
 //<InitGUI !End!>
 
 //<Startup !Start!>

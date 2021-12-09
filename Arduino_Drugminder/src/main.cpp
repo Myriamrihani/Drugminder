@@ -114,6 +114,7 @@ gslc_tsElemRef* sel_drug_edit3    = NULL;
 gslc_tsElemRef* sel_drug_edit4    = NULL;
 gslc_tsElemRef* sel_drug_refill   = NULL;
 gslc_tsElemRef* sound_check       = NULL;
+gslc_tsElemRef* textbox_pill_refill= NULL;
 gslc_tsElemRef* trip_bttn         = NULL;
 gslc_tsElemRef* trip_date         = NULL;
 gslc_tsElemRef* trip_day          = NULL;
@@ -296,6 +297,9 @@ bool CbBtnCommon(void* pvGui,void *pvElemRef,gslc_teTouch eTouch,int16_t nX,int1
         break;
       case E_ELEM_BTN57:
         gslc_SetPageCur(&m_gui, settings);
+        break;
+      case E_ELEM_BTN59:
+        gslc_SetPageCur(&m_gui, refill_1);
         break;
 //<Button Enums !End!>
       default:
