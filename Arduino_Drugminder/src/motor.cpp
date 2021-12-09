@@ -19,8 +19,8 @@ const int dirPin_Y = 5;
 const int stepPin_Y = 6;
 
 void proccess_dis_data(int rack_type_array[] , int x_array[] , int y_array[]){
-  Serial.println(sizeof(x_array)/ sizeof(int));
-  for(int i=0;i<sizeof(x_array)/ sizeof(int);i++){
+  Serial.println(sizeof(x_array));
+  for(int i=0;i<sizeof(x_array);i++){
     Serial.println(i);
     if(i==0){
       x_box=x_array[0];
@@ -62,9 +62,9 @@ delay(1000);
 
 
   // 1) X movement
-        if(x_box>0){
+  if(x_box>0){
    digitalWrite(dirPin_X, HIGH);  // HIGH yaparsak saat yönünde döner-High=clockwise
-    }
+  }
     else{
     digitalWrite(dirPin_X, LOW);}
   
@@ -74,22 +74,21 @@ delay(1000);
     delayMicroseconds(1000);
     digitalWrite(stepPin_X, LOW);
     delayMicroseconds(1000);
-    if(digitalRead(dirPin_X)==HIGH){
+  if(digitalRead(dirPin_X)==HIGH){
     x_cor=x_cor+1;
-    }
-    else{
+  }else{
     x_cor=x_cor-1;}
   }
   Serial.print("1)Stage moved to X position\n");
-  delay(1000); // wait 0.1 sec
+  delay(10); // wait 0.1 sec ///////////////////////////////
   
 
 
 
   // 2) Y movement
-          if(y_box>0){
+  if(y_box>0){
    digitalWrite(dirPin_Y, LOW);  // HIGH yaparsak saat yönünde döner-High=clockwise
-    }
+  }
     else{
     digitalWrite(dirPin_Y, HIGH);}
   
@@ -106,7 +105,7 @@ delay(1000);
     y_cor=y_cor-1;}
   }
     Serial.print("2)Stage moved to Y position\n");
-  delay(1000); // wait 0.1 sec
+  delay(10); // wait 0.1 sec////////////////////////////////////////////////
 
 
 
@@ -114,14 +113,14 @@ delay(1000);
 
 // 3) Forward Z movement with servo
  servo.attach(7); 
-servo.write(180); // start rotation
+  servo.write(180); // start rotation
 
-delay(1000);
-Serial.print("3)Stage moved forward with servo\n");
- servo.write(90);//stop rotation
- 
- delay(50);
- servo.detach(); 
+  delay(1000);
+  Serial.print("3)Stage moved forward with servo\n");
+  servo.write(90);//stop rotation
+  
+  delay(50);
+  servo.detach(); 
 
   
 
@@ -143,7 +142,7 @@ Serial.print("3)Stage moved forward with servo\n");
     y_cor=y_cor-1;}
   }
   Serial.print("4)Stage moved downward a bit and grabbed compartment \n");
-  delay(1000); // wait 0.1 sec
+  delay(10); // wait 0.1 sec //////////////////////////////////////////
 
 
   
@@ -194,24 +193,21 @@ Serial.print("6)Stage moved forward with servo \n");
     y_cor=y_cor-1;}
   }
     Serial.print("7)Stage moved upward a bit and released compartment \n");
-  delay(1000); // wait 0.1 sec
+  delay(10); // wait 0.1 sec /////////////////////////////////////////
 
 
 
 // 8) backward with Z axis
 
- servo.attach(7); 
-servo.write(0); // start rotation
+  servo.attach(7); 
+  servo.write(0); // start rotation
 
-delay(1000);
-Serial.print("8)Stage moved backward with servo \n");
- servo.write(90);//stop rotation
+  delay(1000);
+  Serial.print("8)Stage moved backward with servo \n");
+  servo.write(90);//stop rotation
  
  delay(100);
  servo.detach(); 
-
-
-
 
 //// 9) move to reference point
 //
@@ -253,9 +249,7 @@ Serial.print("8)Stage moved backward with servo \n");
 //  y_cor=b;
 //  x_cor=a;
 //       Serial.print("9)Stage came back to reference \n");
- Serial.println(x_cor);
-Serial.println(y_cor);
-
-
+  Serial.println(x_cor);
+  Serial.println(y_cor);
  
 }

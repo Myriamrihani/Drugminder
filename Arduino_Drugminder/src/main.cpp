@@ -571,7 +571,14 @@ void loop()
     play_alarm();
   }
   if(!is_dispensing){
-    if(refill){ask_for_refill();}
+    if(refill){
+      ask_for_refill();
+    }
+  }
+
+  if(dispensing_done){
+   gslc_SetPageCur(&m_gui,end_dispensing);
+   dispensing_done =false;
   }
 
 

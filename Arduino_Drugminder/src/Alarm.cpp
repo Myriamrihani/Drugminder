@@ -9,6 +9,7 @@ bool start_alarm = false;
 int alarm_counter = 0;
 bool stop_alarm_waiting = false;
 bool is_dispensing = false;
+bool dispensing_done = false;
 
 uint8_t what_day(){
     DateTime now = rtc.now();
@@ -87,6 +88,7 @@ void play_alarm(){
     // }
 
     alarm_counter += 1;
+    delay(1000);
     // stop_alarm_waiting = false;
     if((alarm_counter >= 1800) or (stop_alarm_waiting == true)){ //the 1800 needs to be calibrated
         alarm_counter = 0;
@@ -136,6 +138,7 @@ void dispense_pills(){
 
             //decrease the amout of pill in that rack 
             Inventory[i].take_a_pill();
+
             Serial.print("After dispensing, we should have ");
             Serial.print(Inventory[i].get_nb());
             Serial.print(" pills in rack ");
@@ -144,7 +147,10 @@ void dispense_pills(){
         }
     }
 
+    save_pills_in_EE();
+    dispensing_done = true;
     proccess_dis_data(type_array, container_array, rack_array);
     is_dispensing = false;
+    start_alarm = false;
     Serial.println("Dispensing done");
 }
