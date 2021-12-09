@@ -447,6 +447,7 @@ void load_settings();
 void edit_gui_element(gslc_tsElemRef * element,int element_type,int value);
 void display_time();
 void display_med_list();
+void display_pills_dis();
 
 void setup()
 {
@@ -577,7 +578,8 @@ void loop()
   }
 
   if(dispensing_done){
-   gslc_SetPageCur(&m_gui,end_dispensing);
+    display_pills_dis();
+    gslc_SetPageCur(&m_gui,end_dispensing);
    dispensing_done =false;
   }
 
@@ -1297,6 +1299,7 @@ void btn3_action(int16_t current_page){
 
     case end_dispensing:
       gslc_SetPageCur(&m_gui,Default);
+      gslc_ElemXTextboxReset(&m_gui,listbox_pill_given);
       break;
   }
 }
@@ -1936,4 +1939,28 @@ void display_med_list(){
       gslc_ElemXTextboxAdd(&m_gui,m_pElemTextbox2,buf);
     }
   }
+}
+
+void display_pills_dis(){
+
+  for (int i = 0; i < NB_RACKS; i++){
+    if(pills_to_dis[i]==true){
+        char buf[12];
+        int j=0;
+        strcpy(buf,"1 ");
+        for(int k = 0; k<NB_RACKS; k++){
+          if(Inventory[k].get_rack() == i+1){
+            j = k;
+            break;
+          }
+        }
+        strcat(buf, drug_name_list[j]);
+        strcat(buf, "\n\n");
+        gslc_ElemXTextboxAdd(&m_gui,listbox_pill_given,buf);
+
+        //at the end reset that pill to dispense
+        pills_to_dis[i] = false;
+    }
+  }
+  
 }

@@ -128,9 +128,6 @@ void dispense_pills(){
             Serial.print(" We take the pill from container nb ");
             Serial.println(container_to_reach);
 
-           
-           //at the end reset that pill to dispense
-            pills_to_dis[i] = false;
 
             rack_array[size_t(rack_array) +1 ] = rack_to_reach;
             container_array[size_t(container_array) + 1] = container_to_reach;
