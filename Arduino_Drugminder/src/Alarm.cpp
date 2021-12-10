@@ -2,15 +2,18 @@ using namespace std;
 
 #include <Alarm.h>
 
-
 RTC_DS1307 rtc;
+SoftwareSerial mySoftwareSerial(10,11); // RX, TX
+DFRobotDFPlayerMini Player;
 bool start_alarm = false;
+bool sound_on = false;
 
 int alarm_counter = 0;
 bool stop_alarm_waiting = false;
 bool is_dispensing = false;
 bool dispensing_done = false;
 int count_min = 30;
+int ten_min_count = 0;
 
 uint8_t what_day(){
     DateTime now = rtc.now();
@@ -55,6 +58,19 @@ int what_time(){
 
 }
 
+void play_sound(){
+    if(the_setting.type == Sound || the_setting.type == Both){
+        Serial.println("set volume");
+        Player.volume(the_setting.vol); 
+        Serial.println("Play sound");
+        Player.play(1);
+    }
+}
+
+void stop_sound(){
+    Player.pause();
+}
+
 void check_alarm(){
     uint8_t day = what_day();
     int time = what_time();
@@ -74,27 +90,37 @@ void check_alarm(){
     }
 }
 
+void blink_led(){
+    if(the_setting.type == Light || the_setting.type == Both){
+        digitalWrite(Led_pin,HIGH);
+        delay(1000);
+        digitalWrite(Led_pin,LOW);
+    }
+}
+
+
 void play_alarm(){
     //display alarm pages
     //play sound
     Serial.println("ALARM TIME");
     Serial.println(alarm_counter);
-    //code to make sure right pills are dispensed. 
-    // for(int i = 0; i<NB_RACKS; i++){
-    //     Serial.println("the pills to dispense are :");
-    //     if(pills_to_dis[i] == true){
-    //         Serial.println(drug_name_list[i]);
-    //     }
-        
-    // }
-
     alarm_counter += 1;
     delay(1000);
+
+    blink_led();
 
     if(alarm_counter == 60){
         alarm_counter = 0;
         count_min -=1;
+        ten_min_count +=1;
     }
+
+    if(ten_min_count == 10){
+        Serial.println("ten minutes up");
+        play_sound();
+        ten_min_count = 0;
+    }
+
     // stop_alarm_waiting = false;
     if((count_min ==0) or (stop_alarm_waiting == true)){ //the 1800 needs to be calibrated
         count_min = 30;
@@ -113,6 +139,7 @@ void play_alarm(){
 
 //This function is called when DISPENSE button is pressed!
 void dispense_pills(){
+    stop_sound();
     int rack_array[] = {};
     int container_array[] = {};
     int type_array[] = {};

@@ -19,6 +19,9 @@
 #include <Settings.h>
 #include <Memory.h>
 #include <Motor.h>
+#include "SoftwareSerial.h"
+#include "DFRobotDFPlayerMini.h"
+
 
 // ------------------------------------------------
 // Program Globals
@@ -458,7 +461,8 @@ void setup()
   // ------------------------------------------------
   // Initialize
   // ------------------------------------------------
-  Serial.begin(9600);
+  mySoftwareSerial.begin(9600);
+  Serial.begin(115200);
   // Wait for USB Serial 
   //delay(1000);  // NOTE: Some devices require a delay after Serial.begin() before serial port can be used
 
@@ -473,6 +477,7 @@ void setup()
   pinMode(dirPin_X, OUTPUT);
   pinMode(stepPin_Y, OUTPUT);
   pinMode(dirPin_Y, OUTPUT);
+  pinMode(Led_pin, OUTPUT);
 
    // Set encoder pins as inputs
   pinMode(CLK,INPUT);
@@ -488,78 +493,43 @@ void setup()
   InitGUIslice_gen();
   gslc_ElemSetVisible(&m_gui,wrong_pw_text,false);
 
+ if (!Player.begin(mySoftwareSerial, false)) {  //Use softwareSerial to communicate with mp3.
+    Serial.println(F("Unable to begin:"));
+    Serial.println(F("1.Please recheck the connection!"));
+    Serial.println(F("2.Please insert the SD card!"));
+    while(true){
+      delay(0); // Code to compatible with ESP8266 watch dog.
+    }
+  }
 
   if (! rtc.begin()) {
     Serial.println("Couldn't find RTC");
     //while (1);
   }
  
-
-
   if (! rtc.isrunning()) {
     Serial.println("RTC is NOT running!");
     // following line sets the RTC to the date & time this sketch was compiled
     rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-    // This line sets the RTC with an explicit date & time, for example to set
-    // January 21, 2014 at 3am you would call:
-    // rtc.adjust(DateTime(2021, 12, 3, 17, 52, 0));
   }
-  // DateTime hh = rtc.now();
-  // Serial.print(hh.year(), DEC);        
-  // Serial.print('/');        
-  // Serial.print(hh.month(), DEC);        
-  // Serial.print('/');        
-  // Serial.print(hh.day(), DEC);
 
-  //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-  // for (int i = 0 ; i < EEPROM.length() ; i++) {
-  //   EEPROM.write(i, 0);
-  // }
-  Serial.println(sizeof(the_setting) + sizeof(Inventory));
   EEPROM.get(eeAddress, used_EEPROM);
-  Serial.println(used_EEPROM);
+
   if(used_EEPROM){
     EEPROM.get(eeAdbool, the_setting);
     //load the settings
     load_settings();
-
     Serial.println(the_setting.vol);
-    // for(int i =0; i<NB_RACKS; i++){
-    //   // Pill_param pill_load;
-    //   // EEPROM.get(eeAd_set+i*sizeof(pill_load), pill_load);
-    //   // Serial.println(pill_load.name);
-    //   // add_pill(pill_load); 
 
-    //   Serial.println("in the loop");
-    //   Serial.println(sizeof(Pill));
-    //   Serial.println(eeAd_set);
-    //   Serial.println(eeAd_set + i*sizeof(Pill));
-    //   //maybe eeprom is not working, because we are loading a hole ass class object in inventory
-    //   //the solution might be to change the class Pill into a structure
-    //   EEPROM.get(eeAd_set + i*sizeof(Pill), Inventory[i]);
-    //   Serial.println(Inventory[i].get_name());
-    // }
-    
     EEPROM.get(eeAd_set, Inventory);
     EEPROM.get(eeAd_set + sizeof(Inventory), drug_name_list);
-      for(int i =0; i<NB_RACKS; i++){
-    //   // Pill_param pill_load;
-    //   // EEPROM.get(eeAd_set+i*sizeof(pill_load), pill_load);
-    //   // Serial.println(pill_load.name);
-    //   // add_pill(pill_load); 
-
-    //   Serial.println("in the loop");
-    //   Serial.println(sizeof(Pill));
-    //   Serial.println(eeAd_set);
-    //   Serial.println(eeAd_set + i*sizeof(Pill));
-    //   //maybe eeprom is not working, because we are loading a hole ass class object in inventory
-    //   //the solution might be to change the class Pill into a structure
-    //   EEPROM.get(eeAd_set + i*sizeof(Pill), Inventory[i]);
+    for(int i =0; i<NB_RACKS; i++){
       Serial.println(drug_name_list[i]);
     }
     load_inventory();
   }
 }
+
 
 // -----------------------------------
 // Main event loop
@@ -583,6 +553,7 @@ void loop()
 
     if(gslc_GetPageCur(&m_gui) != Alarm_message){
       gslc_SetPageCur(&m_gui,Alarm_message);
+      play_sound();
     }
 
     play_alarm();
@@ -638,6 +609,7 @@ void loop()
       gslc_SetPageCur(&m_gui,dispensing);
       gslc_Update(&m_gui);
       dispense_pills();
+      stop_sound();
   }
 
   }while(digitalRead(button_dis_Pin) == true);
