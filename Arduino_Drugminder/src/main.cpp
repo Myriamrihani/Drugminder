@@ -84,6 +84,7 @@ gslc_tsElemRef* lunch_min         = NULL;
 gslc_tsElemRef* m_pElemListbox1   = NULL;
 gslc_tsElemRef* m_pElemTextbox2   = NULL;
 gslc_tsElemRef* min_set           = NULL;
+gslc_tsElemRef* month_set         = NULL;
 gslc_tsElemRef* morn_h            = NULL;
 gslc_tsElemRef* morn_min          = NULL;
 gslc_tsElemRef* name_char_1       = NULL;
@@ -127,6 +128,7 @@ gslc_tsElemRef* vol_slider        = NULL;
 gslc_tsElemRef* wake_h            = NULL;
 gslc_tsElemRef* wake_min          = NULL;
 gslc_tsElemRef* wrong_pw_text     = NULL;
+gslc_tsElemRef* year_set          = NULL;
 //<Save_References !End!>
 
 // Define debug message function
@@ -408,6 +410,7 @@ int enc_btnState = false;
 bool encoder_enabled = false;
 bool enc_btnAction = false;
 bool pw_enabled = false;
+bool need_refill_accepted = false;
 bool rack_taken[NB_RACKS] = {false};
 bool pw_for_pres = false;
 int settings_item = 0;
@@ -455,28 +458,31 @@ void edit_gui_element(gslc_tsElemRef * element,int element_type,int value);
 void display_time();
 void display_med_list();
 void display_pills_dis();
+void display_pills_refill();
+void change_date_rtc();
 
 void setup()
 {
-  // ------------------------------------------------
-  // Initialize
-  // ------------------------------------------------
   mySoftwareSerial.begin(9600);
-  Serial.begin(115200);
-  // Wait for USB Serial 
-  //delay(1000);  // NOTE: Some devices require a delay after Serial.begin() before serial port can be used
+  Serial.begin(9600);
+
+  Player.begin(mySoftwareSerial, false);
 
   gslc_InitDebug(&DebugOut);
+
+  //button pins
   pinMode(button1Pin, INPUT);
   pinMode(button2Pin, INPUT);
   pinMode(button3Pin, INPUT);
   pinMode(button4Pin, INPUT);
   pinMode(button_dis_Pin, INPUT);
 
+  //motor pins
   pinMode(stepPin_X, OUTPUT);
   pinMode(dirPin_X, OUTPUT);
   pinMode(stepPin_Y, OUTPUT);
   pinMode(dirPin_Y, OUTPUT);
+
   pinMode(Led_pin, OUTPUT);
 
    // Set encoder pins as inputs
@@ -493,15 +499,6 @@ void setup()
   InitGUIslice_gen();
   gslc_ElemSetVisible(&m_gui,wrong_pw_text,false);
 
- if (!Player.begin(mySoftwareSerial, false)) {  //Use softwareSerial to communicate with mp3.
-    Serial.println(F("Unable to begin:"));
-    Serial.println(F("1.Please recheck the connection!"));
-    Serial.println(F("2.Please insert the SD card!"));
-    while(true){
-      delay(0); // Code to compatible with ESP8266 watch dog.
-    }
-  }
-
   if (! rtc.begin()) {
     Serial.println("Couldn't find RTC");
     //while (1);
@@ -516,11 +513,11 @@ void setup()
   EEPROM.get(eeAddress, used_EEPROM);
 
   if(used_EEPROM){
-    EEPROM.get(eeAdbool, the_setting);
     //load the settings
+    EEPROM.get(eeAdbool, the_setting);
     load_settings();
-    Serial.println(the_setting.vol);
 
+    //load the inventory + drug_name_list
     EEPROM.get(eeAd_set, Inventory);
     EEPROM.get(eeAd_set + sizeof(Inventory), drug_name_list);
     for(int i =0; i<NB_RACKS; i++){
@@ -530,10 +527,6 @@ void setup()
   }
 }
 
-
-// -----------------------------------
-// Main event loop
-// -----------------------------------
 void loop()
 {
   display_time();
@@ -562,9 +555,14 @@ void loop()
     }
   }
   
-  if(!is_dispensing){
+  if(!is_dispensing && !need_refill_accepted){
     if(refill){
       ask_for_refill();
+      if(gslc_GetPageCur(&m_gui) != need_refill){
+        display_pills_refill();
+        need_refill_accepted = true;
+        gslc_SetPageCur(&m_gui,need_refill);
+      }
     }
   }
 
@@ -575,8 +573,7 @@ void loop()
   }
 
 
-  
-  //else{//mettre tout le reste, le bool start_alarm doit jouer comme une interruption}
+  //button actions call
   if(digitalRead(button1Pin) == true){
     status1 = !status1;
     btn1_action(gslc_GetPageCur(&m_gui));
@@ -645,6 +642,21 @@ void check_encoder(int16_t current_page){
             gslc_SetPageCur(&m_gui,Alarm_type);
             break;
           case 2:
+            //load date & hour
+            the_setting.current_date.day = rtc.now().dayOfTheWeek();
+            the_setting.current_date.month_day = rtc.now().day();
+            the_setting.current_date.month = rtc.now().month()-1;
+            the_setting.current_date.year = rtc.now().year();
+            the_setting.current_date.time.hour = rtc.now().hour();
+            the_setting.current_date.time.minute = rtc.now().minute();
+
+            edit_gui_element(day_set,the_setting.current_date.day,TEXT_WEEKDAY);
+            edit_gui_element(date_set,the_setting.current_date.month_day,TEXT_INT);
+            edit_gui_element(month_set,the_setting.current_date.month,TEXT_MONTH);
+            edit_gui_element(year_set,the_setting.current_date.year,TEXT_INT);
+            edit_gui_element(hour_set,the_setting.current_date.time.hour,TEXT_INT);
+            edit_gui_element(min_set,the_setting.current_date.time.minute,TEXT_INT);
+            
             gslc_SetPageCur(&m_gui,Date_hour);
             break;
           case 3:
@@ -725,12 +737,20 @@ void check_encoder(int16_t current_page){
       case 1:
         the_setting.current_date.month_day = change_element_encoder(the_setting.current_date.month_day,1,MONTH_DAY-1,date_set,TEXT_INT);
         break;
-      
+
       case 2:
+        the_setting.current_date.month = change_element_encoder(the_setting.current_date.month,0,NB_MONTHS-1,month_set,TEXT_MONTH);
+        break;
+      
+      case 3:
+        the_setting.current_date.year = change_element_encoder(the_setting.current_date.year,2020,RTC_MAX_YEAR-1,year_set,TEXT_INT);
+        break;
+      
+      case 4:
         the_setting.current_date.time.hour= change_element_encoder(the_setting.current_date.time.hour,0,MAX_H-1,hour_set,TEXT_INT);
         break;
 
-      case 3:
+      case 5:
         the_setting.current_date.time.minute= change_element_encoder(the_setting.current_date.time.minute,0,MAX_MIN-1,min_set,TEXT_INT);
         break;
       
@@ -1115,6 +1135,7 @@ void btn2_action(int16_t current_page){
       break;
 
     case add_edit:
+      previous_rack = 0;
       gslc_SetPageCur(&m_gui,new_prescription_1);
       break;
 
@@ -1293,7 +1314,15 @@ void btn3_action(int16_t current_page){
     case end_dispensing:
       gslc_SetPageCur(&m_gui,Default);
       gslc_ElemXTextboxReset(&m_gui,listbox_pill_given);
+      need_refill_accepted = false;
       break;
+    
+    case need_refill:
+      gslc_SetPageCur(&m_gui,Default);
+      gslc_ElemXTextboxReset(&m_gui,textbox_pill_refill);
+      refill = false;
+      break;
+    
   }
 }
 
@@ -1326,6 +1355,7 @@ void btn4_action(int16_t current_page){
 
     case Date_hour:
       pos_encoder = 0;
+      change_date_rtc();
       gslc_SetPageCur(&m_gui,settings);
       break;
 
@@ -1458,6 +1488,10 @@ int change_element_encoder(int value, int min_val, int max_val, gslc_tsElemRef *
     case TXT_RACK_TYPE:
       gslc_ElemSetTxtStr(&m_gui,element,type_list[value]);
       break;
+    
+    case TEXT_MONTH:
+      gslc_ElemSetTxtStr(&m_gui,element,month_str[value]);
+      break;
 
     default:
       break;
@@ -1491,6 +1525,10 @@ int change_element_encoder(int value, int min_val, int max_val, gslc_tsElemRef *
 
     case TXT_RACK_TYPE:
       gslc_ElemSetTxtStr(&m_gui,element,type_list[value]);
+      break;
+
+    case TEXT_MONTH:
+      gslc_ElemSetTxtStr(&m_gui,element,month_str[value]);
       break;
 
     default:
@@ -1830,13 +1868,6 @@ void load_settings(){
     gslc_ElemXCheckboxSetState(&m_gui,light_check,true); 
   }
 
-  //load date & hour
-  edit_gui_element(day_set, rtc.now().dayOfTheWeek(),TEXT_WEEKDAY);
-  edit_gui_element(date_set, rtc.now().day(),TEXT_INT);
-  edit_gui_element(hour_set, rtc.now().hour(),TEXT_INT);
-  edit_gui_element(min_set, rtc.now().minute(),TEXT_INT);
-  
-
   //load volume
   edit_gui_element(vol_slider,the_setting.vol,SLIDER);
 
@@ -1955,5 +1986,37 @@ void display_pills_dis(){
         pills_to_dis[i] = false;
     }
   }
+  
+}
+
+void display_pills_refill(){
+  for (int i = 0; i < NB_RACKS; i++){
+    if(pills_to_refill[i]==true){
+        char buf[30];
+        char s[2];
+        int j=0;
+        strcpy(buf,"Rack ");
+        for(int k = 0; k<NB_RACKS; k++){
+          if(Inventory[k].get_rack() == i+1){
+            j = k;
+            break;
+          }
+        }
+        strcat(buf,itoa(Inventory[i].get_rack(),s,10));
+        strcat(buf," (");
+        strcat(buf, drug_name_list[j]);
+        strcat(buf, ") \n\n");
+        gslc_ElemXTextboxAdd(&m_gui,textbox_pill_refill,buf);
+
+        //at the end reset that pill to dispense
+        pills_to_refill[i] = false;
+    }
+  }
+}
+
+void change_date_rtc(){
+  rtc.adjust(DateTime(the_setting.current_date.year, the_setting.current_date.month+1, 
+                      the_setting.current_date.month_day, the_setting.current_date.time.hour, 
+                      the_setting.current_date.time.minute, the_setting.current_date.day));
   
 }

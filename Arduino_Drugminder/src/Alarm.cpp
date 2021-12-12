@@ -60,15 +60,15 @@ int what_time(){
 
 void play_sound(){
     if(the_setting.type == Sound || the_setting.type == Both){
-        Serial.println("set volume");
-        Player.volume(the_setting.vol); 
-        Serial.println("Play sound");
+        //Serial.println("Play sound");
+        Player.volume(1);
         Player.play(1);
+        
     }
 }
 
 void stop_sound(){
-    Player.pause();
+    Player.stop();
 }
 
 void check_alarm(){

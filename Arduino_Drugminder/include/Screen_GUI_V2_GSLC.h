@@ -110,21 +110,21 @@ enum {ALL_PILLS_TEXTBOX,DRUG_NAME_TEXT,E_ELEM_BTN1,E_ELEM_BTN10
       ,E_ELEM_TEXT230,E_ELEM_TEXT232,E_ELEM_TEXT233,E_ELEM_TEXT234
       ,E_ELEM_TEXT235,E_ELEM_TEXT236,E_ELEM_TEXT237,E_ELEM_TEXT238
       ,E_ELEM_TEXT24,E_ELEM_TEXT240,E_ELEM_TEXT241,E_ELEM_TEXT242
-      ,E_ELEM_TEXT25,E_ELEM_TEXT26,E_ELEM_TEXT27,E_ELEM_TEXT3
-      ,E_ELEM_TEXT32,E_ELEM_TEXT33,E_ELEM_TEXT34,E_ELEM_TEXT35
-      ,E_ELEM_TEXT37,E_ELEM_TEXT38,E_ELEM_TEXT39,E_ELEM_TEXT4
-      ,E_ELEM_TEXT40,E_ELEM_TEXT41,E_ELEM_TEXT42,E_ELEM_TEXT46
-      ,E_ELEM_TEXT47,E_ELEM_TEXT48,E_ELEM_TEXT49,E_ELEM_TEXT5
-      ,E_ELEM_TEXT50,E_ELEM_TEXT51,E_ELEM_TEXT54,E_ELEM_TEXT68
-      ,E_ELEM_TEXT69,E_ELEM_TEXT7,E_ELEM_TEXT74,E_ELEM_TEXT76
-      ,E_ELEM_TEXT77,E_ELEM_TEXT78,E_ELEM_TEXT79,E_ELEM_TEXT8
-      ,E_ELEM_TEXT80,E_ELEM_TEXT81,E_ELEM_TEXT82,E_ELEM_TEXT83
-      ,E_ELEM_TEXT84,E_ELEM_TEXT85,E_ELEM_TEXT86,E_ELEM_TEXT87
-      ,E_ELEM_TEXT88,E_ELEM_TEXT89,E_ELEM_TEXT91,E_ELEM_TEXT92
-      ,E_ELEM_TEXT93,E_ELEM_TEXT94,E_ELEM_TEXT97,E_ELEM_TEXT98
-      ,E_ELEM_TEXT99,GIVEN_PILLS_TEXTBOX,PRESCRIPTION_LISTBOX
-      ,RACK_NUMBER_TEXT,SETTINGS_LISTBOX,TODAY_INFO_TEXT,VOLUME_SLIDER
-      ,need};
+      ,E_ELEM_TEXT243,E_ELEM_TEXT244,E_ELEM_TEXT25,E_ELEM_TEXT26
+      ,E_ELEM_TEXT27,E_ELEM_TEXT3,E_ELEM_TEXT32,E_ELEM_TEXT33
+      ,E_ELEM_TEXT34,E_ELEM_TEXT35,E_ELEM_TEXT37,E_ELEM_TEXT38
+      ,E_ELEM_TEXT39,E_ELEM_TEXT4,E_ELEM_TEXT40,E_ELEM_TEXT41
+      ,E_ELEM_TEXT42,E_ELEM_TEXT46,E_ELEM_TEXT47,E_ELEM_TEXT48
+      ,E_ELEM_TEXT49,E_ELEM_TEXT5,E_ELEM_TEXT50,E_ELEM_TEXT51
+      ,E_ELEM_TEXT54,E_ELEM_TEXT68,E_ELEM_TEXT69,E_ELEM_TEXT7
+      ,E_ELEM_TEXT74,E_ELEM_TEXT76,E_ELEM_TEXT77,E_ELEM_TEXT78
+      ,E_ELEM_TEXT79,E_ELEM_TEXT8,E_ELEM_TEXT80,E_ELEM_TEXT81
+      ,E_ELEM_TEXT82,E_ELEM_TEXT83,E_ELEM_TEXT84,E_ELEM_TEXT85
+      ,E_ELEM_TEXT86,E_ELEM_TEXT87,E_ELEM_TEXT88,E_ELEM_TEXT89
+      ,E_ELEM_TEXT91,E_ELEM_TEXT92,E_ELEM_TEXT93,E_ELEM_TEXT94
+      ,E_ELEM_TEXT97,E_ELEM_TEXT98,E_ELEM_TEXT99,GIVEN_PILLS_TEXTBOX
+      ,PRESCRIPTION_LISTBOX,RACK_NUMBER_TEXT,SETTINGS_LISTBOX
+      ,TODAY_INFO_TEXT,VOLUME_SLIDER,need};
 // Must use separate enum for fonts with MAX_FONT at end to use gslc_FontSet.
 enum {E_BUILTIN10X16,E_FREESANS12,E_FREESANS18,E_FREESANS24,E_FREESANS9
       ,E_FREESERIF12,E_FREESERIF18,MAX_FONT};
@@ -177,9 +177,9 @@ enum {E_BUILTIN10X16,E_FREESANS12,E_FREESANS18,E_FREESANS24,E_FREESANS9
 #endif
 #define MAX_ELEM_Prescription_RAM MAX_ELEM_Prescription - MAX_ELEM_Prescription_PROG 
 
-#define MAX_ELEM_Date_hour 8 // # Elems total on page
+#define MAX_ELEM_Date_hour 10 // # Elems total on page
 #if (GSLC_USE_PROGMEM)
-  #define MAX_ELEM_Date_hour_PROG 8 // # Elems in Flash
+  #define MAX_ELEM_Date_hour_PROG 10 // # Elems in Flash
 #else
   #define MAX_ELEM_Date_hour_PROG 0 // No Elems in Flash
 #endif
@@ -532,6 +532,7 @@ extern gslc_tsElemRef* m_pTextSlider2;
 extern gslc_tsElemRef* m_pTextSlider2;
 extern gslc_tsElemRef* m_pTextSlider2;
 extern gslc_tsElemRef* min_set;
+extern gslc_tsElemRef* month_set;
 extern gslc_tsElemRef* morn_h;
 extern gslc_tsElemRef* morn_min;
 extern gslc_tsElemRef* name_char_1;
@@ -575,6 +576,7 @@ extern gslc_tsElemRef* vol_slider;
 extern gslc_tsElemRef* wake_h;
 extern gslc_tsElemRef* wake_min;
 extern gslc_tsElemRef* wrong_pw_text;
+extern gslc_tsElemRef* year_set;
 //<Extern_References !End!>
 
 // Define debug message function
@@ -830,14 +832,14 @@ void InitGUIslice_gen()
   // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
   
   // Create E_ELEM_TEXT19 text label using flash API
-  gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT19,Date_hour,50,50,66,28,
+  gslc_ElemCreateTxt_P(&m_gui,E_ELEM_TEXT19,Date_hour,50,20,66,28,
     "date",&m_asFont[E_FREESANS18],
     GSLC_COL_BLUE_DK2,GSLC_COL_GRAY,GSLC_COL_WHITE,GSLC_ALIGN_MID_LEFT,false,true);
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
   
   // Create E_ELEM_TEXT32 modifiable text using flash API
   static char m_sDisplayText32[4] = "Mo";
-  gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT32,Date_hour,160,60,96,37,
+  gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT32,Date_hour,160,20,96,37,
     m_sDisplayText32,4,&m_asFont[E_FREESANS24],
     ((gslc_tsColor){255,0,178}),((gslc_tsColor){255,0,178}),GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_ALIGN_MID_MID,10,10,
     true,false,false,false,NULL,NULL,NULL,NULL);
@@ -847,7 +849,7 @@ void InitGUIslice_gen()
   
   // Create E_ELEM_TEXT33 modifiable text using flash API
   static char m_sDisplayText33[3] = "27";
-  gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT33,Date_hour,280,60,70,37,
+  gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT33,Date_hour,280,20,70,37,
     m_sDisplayText33,3,&m_asFont[E_FREESANS24],
     ((gslc_tsColor){255,0,178}),((gslc_tsColor){255,0,178}),GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_ALIGN_MID_MID,10,10,
     true,false,false,false,NULL,NULL,NULL,NULL);
@@ -886,6 +888,26 @@ void InitGUIslice_gen()
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
   // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
   min_set = gslc_PageFindElemById(&m_gui,Date_hour,E_ELEM_TEXT38);
+  
+  // Create E_ELEM_TEXT243 modifiable text using flash API
+  static char m_sDisplayText243[4] = "Dec";
+  gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT243,Date_hour,160,90,96,37,
+    m_sDisplayText243,4,&m_asFont[E_FREESANS24],
+    ((gslc_tsColor){255,0,178}),((gslc_tsColor){255,0,178}),GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_ALIGN_MID_MID,10,10,
+    true,false,false,false,NULL,NULL,NULL,NULL);
+  // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
+  // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
+  month_set = gslc_PageFindElemById(&m_gui,Date_hour,E_ELEM_TEXT243);
+  
+  // Create E_ELEM_TEXT244 modifiable text using flash API
+  static char m_sDisplayText244[5] = "2021";
+  gslc_ElemCreateTxt_P_R_ext(&m_gui,E_ELEM_TEXT244,Date_hour,280,90,122,37,
+    m_sDisplayText244,5,&m_asFont[E_FREESANS24],
+    ((gslc_tsColor){255,0,178}),((gslc_tsColor){255,0,178}),GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_ALIGN_MID_MID,10,10,
+    true,false,false,false,NULL,NULL,NULL,NULL);
+  // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
+  // gslc_ElemSetFrameEn(); currently not supported by the FLASH _P calls.
+  year_set = gslc_PageFindElemById(&m_gui,Date_hour,E_ELEM_TEXT244);
 
   // -----------------------------------
   // PAGE: Volume
