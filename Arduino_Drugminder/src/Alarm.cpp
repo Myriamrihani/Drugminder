@@ -62,7 +62,7 @@ void play_sound(){
     if(the_setting.type == Sound || the_setting.type == Both){
         //Serial.println("Play sound");
         Player.volume(1);
-        Player.play(1);
+        Player.play(2);
         
     }
 }
@@ -104,7 +104,14 @@ void play_alarm(){
     //play sound
     Serial.println("ALARM TIME");
     Serial.println(alarm_counter);
-    alarm_counter += 1;
+    
+    //if light we loose 2sec for delays so increment by 2
+    if(the_setting.type == Light || the_setting.type == Both){
+        alarm_counter += 2;
+    }
+    else{
+        alarm_counter += 1;
+    } 
     delay(1000);
 
     blink_led();
@@ -122,12 +129,12 @@ void play_alarm(){
     }
 
     // stop_alarm_waiting = false;
-    if((count_min ==0) or (stop_alarm_waiting == true)){ //the 1800 needs to be calibrated
+    if((count_min ==0) || (stop_alarm_waiting == true)){ //the 1800 needs to be calibrated
         count_min = 30;
         
         if(stop_alarm_waiting == true){
             Serial.println("Pills will be dispensed");
-            stop_alarm_waiting = false;
+            //stop_alarm_waiting = false;
             start_alarm = false;
         }
         else{

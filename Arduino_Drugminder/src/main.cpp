@@ -546,12 +546,17 @@ void loop()
 
     if(gslc_GetPageCur(&m_gui) != Alarm_message){
       gslc_SetPageCur(&m_gui,Alarm_message);
+      gslc_Update(&m_gui);
+      delay(500);
       play_sound();
+      delay(500);
     }
 
     play_alarm();
-    if(start_alarm == false && stop_alarm_waiting == false){
+    if(start_alarm == false && stop_alarm_waiting == true){
+      stop_alarm_waiting = false;
       gslc_SetPageCur(&m_gui,Default);
+      Serial.println("cette condition");
     }
   }
   
@@ -607,6 +612,7 @@ void loop()
       gslc_Update(&m_gui);
       dispense_pills();
       stop_sound();
+      stop_alarm_waiting = false;
   }
 
   }while(digitalRead(button_dis_Pin) == true);
@@ -1319,7 +1325,6 @@ void btn3_action(int16_t current_page){
     
     case need_refill:
       gslc_SetPageCur(&m_gui,Default);
-      gslc_ElemXTextboxReset(&m_gui,textbox_pill_refill);
       refill = false;
       break;
     
@@ -1990,6 +1995,8 @@ void display_pills_dis(){
 }
 
 void display_pills_refill(){
+  gslc_ElemXTextboxReset(&m_gui,textbox_pill_refill);
+
   for (int i = 0; i < NB_RACKS; i++){
     if(pills_to_refill[i]==true){
         char buf[30];
