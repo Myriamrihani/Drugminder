@@ -460,6 +460,7 @@ void display_med_list();
 void display_pills_dis();
 void display_pills_refill();
 void change_date_rtc();
+void display_next_reminder();
 
 void setup()
 {
@@ -530,6 +531,7 @@ void setup()
 void loop()
 {
   display_time();
+  display_next_reminder();
   check_alarm();
   check_refill();
 
@@ -2026,4 +2028,57 @@ void change_date_rtc(){
                       the_setting.current_date.month_day, the_setting.current_date.time.hour, 
                       the_setting.current_date.time.minute, the_setting.current_date.day));
   
+}
+
+void display_next_reminder(){
+
+  int day = rtc.now().dayOfTheWeek();
+  int now_h = rtc.now().hour();
+  int now_min = rtc.now().minute();
+  int next_h = 0;
+  int next_min = 0;
+  bool new_written = false;
+
+  for(int i=0; i<NB_RACKS;i++){
+    if(Inventory[i].get_rack()!=0){
+      if(Inventory[i].get_alarm_day(day) == true){
+        for(int j=0;j<NB_OF_ALARMS;j++){
+          if(Inventory[i].get_alarm_t(j) == true){
+            Time al;
+            al = get_alarm_time(j);
+            if((al.hour > now_h) || (al.hour==now_h && al.minute>now_min)){
+              if(new_written == false){
+                next_h = al.hour;
+                next_min = al.minute;
+                new_written = true;
+              }
+              else{
+                if((al.hour<next_h) || (al.hour == next_h && al.minute<next_min)){
+                  next_h = al.hour;
+                  next_min = al.minute;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  //write next reminder time
+  char buf[6];
+  if(new_written == false){
+    strcpy(buf,"None");
+    gslc_ElemSetTxtStr(&m_gui,default_next,buf);
+  }
+  else{
+    char s[5];
+    strcpy(buf,itoa(next_h,s,10));
+    strcat(buf,":");
+    if(next_min<=9){
+      strcat(buf,"0");
+    }
+    strcat(buf,itoa(next_min,s,10));
+    gslc_ElemSetTxtStr(&m_gui,default_next,buf);
+  }
 }

@@ -70,5 +70,5 @@ struct Settings{
 
 extern Settings the_setting;
 
-
+Time get_alarm_time(int index);
 #endif 
