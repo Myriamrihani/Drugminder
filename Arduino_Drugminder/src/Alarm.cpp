@@ -62,7 +62,7 @@ void play_sound(){
     if(the_setting.type == Sound || the_setting.type == Both){
         //Serial.println("Play sound");
         Player.volume(1);
-        Player.play(2);
+        Player.play(3);
         
     }
 }
