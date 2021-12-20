@@ -483,7 +483,7 @@ void setup()
   pinMode(dirPin_X, OUTPUT);
   pinMode(stepPin_Y, OUTPUT);
   pinMode(dirPin_Y, OUTPUT);
-  pinMode(switc,INPUT);
+  // pinMode(switc,INPUT);
   pinMode(switc_X,INPUT);
   pinMode(switc_Y,INPUT);
   pinMode(Led_pin, OUTPUT);

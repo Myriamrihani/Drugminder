@@ -1,14 +1,15 @@
 #include <Arduino.h>
 #include<Servo.h>
+#include<Pills.h>
 
 extern Servo servo;
 extern const int dirPin_X;
 extern const int stepPin_X;
 extern const int dirPin_Y;
 extern const int stepPin_Y;
-extern const int switc=8;
-extern const int switc_X=9;
-extern const int switc_Y=10;
+// extern const int switc=8;
+extern const int switc_X;
+extern const int switc_Y;
 
 // extern int step_round_X; 
 // extern int step_round_Y;
@@ -22,4 +23,4 @@ extern const int switc_Y=10;
 // void proccess_dis_data(int rack_type_array[] , int x_array[] , int y_array[]);
 // void trialF();
 
-void trialF(int rack_type_array[] , int x_array[] , int y_array[]);
+void trialF(int rack_type_array[NB_RACKS] , int x_array[NB_RACKS] , int y_array[NB_RACKS]);

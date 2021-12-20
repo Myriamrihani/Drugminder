@@ -147,10 +147,10 @@ void play_alarm(){
 //This function is called when DISPENSE button is pressed!
 void dispense_pills(){
     stop_sound();
-    int rack_array[] = {};
-    int container_array[] = {};
-    int type_array[] = {};
-
+    int rack_array[NB_RACKS] = {0};
+    int container_array[NB_RACKS] = {0};
+    int type_array[NB_RACKS] = {0};
+    int NP = 0;
     for (int i = 0; i < NB_RACKS; i++)
     {
         //pills to dispense is an array that contains all the racks, 
@@ -168,10 +168,10 @@ void dispense_pills(){
             Serial.print(" We take the pill from container nb ");
             Serial.println(container_to_reach);
 
-
-            rack_array[size_t(rack_array) +1 ] = rack_to_reach;
-            container_array[size_t(container_array) + 1] = container_to_reach;
-            type_array[size_t(type_array) + 1] = Inventory[i].get_rack_type();
+            NP +=1;
+            rack_array[i] = rack_to_reach - 1;
+            container_array[i] = container_to_reach;
+            type_array[i] = Inventory[i].get_rack_type() + 1;
 
             //decrease the amout of pill in that rack 
             Inventory[i].take_a_pill();
@@ -179,10 +179,16 @@ void dispense_pills(){
             Serial.print("After dispensing, we should have ");
             Serial.print(Inventory[i].get_nb());
             Serial.print(" pills in rack ");
-            Serial.println(rack_to_reach);
-
+            Serial.println(rack_array[i]);
+            
         }
     }
+
+    for (int i = 0; i < NB_RACKS; i++)
+    {
+       Serial.println(rack_array[i]);
+    }
+    
 
     save_pills_in_EE();
     dispensing_done = true;
