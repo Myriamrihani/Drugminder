@@ -2,13 +2,18 @@ using namespace std;
 
 #include <Alarm.h>
 
-
 RTC_DS1307 rtc;
+SoftwareSerial mySoftwareSerial(10,11); // RX, TX
+DFRobotDFPlayerMini Player;
 bool start_alarm = false;
+bool sound_on = false;
 
 int alarm_counter = 0;
 bool stop_alarm_waiting = false;
 bool is_dispensing = false;
+bool dispensing_done = false;
+int count_min = 30;
+int ten_min_count = 0;
 
 uint8_t what_day(){
     DateTime now = rtc.now();
@@ -53,6 +58,19 @@ int what_time(){
 
 }
 
+void play_sound(){
+    if(the_setting.type == Sound || the_setting.type == Both){
+        //Serial.println("Play sound");
+        Player.volume(1);
+        Player.play(3);
+        
+    }
+}
+
+void stop_sound(){
+    Player.stop();
+}
+
 void check_alarm(){
     uint8_t day = what_day();
     int time = what_time();
@@ -72,64 +90,67 @@ void check_alarm(){
     }
 }
 
+void blink_led(){
+    if(the_setting.type == Light || the_setting.type == Both){
+        digitalWrite(Led_pin,HIGH);
+        delay(1000);
+        digitalWrite(Led_pin,LOW);
+    }
+}
+
+
 void play_alarm(){
     //display alarm pages
     //play sound
-
-    // DateTime now = rtc.now();
-    // int minutes = now.minute();
-    // int hour = now.hour();
-    // int min_waiting_done = minutes+30;
-    // int hour_done = hour;
-    // stop_alarm_waiting = false;
-
-    // if(min_waiting_done > 59){
-    //     min_waiting_done = min_waiting_done - 60;
-    //     hour_done +=1;
-
-    //     if(hour_done > 23){
-    //         hour_done= 0;
-    //     }
-    // }
-
-    // if((hour == hour_done) & (min_waiting_done == minutes)){
-    //     stop_alarm_waiting = true;
-    // }
     Serial.println("ALARM TIME");
     Serial.println(alarm_counter);
-    //code to make sure right pills are dispensed. 
-    for(int i = 0; i<NB_RACKS; i++){
-        Serial.println("the pills to dispense are :");
-        if(pills_to_dis[i] == true){
-            Serial.println(drug_name_list[i]);
-        }
-        
+    
+    //if light we loose 2sec for delays so increment by 2
+    if(the_setting.type == Light || the_setting.type == Both){
+        alarm_counter += 2;
+    }
+    else{
+        alarm_counter += 1;
+    } 
+    delay(1000);
+
+    blink_led();
+
+    if(alarm_counter == 60){
+        alarm_counter = 0;
+        count_min -=1;
+        ten_min_count +=1;
     }
 
-    alarm_counter += 1;
+    if(ten_min_count == 10){
+        Serial.println("ten minutes up");
+        play_sound();
+        ten_min_count = 0;
+    }
+
     // stop_alarm_waiting = false;
-    if((alarm_counter >= 1800) or (stop_alarm_waiting == true)){ //the 100 needs to be calibrated
-        alarm_counter = 0;
+    if((count_min ==0) || (stop_alarm_waiting == true)){ //the 1800 needs to be calibrated
+        count_min = 30;
         
         if(stop_alarm_waiting == true){
-            dispense_pills();
             Serial.println("Pills will be dispensed");
-            stop_alarm_waiting = false;
+            //stop_alarm_waiting = false;
             start_alarm = false;
         }
         else{
             start_alarm = false;
             Serial.println("Pills won't be dispensed anymore");
         }
-        
-        
-        
     }
-
 }
 
 //This function is called when DISPENSE button is pressed!
 void dispense_pills(){
+    stop_sound();
+    int rack_array[] = {};
+    int container_array[] = {};
+    int type_array[] = {};
+
     for (int i = 0; i < NB_RACKS; i++)
     {
         //pills to dispense is an array that contains all the racks, 
@@ -147,22 +168,26 @@ void dispense_pills(){
             Serial.print(" We take the pill from container nb ");
             Serial.println(container_to_reach);
 
-            //for me, the first container is the one near the refilling handle.
-            //and the first rack the oen at the bottom. 
-            //This would not change my code, but should change john's if he does not take the same considerations
-            //john_function(rack_to_reach, container_to_reach, Inventory[i].get_rack_type());
-           
-           //at the end reset that pill to dispense
-            pills_to_dis[i] = false;
+
+            rack_array[size_t(rack_array) +1 ] = rack_to_reach;
+            container_array[size_t(container_array) + 1] = container_to_reach;
+            type_array[size_t(type_array) + 1] = Inventory[i].get_rack_type();
 
             //decrease the amout of pill in that rack 
             Inventory[i].take_a_pill();
+
             Serial.print("After dispensing, we should have ");
             Serial.print(Inventory[i].get_nb());
             Serial.print(" pills in rack ");
             Serial.println(rack_to_reach);
+
         }
     }
 
-    // is_dispensing = false;
+    save_pills_in_EE();
+    dispensing_done = true;
+    proccess_dis_data(type_array, container_array, rack_array);
+    is_dispensing = false;
+    start_alarm = false;
+    Serial.println("Dispensing done");
 }

@@ -11,7 +11,9 @@
   "C_Cpp_Runner.includePaths": [
     "/Users/myriamrihani/git/Drugminder/Arduino_Drugminder/include",
     "/Users/myriamrihani/git/Drugminder/Arduino_Drugminder/src",
+    "/Users/myriamrihani/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
     "/Users/myriamrihani/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+    "/Users/myriamrihani/git/Drugminder/Arduino_Drugminder/.pio/libdeps/megaatmega2560/DFRobotDFPlayerMini",
     "/Users/myriamrihani/git/Drugminder/Arduino_Drugminder/.pio/libdeps/megaatmega2560/RTClib/src",
     "/Users/myriamrihani/git/Drugminder/Arduino_Drugminder/.pio/libdeps/megaatmega2560/Servo/src",
     "/Users/myriamrihani/git/Drugminder/Arduino_Drugminder/.pio/libdeps/megaatmega2560/Stepper/src",
@@ -30,7 +32,6 @@
     "/Users/myriamrihani/.platformio/packages/framework-arduino-avr/cores/arduino",
     "/Users/myriamrihani/.platformio/packages/framework-arduino-avr/variants/mega",
     "/Users/myriamrihani/.platformio/packages/framework-arduino-avr/libraries/HID/src",
-    "/Users/myriamrihani/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
     ""
   ],
   "C_Cpp_Runner.linkerArgs": [],

@@ -18,6 +18,10 @@
 #include <Alarm.h>
 #include <Settings.h>
 #include <Memory.h>
+#include <Motor.h>
+#include "SoftwareSerial.h"
+#include "DFRobotDFPlayerMini.h"
+
 
 // ------------------------------------------------
 // Program Globals
@@ -80,6 +84,7 @@ gslc_tsElemRef* lunch_min         = NULL;
 gslc_tsElemRef* m_pElemListbox1   = NULL;
 gslc_tsElemRef* m_pElemTextbox2   = NULL;
 gslc_tsElemRef* min_set           = NULL;
+gslc_tsElemRef* month_set         = NULL;
 gslc_tsElemRef* morn_h            = NULL;
 gslc_tsElemRef* morn_min          = NULL;
 gslc_tsElemRef* name_char_1       = NULL;
@@ -113,6 +118,7 @@ gslc_tsElemRef* sel_drug_edit3    = NULL;
 gslc_tsElemRef* sel_drug_edit4    = NULL;
 gslc_tsElemRef* sel_drug_refill   = NULL;
 gslc_tsElemRef* sound_check       = NULL;
+gslc_tsElemRef* textbox_pill_refill= NULL;
 gslc_tsElemRef* trip_bttn         = NULL;
 gslc_tsElemRef* trip_date         = NULL;
 gslc_tsElemRef* trip_day          = NULL;
@@ -122,6 +128,7 @@ gslc_tsElemRef* vol_slider        = NULL;
 gslc_tsElemRef* wake_h            = NULL;
 gslc_tsElemRef* wake_min          = NULL;
 gslc_tsElemRef* wrong_pw_text     = NULL;
+gslc_tsElemRef* year_set          = NULL;
 //<Save_References !End!>
 
 // Define debug message function
@@ -296,6 +303,9 @@ bool CbBtnCommon(void* pvGui,void *pvElemRef,gslc_teTouch eTouch,int16_t nX,int1
       case E_ELEM_BTN57:
         gslc_SetPageCur(&m_gui, settings);
         break;
+      case E_ELEM_BTN59:
+        gslc_SetPageCur(&m_gui, refill_1);
+        break;
 //<Button Enums !End!>
       default:
         break;
@@ -376,13 +386,14 @@ bool CbSlidePos(void* pvGui,void* pvElemRef,int16_t nPos)
 
 const int button1Pin = 22;
 const int button2Pin = 23;
-const int button3Pin = 24;
-const int button4Pin = 25;
-const int button_dis_Pin = 26;
+const int button3Pin = 25;
+const int button4Pin = 26;
+const int button_dis_Pin = 24;
+
 
 // Rotary Encoder Inputs
-#define CLK 3 //interrupt pin
-#define DT 2 //interrupt pin
+#define CLK 19 //interrupt pin
+#define DT 18 //interrupt pin
 #define SW 30
 
 #define NB_SETTINGS_ITEM 5
@@ -399,6 +410,7 @@ int enc_btnState = false;
 bool encoder_enabled = false;
 bool enc_btnAction = false;
 bool pw_enabled = false;
+bool need_refill_accepted = false;
 bool rack_taken[NB_RACKS] = {false};
 bool pw_for_pres = false;
 int settings_item = 0;
@@ -444,22 +456,36 @@ void load_inventory();
 void load_settings();
 void edit_gui_element(gslc_tsElemRef * element,int element_type,int value);
 void display_time();
+void display_med_list();
+void display_pills_dis();
+void display_pills_refill();
+void change_date_rtc();
+void display_next_reminder();
 
 void setup()
 {
-  // ------------------------------------------------
-  // Initialize
-  // ------------------------------------------------
+  mySoftwareSerial.begin(9600);
   Serial.begin(9600);
-  // Wait for USB Serial 
-  //delay(1000);  // NOTE: Some devices require a delay after Serial.begin() before serial port can be used
+
+  Player.begin(mySoftwareSerial, false);
 
   gslc_InitDebug(&DebugOut);
+
+  //button pins
   pinMode(button1Pin, INPUT);
   pinMode(button2Pin, INPUT);
   pinMode(button3Pin, INPUT);
   pinMode(button4Pin, INPUT);
   pinMode(button_dis_Pin, INPUT);
+
+  //motor pins
+  pinMode(stepPin_X, OUTPUT);
+  pinMode(dirPin_X, OUTPUT);
+  pinMode(stepPin_Y, OUTPUT);
+  pinMode(dirPin_Y, OUTPUT);
+
+  pinMode(Led_pin, OUTPUT);
+
    // Set encoder pins as inputs
   pinMode(CLK,INPUT);
   pinMode(DT,INPUT);
@@ -474,95 +500,87 @@ void setup()
   InitGUIslice_gen();
   gslc_ElemSetVisible(&m_gui,wrong_pw_text,false);
 
-
   if (! rtc.begin()) {
     Serial.println("Couldn't find RTC");
     //while (1);
   }
  
-
-
   if (! rtc.isrunning()) {
     Serial.println("RTC is NOT running!");
     // following line sets the RTC to the date & time this sketch was compiled
     rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-    // This line sets the RTC with an explicit date & time, for example to set
-    // January 21, 2014 at 3am you would call:
-    // rtc.adjust(DateTime(2021, 12, 3, 17, 52, 0));
   }
-  // DateTime hh = rtc.now();
-  // Serial.print(hh.year(), DEC);        
-  // Serial.print('/');        
-  // Serial.print(hh.month(), DEC);        
-  // Serial.print('/');        
-  // Serial.print(hh.day(), DEC);
 
-  rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-  // for (int i = 0 ; i < EEPROM.length() ; i++) {
-  //   EEPROM.write(i, 0);
-  // }
-  Serial.println(sizeof(the_setting) + sizeof(Inventory));
   EEPROM.get(eeAddress, used_EEPROM);
-  Serial.println(used_EEPROM);
+
   if(used_EEPROM){
-    EEPROM.get(eeAdbool, the_setting);
     //load the settings
+    EEPROM.get(eeAdbool, the_setting);
     load_settings();
 
-    Serial.println(the_setting.vol);
-    // for(int i =0; i<NB_RACKS; i++){
-    //   // Pill_param pill_load;
-    //   // EEPROM.get(eeAd_set+i*sizeof(pill_load), pill_load);
-    //   // Serial.println(pill_load.name);
-    //   // add_pill(pill_load); 
-
-    //   Serial.println("in the loop");
-    //   Serial.println(sizeof(Pill));
-    //   Serial.println(eeAd_set);
-    //   Serial.println(eeAd_set + i*sizeof(Pill));
-    //   //maybe eeprom is not working, because we are loading a hole ass class object in inventory
-    //   //the solution might be to change the class Pill into a structure
-    //   EEPROM.get(eeAd_set + i*sizeof(Pill), Inventory[i]);
-    //   Serial.println(Inventory[i].get_name());
-    // }
-    
+    //load the inventory + drug_name_list
     EEPROM.get(eeAd_set, Inventory);
     EEPROM.get(eeAd_set + sizeof(Inventory), drug_name_list);
-      for(int i =0; i<NB_RACKS; i++){
-    //   // Pill_param pill_load;
-    //   // EEPROM.get(eeAd_set+i*sizeof(pill_load), pill_load);
-    //   // Serial.println(pill_load.name);
-    //   // add_pill(pill_load); 
-
-    //   Serial.println("in the loop");
-    //   Serial.println(sizeof(Pill));
-    //   Serial.println(eeAd_set);
-    //   Serial.println(eeAd_set + i*sizeof(Pill));
-    //   //maybe eeprom is not working, because we are loading a hole ass class object in inventory
-    //   //the solution might be to change the class Pill into a structure
-    //   EEPROM.get(eeAd_set + i*sizeof(Pill), Inventory[i]);
+    for(int i =0; i<NB_RACKS; i++){
       Serial.println(drug_name_list[i]);
     }
     load_inventory();
   }
 }
 
-// -----------------------------------
-// Main event loop
-// -----------------------------------
 void loop()
 {
   display_time();
+  display_next_reminder();
   check_alarm();
   check_refill();
-  if(start_alarm){play_alarm();}
-  if(!is_dispensing){
-    if(refill){ask_for_refill();}
+
+
+  if(start_alarm){
+
+    //updates the elements of the alarm time page
+    gslc_ElemXProgressSetVal(&m_gui,alarm_progress,count_min);
+    char buf[45];
+    char s[2];
+    strcpy(buf,itoa(count_min,s,10));
+    strcat(buf, "min left to take them");
+    gslc_ElemSetTxtStr(&m_gui,deadline_time,buf);
+
+    if(gslc_GetPageCur(&m_gui) != Alarm_message){
+      gslc_SetPageCur(&m_gui,Alarm_message);
+      gslc_Update(&m_gui);
+      delay(500);
+      play_sound();
+      delay(500);
+    }
+
+    play_alarm();
+    if(start_alarm == false && stop_alarm_waiting == true){
+      stop_alarm_waiting = false;
+      gslc_SetPageCur(&m_gui,Default);
+      Serial.println("cette condition");
+    }
+  }
+  
+  if(!is_dispensing && !need_refill_accepted){
+    if(refill){
+      ask_for_refill();
+      if(gslc_GetPageCur(&m_gui) != need_refill){
+        display_pills_refill();
+        need_refill_accepted = true;
+        gslc_SetPageCur(&m_gui,need_refill);
+      }
+    }
+  }
+
+  if(dispensing_done){
+    display_pills_dis();
+    gslc_SetPageCur(&m_gui,end_dispensing);
+   dispensing_done =false;
   }
 
 
-  
-  //else{//mettre tout le reste, le bool start_alarm doit jouer comme une interruption}
+  //button actions call
   if(digitalRead(button1Pin) == true){
     status1 = !status1;
     btn1_action(gslc_GetPageCur(&m_gui));
@@ -592,7 +610,13 @@ void loop()
     if(start_alarm == true){
       stop_alarm_waiting = true;
       is_dispensing = true;
-    }
+      gslc_SetPageCur(&m_gui,dispensing);
+      gslc_Update(&m_gui);
+      dispense_pills();
+      stop_sound();
+      stop_alarm_waiting = false;
+  }
+
   }while(digitalRead(button_dis_Pin) == true);
       delay(10);
 
@@ -626,6 +650,21 @@ void check_encoder(int16_t current_page){
             gslc_SetPageCur(&m_gui,Alarm_type);
             break;
           case 2:
+            //load date & hour
+            the_setting.current_date.day = rtc.now().dayOfTheWeek();
+            the_setting.current_date.month_day = rtc.now().day();
+            the_setting.current_date.month = rtc.now().month()-1;
+            the_setting.current_date.year = rtc.now().year();
+            the_setting.current_date.time.hour = rtc.now().hour();
+            the_setting.current_date.time.minute = rtc.now().minute();
+
+            edit_gui_element(day_set,the_setting.current_date.day,TEXT_WEEKDAY);
+            edit_gui_element(date_set,the_setting.current_date.month_day,TEXT_INT);
+            edit_gui_element(month_set,the_setting.current_date.month,TEXT_MONTH);
+            edit_gui_element(year_set,the_setting.current_date.year,TEXT_INT);
+            edit_gui_element(hour_set,the_setting.current_date.time.hour,TEXT_INT);
+            edit_gui_element(min_set,the_setting.current_date.time.minute,TEXT_INT);
+            
             gslc_SetPageCur(&m_gui,Date_hour);
             break;
           case 3:
@@ -706,12 +745,20 @@ void check_encoder(int16_t current_page){
       case 1:
         the_setting.current_date.month_day = change_element_encoder(the_setting.current_date.month_day,1,MONTH_DAY-1,date_set,TEXT_INT);
         break;
-      
+
       case 2:
+        the_setting.current_date.month = change_element_encoder(the_setting.current_date.month,0,NB_MONTHS-1,month_set,TEXT_MONTH);
+        break;
+      
+      case 3:
+        the_setting.current_date.year = change_element_encoder(the_setting.current_date.year,2020,RTC_MAX_YEAR-1,year_set,TEXT_INT);
+        break;
+      
+      case 4:
         the_setting.current_date.time.hour= change_element_encoder(the_setting.current_date.time.hour,0,MAX_H-1,hour_set,TEXT_INT);
         break;
 
-      case 3:
+      case 5:
         the_setting.current_date.time.minute= change_element_encoder(the_setting.current_date.time.minute,0,MAX_MIN-1,min_set,TEXT_INT);
         break;
       
@@ -1060,6 +1107,7 @@ void btn1_action(int16_t current_page){
   switch(current_page){
     
     case Default:
+      display_med_list();
       gslc_SetPageCur(&m_gui,med_list);
       break;
       
@@ -1095,6 +1143,7 @@ void btn2_action(int16_t current_page){
       break;
 
     case add_edit:
+      previous_rack = 0;
       gslc_SetPageCur(&m_gui,new_prescription_1);
       break;
 
@@ -1224,6 +1273,7 @@ void btn3_action(int16_t current_page){
       //add the pills added in right prescription too
       gslc_SetPageCur(&m_gui,Prescription);
       Inventory[inventory_i].refill_pill(temp_pills);
+      save_pills_in_EE();
       
       //Serial.println(Inventory[inventory_i].get_nb());
       pos_encoder = 0;
@@ -1271,7 +1321,15 @@ void btn3_action(int16_t current_page){
 
     case end_dispensing:
       gslc_SetPageCur(&m_gui,Default);
+      gslc_ElemXTextboxReset(&m_gui,listbox_pill_given);
+      need_refill_accepted = false;
       break;
+    
+    case need_refill:
+      gslc_SetPageCur(&m_gui,Default);
+      refill = false;
+      break;
+    
   }
 }
 
@@ -1280,6 +1338,7 @@ void btn4_action(int16_t current_page){
     char s[12];
     case med_list:
       gslc_SetPageCur(&m_gui,Default);
+      gslc_ElemXTextboxReset(&m_gui,m_pElemTextbox2);
       break;
 
     case password:
@@ -1303,6 +1362,7 @@ void btn4_action(int16_t current_page){
 
     case Date_hour:
       pos_encoder = 0;
+      change_date_rtc();
       gslc_SetPageCur(&m_gui,settings);
       break;
 
@@ -1435,6 +1495,10 @@ int change_element_encoder(int value, int min_val, int max_val, gslc_tsElemRef *
     case TXT_RACK_TYPE:
       gslc_ElemSetTxtStr(&m_gui,element,type_list[value]);
       break;
+    
+    case TEXT_MONTH:
+      gslc_ElemSetTxtStr(&m_gui,element,month_str[value]);
+      break;
 
     default:
       break;
@@ -1470,6 +1534,10 @@ int change_element_encoder(int value, int min_val, int max_val, gslc_tsElemRef *
       gslc_ElemSetTxtStr(&m_gui,element,type_list[value]);
       break;
 
+    case TEXT_MONTH:
+      gslc_ElemSetTxtStr(&m_gui,element,month_str[value]);
+      break;
+
     default:
       break;
     }
@@ -1480,16 +1548,16 @@ int change_element_encoder(int value, int min_val, int max_val, gslc_tsElemRef *
 
 int check_rack_avaible(gslc_tsElemRef * element, int value){
   unsigned int nb_free = 0;
-  for(int i = 0;i<NB_RACKS;i++){
-    if(rack_taken[i]==false){
+  for(unsigned int i = 0; i<NB_RACKS; i++){
+    if(rack_taken[i]==false || i == previous_rack-1){
       nb_free++;
     }
   }
   int free_rack[nb_free];
   int j = 0;
 
-  for(int i = 0;i<NB_RACKS;i++){
-    if(rack_taken[i]==false){
+  for(unsigned int i = 0;i<NB_RACKS; i++){
+    if(rack_taken[i]==false || i == previous_rack-1){
       free_rack[j] = i;
       j++;
     }
@@ -1807,13 +1875,6 @@ void load_settings(){
     gslc_ElemXCheckboxSetState(&m_gui,light_check,true); 
   }
 
-  //load date & hour
-  edit_gui_element(day_set, rtc.now().dayOfTheWeek(),TEXT_WEEKDAY);
-  edit_gui_element(date_set, rtc.now().day(),TEXT_INT);
-  edit_gui_element(hour_set, rtc.now().hour(),TEXT_INT);
-  edit_gui_element(min_set, rtc.now().minute(),TEXT_INT);
-  
-
   //load volume
   edit_gui_element(vol_slider,the_setting.vol,SLIDER);
 
@@ -1885,4 +1946,139 @@ void display_time(){
 
   gslc_ElemSetTxtStr(&m_gui,default_time,buf);
 
+}
+
+void display_med_list(){
+  for(int i=0; i<NB_RACKS;i++){
+    if(rack_taken[i] == true){
+      char buf[40];
+      char s[4];
+      strcpy(buf,"Rack ");
+      int j=0;
+      for(int k = 0; k<NB_RACKS; k++){
+        if(Inventory[k].get_rack() == i+1){
+          j = k;
+          break;
+        }
+      }
+      strcat(buf,itoa(Inventory[j].get_rack(),s,10));
+      strcat(buf," \"");
+      strcat(buf,drug_name_list[i]);
+      strcat(buf,"\": ");
+      strcat(buf,itoa(Inventory[j].get_nb(),s,10));
+      strcat(buf," pills left\n\n");
+      gslc_ElemXTextboxAdd(&m_gui,m_pElemTextbox2,buf);
+    }
+  }
+}
+
+void display_pills_dis(){
+
+  for (int i = 0; i < NB_RACKS; i++){
+    if(pills_to_dis[i]==true){
+        char buf[12];
+        int j=0;
+        strcpy(buf,"1 ");
+        for(int k = 0; k<NB_RACKS; k++){
+          if(Inventory[k].get_rack() == i+1){
+            j = k;
+            break;
+          }
+        }
+        strcat(buf, drug_name_list[j]);
+        strcat(buf, "\n\n");
+        gslc_ElemXTextboxAdd(&m_gui,listbox_pill_given,buf);
+
+        //at the end reset that pill to dispense
+        pills_to_dis[i] = false;
+    }
+  }
+  
+}
+
+void display_pills_refill(){
+  gslc_ElemXTextboxReset(&m_gui,textbox_pill_refill);
+
+  for (int i = 0; i < NB_RACKS; i++){
+    if(pills_to_refill[i]==true){
+        char buf[30];
+        char s[2];
+        int j=0;
+        strcpy(buf,"Rack ");
+        for(int k = 0; k<NB_RACKS; k++){
+          if(Inventory[k].get_rack() == i+1){
+            j = k;
+            break;
+          }
+        }
+        strcat(buf,itoa(Inventory[i].get_rack(),s,10));
+        strcat(buf," (");
+        strcat(buf, drug_name_list[j]);
+        strcat(buf, ") \n\n");
+        gslc_ElemXTextboxAdd(&m_gui,textbox_pill_refill,buf);
+
+        //at the end reset that pill to dispense
+        pills_to_refill[i] = false;
+    }
+  }
+}
+
+void change_date_rtc(){
+  rtc.adjust(DateTime(the_setting.current_date.year, the_setting.current_date.month+1, 
+                      the_setting.current_date.month_day, the_setting.current_date.time.hour, 
+                      the_setting.current_date.time.minute, the_setting.current_date.day));
+  
+}
+
+void display_next_reminder(){
+
+  int day = rtc.now().dayOfTheWeek();
+  int now_h = rtc.now().hour();
+  int now_min = rtc.now().minute();
+  int next_h = 0;
+  int next_min = 0;
+  bool new_written = false;
+
+  for(int i=0; i<NB_RACKS;i++){
+    if(Inventory[i].get_rack()!=0){
+      if(Inventory[i].get_alarm_day(day) == true){
+        for(int j=0;j<NB_OF_ALARMS;j++){
+          if(Inventory[i].get_alarm_t(j) == true){
+            Time al;
+            al = get_alarm_time(j);
+            if((al.hour > now_h) || (al.hour==now_h && al.minute>now_min)){
+              if(new_written == false){
+                next_h = al.hour;
+                next_min = al.minute;
+                new_written = true;
+              }
+              else{
+                if((al.hour<next_h) || (al.hour == next_h && al.minute<next_min)){
+                  next_h = al.hour;
+                  next_min = al.minute;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  //write next reminder time
+  char buf[6];
+  if(new_written == false){
+    strcpy(buf,"None");
+    gslc_ElemSetTxtStr(&m_gui,default_next,buf);
+  }
+  else{
+    char s[5];
+    strcpy(buf,itoa(next_h,s,10));
+    strcat(buf,":");
+    if(next_min<=9){
+      strcat(buf,"0");
+    }
+    strcat(buf,itoa(next_min,s,10));
+    gslc_ElemSetTxtStr(&m_gui,default_next,buf);
+  }
 }
