@@ -19,9 +19,9 @@ const int dirPin_Y = 5;
 const int stepPin_Y = 6;
 
 
-int switc=8;
-int switc_X=9;
-int switc_Y=10;
+const int switc=8;
+const int switc_X=9;
+const int switc_Y=10;
 
 int step_round_X; 
 int step_round_Y=116;

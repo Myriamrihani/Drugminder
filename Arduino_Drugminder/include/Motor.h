@@ -6,6 +6,9 @@ extern const int dirPin_X;
 extern const int stepPin_X;
 extern const int dirPin_Y;
 extern const int stepPin_Y;
+extern const int switc=8;
+extern const int switc_X=9;
+extern const int switc_Y=10;
 
 // extern int step_round_X; 
 // extern int step_round_Y;
