@@ -16,5 +16,7 @@ extern const int stepPin_Y;
 // extern int y_box;
 
 
-void proccess_dis_data(int rack_type_array[] , int x_array[] , int y_array[]);
-void trialF();
+// void proccess_dis_data(int rack_type_array[] , int x_array[] , int y_array[]);
+// void trialF();
+
+void trialF(int rack_type_array[] , int x_array[] , int y_array[]);
