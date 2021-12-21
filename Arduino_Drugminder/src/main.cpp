@@ -564,7 +564,7 @@ void loop()
     }
   }
   
-  if(!is_dispensing && !need_refill_accepted){
+  if(!is_dispensing && gslc_GetPageCur(&m_gui) == Default && !need_refill_accepted){
     if(refill){
       ask_for_refill();
       if(gslc_GetPageCur(&m_gui) != need_refill){
@@ -573,12 +573,6 @@ void loop()
         gslc_SetPageCur(&m_gui,need_refill);
       }
     }
-  }
-
-  if(dispensing_done){
-    display_pills_dis();
-    gslc_SetPageCur(&m_gui,end_dispensing);
-   dispensing_done =false;
   }
 
 
@@ -617,6 +611,12 @@ void loop()
       dispense_pills();
       stop_sound();
       stop_alarm_waiting = false;
+  }
+
+  if(dispensing_done){
+    display_pills_dis();
+    gslc_SetPageCur(&m_gui,end_dispensing);
+   dispensing_done =false;
   }
 
   }while(digitalRead(button_dis_Pin) == true);
@@ -1323,7 +1323,6 @@ void btn3_action(int16_t current_page){
 
     case end_dispensing:
       gslc_SetPageCur(&m_gui,Default);
-      gslc_ElemXTextboxReset(&m_gui,listbox_pill_given);
       need_refill_accepted = false;
       break;
     
@@ -1968,27 +1967,24 @@ void display_med_list(){
       strcat(buf,drug_name_list[i]);
       strcat(buf,"\": ");
       strcat(buf,itoa(Inventory[j].get_nb(),s,10));
-      strcat(buf," pills left\n\n");
+      strcat(buf," pills left\n");
       gslc_ElemXTextboxAdd(&m_gui,m_pElemTextbox2,buf);
     }
   }
 }
 
 void display_pills_dis(){
+  gslc_ElemXTextboxReset(&m_gui,listbox_pill_given);
 
   for (int i = 0; i < NB_RACKS; i++){
     if(pills_to_dis[i]==true){
         char buf[12];
         int j=0;
+        j = Inventory[i].get_rack() - 1;
+
         strcpy(buf,"1 ");
-        for(int k = 0; k<NB_RACKS; k++){
-          if(Inventory[k].get_rack() == i+1){
-            j = k;
-            break;
-          }
-        }
         strcat(buf, drug_name_list[j]);
-        strcat(buf, "\n\n");
+        strcat(buf, "\n");
         gslc_ElemXTextboxAdd(&m_gui,listbox_pill_given,buf);
 
         //at the end reset that pill to dispense
@@ -2006,17 +2002,13 @@ void display_pills_refill(){
         char buf[30];
         char s[2];
         int j=0;
+        j = Inventory[i].get_rack() - 1;
+        
         strcpy(buf,"Rack ");
-        for(int k = 0; k<NB_RACKS; k++){
-          if(Inventory[k].get_rack() == i+1){
-            j = k;
-            break;
-          }
-        }
         strcat(buf,itoa(Inventory[i].get_rack(),s,10));
         strcat(buf," (");
         strcat(buf, drug_name_list[j]);
-        strcat(buf, ") \n\n");
+        strcat(buf, ")\n");
         gslc_ElemXTextboxAdd(&m_gui,textbox_pill_refill,buf);
 
         //at the end reset that pill to dispense

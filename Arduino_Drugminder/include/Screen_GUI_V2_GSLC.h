@@ -451,7 +451,7 @@ char                            m_acListboxBuf1[100 + XLISTBOX_BUF_OH_R];
 gslc_tsXTextbox                 m_sTextbox2;
 char                            m_acTextboxBuf2[360]; // NRows=10 NCols=36
 gslc_tsXTextbox                 m_sTextbox3;
-char                            m_acTextboxBuf3[168]; // NRows=6 NCols=28
+char                            m_acTextboxBuf3[180]; // NRows=12 NCols=15
 gslc_tsXListbox                 m_sListbox2;
 // - Note that XLISTBOX_BUF_OH_R is extra required per item
 char                            m_acListboxBuf2[150 + XLISTBOX_BUF_OH_R];
@@ -1399,7 +1399,7 @@ void InitGUIslice_gen()
   // Create textbox
   pElemRef = gslc_ElemXTextboxCreate(&m_gui,GIVEN_PILLS_TEXTBOX,end_dispensing,&m_sTextbox3,
     (gslc_tsRect){90,120,300,200},E_BUILTIN10X16,
-    (char*)&m_acTextboxBuf3,6,28);
+    (char*)&m_acTextboxBuf3,12,15);
   gslc_ElemXTextboxWrapSet(&m_gui,pElemRef,false);
   gslc_ElemSetTxtCol(&m_gui,pElemRef,((gslc_tsColor){255,0,178}));
   gslc_ElemSetCol(&m_gui,pElemRef,GSLC_COL_BLUE_DK2,GSLC_COL_WHITE,GSLC_COL_BLUE_DK2);
