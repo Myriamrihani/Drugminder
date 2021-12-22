@@ -385,10 +385,10 @@ bool CbSlidePos(void* pvGui,void* pvElemRef,int16_t nPos)
 //<Tick Callback !End!>
 
 const int button1Pin = 22;
-const int button2Pin = 23;
+const int button2Pin = 24;
 const int button3Pin = 25;
 const int button4Pin = 26;
-const int button_dis_Pin = 24;
+const int button_dis_Pin = 23;
 
 
 // Rotary Encoder Inputs
