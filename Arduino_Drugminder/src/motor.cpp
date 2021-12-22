@@ -22,7 +22,7 @@ int x_box;
 int y_box;
 int x_step=0;
 int y_step=0;
-int x_offset=10;
+int x_offset=0;
 int y_offset=35;
 
 void trialF1(int rack_type_array[NB_RACKS] , int x_array[NB_RACKS] , int y_array[NB_RACKS])
@@ -152,7 +152,7 @@ void trialF1(int rack_type_array[NB_RACKS] , int x_array[NB_RACKS] , int y_array
       servo.attach(7); 
       servo.write(180); // start rotation
 
-      delay(1100);
+      delay(1050);
       
       servo.write(90);//stop rotation
       
