@@ -42,7 +42,7 @@ class Pill{
     //creer un tableau d'alarm
     bool alarm_day[WEEK_DAYS] = {false};
     bool alarm_t[NB_OF_ALARMS]= {false};
-    int next_container = 1;
+    int next_container = 0;
 };
 
 

@@ -1,25 +1,15 @@
 
 #include <Arduino.h>
-#include<Servo.h>
 #include <Motor.h>
 
 Servo servo;
 
-// int step_round_X; 
-// int step_round_Y=93;
-// int x_cor=0;
-// int y_cor=0;
-// int rack_type;
-// int x_box;
-// int y_box;
 
 const int dirPin_X = 5;
 const int stepPin_X = 6;
 const int dirPin_Y = 3;
 const int stepPin_Y = 4;
 
-
-// const int switc=8;
 const int switc_X=8;
 const int switc_Y=9;
 
