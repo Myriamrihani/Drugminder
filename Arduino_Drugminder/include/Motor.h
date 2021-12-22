@@ -23,4 +23,4 @@ extern const int switc_Y;
 // void proccess_dis_data(int rack_type_array[] , int x_array[] , int y_array[]);
 // void trialF();
 
-void trialF(int rack_type_array[NB_RACKS] , int x_array[NB_RACKS] , int y_array[NB_RACKS]);
+void trialF1(int rack_type_array[NB_RACKS] , int x_array[NB_RACKS] , int y_array[NB_RACKS]);

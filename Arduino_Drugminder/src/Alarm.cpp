@@ -192,7 +192,7 @@ void dispense_pills(){
 
     save_pills_in_EE();
     dispensing_done = true;
-    trialF(type_array, container_array, rack_array);
+    trialF1(type_array, container_array, rack_array);
     is_dispensing = false;
     start_alarm = false;
     Serial.println("Dispensing done");
