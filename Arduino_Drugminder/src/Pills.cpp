@@ -46,9 +46,7 @@ void Pill::edit_pill(Pill_param temp){
     save_pills_in_EE();
 };
 
-// String Pill::get_name(){
-//     return pill_name;
-// };
+
 
 int Pill::get_rack(){
     return rack;
@@ -103,6 +101,7 @@ void Pill::reset(){
     rack = 0;
     type = 0;
     nb_pills = 0;
+    next_container = 0;
     for(int i=0;i<WEEK_DAYS ; i++){
         alarm_day[i] = false;
     }
@@ -166,7 +165,6 @@ void check_refill(){
                     pills_to_refill[i] = true;
             }
         }
- 
     }
 }
 
