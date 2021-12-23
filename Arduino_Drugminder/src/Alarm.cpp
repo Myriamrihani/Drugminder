@@ -160,13 +160,13 @@ void dispense_pills(){
 
             int rack_to_reach = Inventory[i].get_rack();
             int container_to_reach = Inventory[i].get_next_container();
-            Serial.print("in rack ");
-            Serial.println(rack_to_reach);
-            Serial.print (" we have ");
-            Serial.print(Inventory[i].get_nb());
-            Serial.println(" pills");
-            Serial.print(" We take the pill from container nb ");
-            Serial.println(container_to_reach);
+            // Serial.print("in rack ");
+            // Serial.println(rack_to_reach);
+            // Serial.print (" we have ");
+            // Serial.print(Inventory[i].get_nb());
+            // Serial.println(" pills");
+            // Serial.print(" We take the pill from container nb ");
+            // Serial.println(container_to_reach);
 
             NP +=1;
             rack_array[i] = rack_to_reach - 1;
@@ -176,18 +176,18 @@ void dispense_pills(){
             //decrease the amout of pill in that rack 
             Inventory[i].take_a_pill();
 
-            Serial.print("After dispensing, we should have ");
-            Serial.print(Inventory[i].get_nb());
-            Serial.print(" pills in rack ");
-            Serial.println(rack_array[i]);
+            // Serial.print("After dispensing, we should have ");
+            // Serial.print(Inventory[i].get_nb());
+            // Serial.print(" pills in rack ");
+            // Serial.println(rack_array[i]);
             
         }
     }
 
-    for (int i = 0; i < NB_RACKS; i++)
-    {
-       Serial.println(rack_array[i]);
-    }
+    // for (int i = 0; i < NB_RACKS; i++)
+    // {
+    //    Serial.println(rack_array[i]);
+    // }
     
 
     save_pills_in_EE();
