@@ -2,7 +2,6 @@
 using namespace std;
 
 #include <Arduino.h>
-
 #include <Memory.h>
 
 Pill Inventory [NB_RACKS];
@@ -31,7 +30,6 @@ void set_alarm_matrix(){
 
 
 void Pill::edit_pill(Pill_param temp){
-    // pill_name = temp.name;
     rack = temp.ra;
     type = temp.ra_type;
     nb_pills = temp.amount;
@@ -45,10 +43,6 @@ void Pill::edit_pill(Pill_param temp){
 
     save_pills_in_EE();
 };
-
-// String Pill::get_name(){
-//     return pill_name;
-// };
 
 int Pill::get_rack(){
     return rack;
@@ -99,7 +93,6 @@ void Pill::take_a_pill(){
 
 
 void Pill::reset(){
-    // pill_name = "";
     rack = 0;
     type = 0;
     nb_pills = 0;
@@ -128,7 +121,6 @@ void delete_pill(int nb){
 }
 
 void reset_pill_param(Pill_param temp){
-    // temp.name = "";
     temp.ra = 0;
     temp.ra_type = 0;
     temp.amount = 0;
@@ -182,6 +174,5 @@ void ask_for_refill(){
         }
         
     }
-    refill = false;   
-
+    refill = false;
 }

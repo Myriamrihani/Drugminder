@@ -1,8 +1,8 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 #include <Arduino.h>
-using namespace std;
 
+using namespace std;
 
 #define TEXT_INT        0
 #define TEXT_WEEKDAY    1
@@ -23,11 +23,9 @@ using namespace std;
 #define MAX_NB_PILLS    20
 #define L_ALPHABET      27
 #define RACK_TYPES      3
-#define RTC_MAX_YEAR     2099
+#define RTC_MAX_YEAR    2099
 
-// enum set { a_type, a_times, date, volume, password};
 enum alarm_type {None, Sound, Light, Both};
-// enum week_day {Sunday, Monday, Tuesday, Wednesday, Thrusday, Friday, Saturday};
 enum alarm_cycle {wake, morn, lun, after, din, bed, nope};
 
 extern const char* week_str[WEEK_DAYS];
@@ -71,4 +69,5 @@ struct Settings{
 extern Settings the_setting;
 
 Time get_alarm_time(int index);
+
 #endif 

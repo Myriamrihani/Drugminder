@@ -1,18 +1,4 @@
 #include <Arduino.h>
-//<App !Start!>
-// FILE: [Screen_GUI_V2.ino]
-// Created by GUIslice Builder version: [0.17.0]
-//
-// GUIslice Builder Generated File
-//
-// For the latest guides, updates and support view:
-// https://github.com/ImpulseAdventure/GUIslice
-//
-//<App !End!>
-
-// ------------------------------------------------
-// Headers to include
-// ------------------------------------------------
 #include "Screen_GUI_V2_GSLC.h"
 #include <Pills.h>
 #include <Alarm.h>
@@ -22,13 +8,7 @@
 #include "SoftwareSerial.h"
 #include "DFRobotDFPlayerMini.h"
 
-
-// ------------------------------------------------
-// Program Globals
-// ------------------------------------------------
-
-// Save some element references for direct access
-//<Save_References !Start!>
+//global variables
 gslc_tsElemRef* Listbox_prescription= NULL;
 gslc_tsElemRef* Listbox_prescription_2= NULL;
 gslc_tsElemRef* add_fri_check     = NULL;
@@ -129,14 +109,10 @@ gslc_tsElemRef* wake_h            = NULL;
 gslc_tsElemRef* wake_min          = NULL;
 gslc_tsElemRef* wrong_pw_text     = NULL;
 gslc_tsElemRef* year_set          = NULL;
-//<Save_References !End!>
 
 // Define debug message function
 static int16_t DebugOut(char ch) { if (ch == (char)'\n') Serial.println(""); else Serial.write(ch); return 0; }
 
-// ------------------------------------------------
-// Callback Methods
-// ------------------------------------------------
 // Common Button callback
 bool CbBtnCommon(void* pvGui,void *pvElemRef,gslc_teTouch eTouch,int16_t nX,int16_t nY)
 {
@@ -313,12 +289,7 @@ bool CbBtnCommon(void* pvGui,void *pvElemRef,gslc_teTouch eTouch,int16_t nX,int1
   }
   return true;
 }
-//<Checkbox Callback !Start!>
-//<Checkbox Callback !End!>
-//<Keypad Callback !Start!>
-//<Keypad Callback !End!>
-//<Spinner Callback !Start!>
-//<Spinner Callback !End!>
+
 bool CbListbox(void* pvGui, void* pvElemRef, int16_t nSelId)
 {
   gslc_tsGui*     pGui     = (gslc_tsGui*)(pvGui);
@@ -355,8 +326,6 @@ bool CbListbox(void* pvGui, void* pvElemRef, int16_t nSelId)
   }
   return true;
 }
-//<Draw Callback !Start!>
-//<Draw Callback !End!>
 
 // Callback function for when a slider's position has been updated
 bool CbSlidePos(void* pvGui,void* pvElemRef,int16_t nPos)
@@ -381,8 +350,6 @@ bool CbSlidePos(void* pvGui,void* pvElemRef,int16_t nPos)
 
   return true;
 }
-//<Tick Callback !Start!>
-//<Tick Callback !End!>
 
 const int button1Pin = 22;
 const int button2Pin = 24;
@@ -504,7 +471,6 @@ void setup()
 
   if (! rtc.begin()) {
     Serial.println("Couldn't find RTC");
-    //while (1);
   }
  
   if (! rtc.isrunning()) {
@@ -549,18 +515,19 @@ void loop()
     gslc_ElemSetTxtStr(&m_gui,deadline_time,buf);
 
     if(gslc_GetPageCur(&m_gui) != Alarm_message){
+      count_min = 30;
+      gslc_ElemXProgressSetVal(&m_gui,alarm_progress,count_min);
       gslc_SetPageCur(&m_gui,Alarm_message);
       gslc_Update(&m_gui);
-      delay(500);
+      //delay(500);
       play_sound();
-      delay(500);
+      //delay(500);
     }
 
     play_alarm();
     if(start_alarm == false && stop_alarm_waiting == true){
       stop_alarm_waiting = false;
       gslc_SetPageCur(&m_gui,Default);
-      Serial.println("cette condition");
     }
   }
   
@@ -611,21 +578,19 @@ void loop()
       dispense_pills();
       stop_sound();
       stop_alarm_waiting = false;
-  }
+    }
 
-  if(dispensing_done){
-    display_pills_dis();
-    gslc_SetPageCur(&m_gui,end_dispensing);
-   dispensing_done =false;
-  }
-
+    if(dispensing_done){
+      display_pills_dis();
+      gslc_SetPageCur(&m_gui,end_dispensing);
+      dispensing_done =false;
+    }
   }while(digitalRead(button_dis_Pin) == true);
       delay(10);
 
    // Read the encoder button state
   if(digitalRead(SW) == LOW && encoder_enabled == true){
     enc_btnState = !enc_btnState;
-    //Serial.println("Button pressed!");
     enc_btnAction = true;
     }while(digitalRead(SW) == LOW && encoder_enabled == true);
       delay(10);
@@ -1094,9 +1059,6 @@ void updateEncoder(){
         // Encoder is rotating CCW so decrement
         currentDir =-1;
       }
-  
-      //Serial.print("Direction: ");
-      //Serial.println(currentDir);
     }
   
     // Remember last CLK state
@@ -1582,8 +1544,6 @@ int check_rack_avaible(gslc_tsElemRef * element, int value){
   }
   char s[12];
   gslc_ElemSetTxtStr(&m_gui,element,itoa(value, s, 10 ));
-  //Serial.println(nb_free);
-  //Serial.println(value);
   return value;
 }
 
@@ -1644,7 +1604,6 @@ void load_pill_data_to_elements(int value){
   }
   //load temp_presc data
   char s[10];
-  //temp_presc.name = Inventory[inventory_i].get_name();
   temp_presc.ra = Inventory[inventory_i].get_rack();
   previous_rack = temp_presc.ra;
   temp_presc.ra_type = Inventory[inventory_i].get_rack_type();
@@ -1669,11 +1628,6 @@ void load_pill_data_to_elements(int value){
   gslc_ElemXCheckboxSetState(&m_gui,edit_after_check,Inventory[inventory_i].get_alarm_t(3));
   gslc_ElemXCheckboxSetState(&m_gui,edit_dinn_check,Inventory[inventory_i].get_alarm_t(4));
   gslc_ElemXCheckboxSetState(&m_gui,edit_bed_check,Inventory[inventory_i].get_alarm_t(5));
-
-  //Serial.println(temp_presc.name);
-  //Serial.println(inventory_i);
-  //Serial.println(temp_presc.ra);
-  //Serial.println(temp_presc.amount);
 
 }
 
@@ -1717,14 +1671,11 @@ void save_new_pill(){
   add_pill(temp_presc);
 
   free_rack_index = 0;
-  //Serial.println(temp_presc.name);
-
 }
 
 void save_edited_pill(){
 
   //name, rack, rack type and amount are already set at edited value
-
   //now, we just need to load new checkbox state
 
   temp_presc.al_day[0] = gslc_ElemXCheckboxGetState(&m_gui,edit_sun_check);
@@ -1750,11 +1701,6 @@ void save_edited_pill(){
     strcpy(drug_name_list[temp_presc.ra-1],drug_name_list[previous_rack-1]);
     strcpy(drug_name_list[previous_rack-1],"");
     
-    // temp_presc.name.toCharArray(buf,10);
-    // strcpy(drug_name_list[temp_presc.ra-1],buf);
-    //Serial.println(buf);
-    //Serial.println(drug_name_list[temp_presc.ra-1]);
-
     //redraw the listboxes
     edit_prescription_listbox(Listbox_prescription);
     edit_prescription_listbox(Listbox_prescription_2);
@@ -1762,12 +1708,6 @@ void save_edited_pill(){
 
   //we edit the inventory pill with its new data
   Inventory[inventory_i].edit_pill(temp_presc);
-  // Serial.println(get_pill_from_EE(inventory_i).get_name());
-  // Serial.println(get_pill_from_EE(inventory_i).get_alarm_day(0)); 
-  // Serial.println(get_pill_from_EE(inventory_i).get_alarm_t(0));
-  // Serial.println(get_pill_from_EE(inventory_i).get_rack());
-  // Serial.println(get_pill_from_EE(inventory_i).get_rack_type());
-  // Serial.println(get_pill_from_EE(inventory_i).get_nb());
 }
 
 void delete_pill_prescription(int pill_pos_inventory){
@@ -1890,7 +1830,6 @@ void load_inventory(){
   for (int i = 0; i < NB_RACKS; i++){
     if(Inventory[i].get_rack() != 0){
       rack_taken[Inventory[i].get_rack()-1] = true;
-      //strcpy(drug_name_list[Inventory[i].get_rack()-1], Inventory[i].get_name().c_str());
     }
   }
 
